@@ -1,0 +1,251 @@
+// -*- C++ -*-
+//
+// Package:    MyStudies/TriggerStudies
+// Class:      TriggerStudies
+// 
+/**\class TriggerStudies TriggerStudies.cc MyStudies/TriggerStudies/plugins/TriggerStudies.cc
+
+ Description: [one line class summary]
+
+ Implementation:
+     [Notes on implementation]
+*/
+//
+// Original Author:  Emanuele Usai
+//         Created:  Fri, 10 Oct 2014 09:59:19 GMT
+//
+//
+
+
+// system include files
+#include <memory>
+
+// user include files
+#include "FWCore/Framework/interface/Frameworkfwd.h"
+#include "FWCore/Framework/interface/EDAnalyzer.h"
+
+#include "FWCore/Framework/interface/Event.h"
+#include "FWCore/Framework/interface/MakerMacros.h"
+
+#include "FWCore/ParameterSet/interface/ParameterSet.h"
+
+#include "FWCore/ServiceRegistry/interface/Service.h"
+#include "CommonTools/UtilAlgos/interface/TFileService.h"
+#include "TH2.h"
+#include "TH1.h"
+#include "HLTrigger/HLTcore/interface/HLTConfigProvider.h"
+
+//
+// class declaration
+//
+
+class TriggerStudies : public edm::EDAnalyzer {
+   public:
+      explicit TriggerStudies(const edm::ParameterSet&);
+      ~TriggerStudies();
+
+      static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
+
+
+   private:
+      virtual void beginJob() override;
+      virtual void analyze(const edm::Event&, const edm::EventSetup&) override;
+      virtual void endJob() override;
+      
+      std::map< std::string, TH2D* > histos2D_;
+      std::map< std::string, TH1D* > histos1D_;
+      
+      edm::InputTag patJets;
+      std::string triggerPath;
+      double minHT;
+      double minMass;
+      
+      HLTConfigProvider hltConfig;
+      int triggerBit;
+      
+      //virtual void beginRun(edm::Run const&, edm::EventSetup const&) override;
+      //virtual void endRun(edm::Run const&, edm::EventSetup const&) override;
+      //virtual void beginLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&) override;
+      //virtual void endLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&) override;
+
+      // ----------member data ---------------------------
+};
+
+//
+// constants, enums and typedefs
+//
+
+//
+// static data member definitions
+//
+
+//
+// constructors and destructor
+//
+TriggerStudies::TriggerStudies(const edm::ParameterSet& iConfig)
+{
+   //now do what ever initialization is needed
+   patJets	= iConfig.getParameter<edm::InputTag> ( "patJets" ); // Obtain inputs
+   triggerPath	= iConfig.getParameter<std::string> ( "triggerPath" ); // Obtain inputs
+   minHT	= iConfig.getParameter<double> ( "minHT" ); // Obtain inputs
+   minMass	= iConfig.getParameter<double> ( "minMass" ); 
+}
+
+
+TriggerStudies::~TriggerStudies()
+{
+ 
+   // do anything here that needs to be done at desctruction time
+   // (e.g. close files, deallocate resources etc.)
+
+}
+
+
+//
+// member functions
+//
+
+// ------------ method called for each event  ------------
+void
+TriggerStudies::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
+{
+   using namespace edm;
+   using namespace std;
+
+
+// #ifdef THIS_IS_AN_EVENT_EXAMPLE
+//    Handle<ExampleData> pIn;
+//    iEvent.getByLabel("example",pIn);
+// #endif
+//    
+// #ifdef THIS_IS_AN_EVENTSETUP_EXAMPLE
+//    ESHandle<SetupData> pSetup;
+//    iSetup.get<SetupRecord>().get(pSetup);
+// #endif
+   
+   bool changedConfig = false;
+   if (!hltConfig.init(iEvent.getRun(), iSetup, "HLT", changedConfig)) {
+     cout << "Initialization of HLTConfigProvider failed!!" << endl;
+     return;
+   }
+   if (changedConfig){
+     std::cout << "the curent menu is " << hltConfig.tableName() << std::endl;
+     triggerBit = -1;
+     for (size_t j = 0; j < hltConfig.triggerNames().size(); j++) {
+       std::cout << TString(hltConfig.triggerNames()[j]) << std::endl;
+       if (TString(hltConfig.triggerNames()[j]).Contains(triggerPath)) triggerBit = j;
+     }
+     //std::cout << triggerBit << std::endl;
+     if (triggerBit == -1) cout << "HLT path not found" << endl;
+   }
+   
+   
+   
+}
+
+
+// ------------ method called once each job just before starting event loop  ------------
+void 
+TriggerStudies::beginJob()
+{
+  
+  edm::Service< TFileService > fileService;
+  histos2D_[ "jetMassHTDenom" ] = fileService->make< TH2D >( "jetMassHTDenom", "HT vs Leading Jet Mass", 20, 0., 2000, 16, 0., 400. );
+  histos2D_[ "jetMassHTDenom" ]->SetXTitle( "HT [GeV]" );
+  histos2D_[ "jetMassHTDenom" ]->SetYTitle( "Leading Jet Mass [GeV]" );
+  histos2D_[ "jetMassHTPassing" ] = fileService->make< TH2D >( "jetMassHTPassing", "HT vs Leading Jet Mass passing path", 20, 0., 2000, 16, 0., 400. );
+  histos2D_[ "jetMassHTPassing" ]->SetXTitle( "HT [GeV]" );
+  histos2D_[ "jetMassHTPassing" ]->SetYTitle( "Leading Jet Mass [GeV]" );
+  histos2D_[ "jetMassHT2Defficiency" ] = fileService->make< TH2D >( "jetMassHT2Defficiency", "Comparative efficiency", 20, 0., 2000, 16, 0., 400. );
+  histos2D_[ "jetMassHT2Defficiency" ]->SetXTitle( "HT [GeV]" );
+  histos2D_[ "jetMassHT2Defficiency" ]->SetYTitle( "Leading Jet Mass [GeV]" );
+  histos2D_[ "jetMassPtDenom" ] = fileService->make< TH2D >( "jetMassPtDenom", "Leading Jet Mass vs Pt", 10, 0., 1000, 16, 0., 400. );
+  histos2D_[ "jetMassPtDenom" ]->SetXTitle( "Leading Jet Pt [GeV]" );
+  histos2D_[ "jetMassPtDenom" ]->SetYTitle( "Leading Jet Mass [GeV]" );
+  histos2D_[ "jetMassPtPassing" ] = fileService->make< TH2D >( "jetMassPtPassing", "Leading Jet Mass vs Pt", 10, 0., 1000, 16, 0., 400. );
+  histos2D_[ "jetMassPtPassing" ]->SetXTitle( "Leading Jet Pt [GeV]" );
+  histos2D_[ "jetMassPtPassing" ]->SetYTitle( "Leading Jet Mass [GeV]" );
+  histos2D_[ "jetMassPt2Defficiency" ] = fileService->make< TH2D >( "jetMassPt2Defficiency", "Leading Jet Mass vs Pt", 10, 0., 1000, 16, 0., 400. );
+  histos2D_[ "jetMassPt2Defficiency" ]->SetXTitle( "Leading Jet Pt [GeV]" );
+  histos2D_[ "jetMassPt2Defficiency" ]->SetYTitle( "Leading Jet Mass [GeV]" );
+  histos1D_[ "jetMassDenom" ] = fileService->make< TH1D >( "jetMassDenom", "Jet mass", 40, 0., 400);
+  histos1D_[ "jetMassDenom" ]->SetXTitle( "Leading Jet Mass [GeV]" );
+  histos1D_[ "jetMassDenom" ]->Sumw2();
+  histos1D_[ "jetMassPassing" ] = fileService->make< TH1D >( "jetMassPassing", "Jet mass passing", 40, 0., 400);
+  histos1D_[ "jetMassPassing" ]->SetXTitle( "Leading Jet Mass [GeV]" );
+  histos1D_[ "jetMassPassing" ]->Sumw2();
+  histos1D_[ "jetMassEfficiency" ] = fileService->make< TH1D >( "jetMassEfficiency", "Leading jet mass efficiency", 40, 0., 400);
+  histos1D_[ "jetMassEfficiency" ]->SetXTitle( "Leading Jet Mass [GeV]" );
+  histos1D_[ "jetMassEfficiency" ]->SetYTitle( "Efficiency" );
+  histos1D_[ "HTDenom" ] = fileService->make< TH1D >( "HTDenom", "HT", 200, 0., 2000);
+  histos1D_[ "HTDenom" ]->SetXTitle( "HT [GeV]" );
+  histos1D_[ "HTDenom" ]->Sumw2();
+  histos1D_[ "HTPassing" ] = fileService->make< TH1D >( "HTPassing", "HT passing", 200, 0., 2000);
+  histos1D_[ "HTPassing" ]->SetXTitle( "HT [GeV]" );
+  histos1D_[ "HTPassing" ]->Sumw2();
+  histos1D_[ "HTEfficiency" ] = fileService->make< TH1D >( "HTEfficiency", "HT efficiency", 200, 0., 2000);
+  histos1D_[ "HTEfficiency" ]->SetXTitle( "HT [GeV]" );
+  histos1D_[ "HTEfficiency" ]->SetYTitle( "Efficiency" );
+  
+}
+
+// ------------ method called once each job just after ending the event loop  ------------
+void 
+TriggerStudies::endJob() 
+{
+  
+  histos2D_[ "jetMassHT2Defficiency" ]->Sumw2();
+  histos2D_[ "jetMassHT2Defficiency" ]->Divide(histos2D_[ "jetMassHTPassing" ],histos2D_[ "jetMassHTDenom" ],1,1,"B");
+  histos2D_[ "jetMassPt2Defficiency" ]->Sumw2();
+  histos2D_[ "jetMassPt2Defficiency" ]->Divide(histos2D_[ "jetMassPtPassing" ],histos2D_[ "jetMassPtDenom" ],1,1,"B");
+  histos1D_[ "jetMassEfficiency" ]->Sumw2();
+  histos1D_[ "jetMassEfficiency" ]->Divide(histos1D_[ "jetMassPassing" ], histos1D_[ "jetMassDenom" ], 1,1,"B");
+  histos1D_[ "HTEfficiency" ]->Sumw2();
+  histos1D_[ "HTEfficiency" ]->Divide(histos1D_[ "HTPassing" ], histos1D_[ "HTDenom" ], 1,1,"B");
+  
+}
+
+// ------------ method called when starting to processes a run  ------------
+/*
+void 
+TriggerStudies::beginRun(edm::Run const&, edm::EventSetup const&)
+{
+}
+*/
+
+// ------------ method called when ending the processing of a run  ------------
+/*
+void 
+TriggerStudies::endRun(edm::Run const&, edm::EventSetup const&)
+{
+}
+*/
+
+// ------------ method called when starting to processes a luminosity block  ------------
+/*
+void 
+TriggerStudies::beginLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&)
+{
+}
+*/
+
+// ------------ method called when ending the processing of a luminosity block  ------------
+/*
+void 
+TriggerStudies::endLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&)
+{
+}
+*/
+
+// ------------ method fills 'descriptions' with the allowed parameters for the module  ------------
+void
+TriggerStudies::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
+  //The following says we do not know what parameters are allowed so do no validation
+  // Please change this to state exactly what you do use, even if it is no parameters
+  edm::ParameterSetDescription desc;
+  desc.setUnknown();
+  descriptions.addDefault(desc);
+}
+
+//define this as a plug-in
+DEFINE_FWK_MODULE(TriggerStudies);
