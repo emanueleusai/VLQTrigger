@@ -286,8 +286,8 @@ TriggerStudies::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
      histos1D_[ "jetPtDenom" ]->Fill( AK8LeadingPt );
      histos1D_[ "jetMass2Denom" ]->Fill( AK8SubleadingMass );
      histos1D_[ "jetPt2Denom" ]->Fill( AK8SubleadingPt );
-     // if (triggerResults->accept(triggerBit))
-     if (triggerResults->accept(triggerBit) || triggerResults->accept(triggerBit2) || triggerResults->accept(triggerBit3))//!!!!!!!!!!!!!!!!!
+     if (triggerResults->accept(triggerBit))
+     //if (triggerResults->accept(triggerBit) || triggerResults->accept(triggerBit2) || triggerResults->accept(triggerBit3))//!!!!!!!!!!!!!!!!!
      {
        histos1D_[ "HTPassing" ]->Fill( HT );
        histos1D_[ "jetMassPassing" ]->Fill( AK8LeadingMass );
@@ -304,8 +304,8 @@ TriggerStudies::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
      histos1D_[ "jetPtTHDenom" ]->Fill( AK8LeadingPt );
      histos1D_[ "jetMass2THDenom" ]->Fill( AK8SubleadingMass );
      histos1D_[ "jetPt2THDenom" ]->Fill( AK8SubleadingPt );
-     // if (triggerResults->accept(triggerBit))
-     if (triggerResults->accept(triggerBit) || triggerResults->accept(triggerBit2) || triggerResults->accept(triggerBit3))//!!!!!!!!!!!!!!!!!!!!!!!!
+     if (triggerResults->accept(triggerBit))
+     //if (triggerResults->accept(triggerBit) || triggerResults->accept(triggerBit2) || triggerResults->accept(triggerBit3))//!!!!!!!!!!!!!!!!!!!!!!!!
      {
        histos1D_[ "HTTHPassing" ]->Fill( HT );
        histos1D_[ "jetMassTHPassing" ]->Fill( AK8LeadingMass );
