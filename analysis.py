@@ -12,11 +12,11 @@ if len(argv[1:])>0:
   postfix=argv[1]
   #foldername=argv[2]
 #f=TFile(postfix,'READ')
-filename_list=['trgout_bW1200or2.root' , 'trgout_bW800or2.root' , 'trgout_tH1200or2.root' , 'trgout_tH800or2.root']
+filename_list=['trgout_bW1200'+postfix+'.root' , 'trgout_bW800'+postfix+'.root' , 'trgout_tH1200'+postfix+'.root' , 'trgout_tH800'+postfix+'.root']
 # filename_list=['trgout_bW1200.root' , 'trgout_bW800.root' , 'trgout_tH1200.root' , 'trgout_tH800.root']
-kinematic_names=["nBtag","nJet","HT","jetMass","jetPt","jetMass2","jetPt2","eta","nJet4"]
-efficiency_names=["HT","jetMass","jetPt","jetMass2","jetPt2","HTTH","jetMassTH","jetPtTH","jetMass2TH","jetPt2TH"]
-efficiency_titles=["HT (GeV)","Leading jet mass (GeV)","Leading jet pT (GeV)","Subleading jet mass (GeV)","Subleading jet pt (GeV)","HT (GeV)","Leading jet mass (GeV)","Leading jet pT (GeV)","Subleading jet mass (GeV)","Subleading jet pT (GeV)"]
+kinematic_names=["nBtag","nJet","HT","jetMass","jetPt","jetMass2","jetPt2","eta","nJet4","maxCSV","maxCSV2"]
+efficiency_names=["HT","jetMass","jetPt","jetMass2","jetPt2","HTTH","jetMassTH","jetPtTH","jetMass2TH","jetPt2TH","maxCSV","maxCSVTH","maxCSV2","maxCSV2TH"]
+efficiency_titles=["HT (GeV)","Leading jet mass (GeV)","Leading jet pT (GeV)","Subleading jet mass (GeV)","Subleading jet pt (GeV)","HT (GeV)","Leading jet mass (GeV)","Leading jet pT (GeV)","Subleading jet mass (GeV)","Subleading jet pT (GeV)","maximum CSV","maximum CSV","maximum CSV2","maximum CSV2"]
 trigger_names=['PFHT900','AK8DiPFJet300_200TrimMod_DiMass30','AK8DiPFJet300_250TrimMod_DiMass30',
 'AK8DiPFJet280_250TrimMod_DiMass30','AK8DiPFJet320_280TrimMod_Mass30','AK8DiPFJetAve300TrimMod_Mass30','AK8DiPFJet300_200TrimMod_Mass30','AK8DiPFJet300_250TrimMod_Mass30',
 'AK8DiPFJet280_250TrimMod_Mass30','AK8PFJet280TrimMod_Mass30_AK4PFJet250',
@@ -26,10 +26,12 @@ trigger_names=['PFHT900','AK8DiPFJet300_200TrimMod_DiMass30','AK8DiPFJet300_250T
 'AK8DiPFJet300_200TrimMod_Mass30_BTagCSVLoose0p5','AK8DiPFJet300_250TrimMod_Mass30_BTagCSVLoose0p5','AK8DiPFJet280_250TrimMod_Mass30_BTagCSVLoose0p5',
 'AK8DiPFJet300_200TrimMod_Mass30_BTagCSVMed0p7','AK8DiPFJet300_250TrimMod_Mass30_BTagCSVMed0p7','AK8DiPFJet280_250TrimMod_Mass30_BTagCSVMed0p7']
 
-outfile=TFile("triggeranalysisor2"+postfix+".root","RECREATE")
+outfile=TFile("triggeranalysis"+postfix+".root","RECREATE")
 outfile.cd()
 
-folder='pdfor2/'
+folder='pdf'+postfix+'/'
+if not exists(folder):
+  mkdir(folder)
 
 def compare(name,file_list,name_list,legend_list,normalize=False, useOutfile=False):
   c=TCanvas(name,'',600,600)
@@ -54,7 +56,7 @@ def compare(name,file_list,name_list,legend_list,normalize=False, useOutfile=Fal
   legend.SetFillStyle(0)
   histo_list=[]
   tfile_list=[]
-  maxy=0
+  maxy=0.0
   for i in range(len(name_list)):
     if not useOutfile:
       tfile_list.append(TFile(file_list[i],'READ'))
@@ -79,6 +81,7 @@ def compare(name,file_list,name_list,legend_list,normalize=False, useOutfile=Fal
         histo_list[i].SetMaximum(maxy)
       else:
         histo_list[i].SetMaximum(1.05)
+        histo_list[i].SetMinimum(0.0)
       histo_list[i].Draw()
       if useOutfile:
         histo_list[i].GetXaxis().SetTitle(efficiency_titles[efficiency_names.index(file_list.split('_')[2])])
@@ -88,7 +91,8 @@ def compare(name,file_list,name_list,legend_list,normalize=False, useOutfile=Fal
   legend.Draw()
   outfile.cd()
   c.Write(name)
-  c.SaveAs(folder+name+'.pdf')  
+  c.SaveAs(folder+name+'.pdf')
+  #c.SaveAs(folder+name+'.png')
 
 def doeff(filename, histoname, triggername):
   tmp_file=TFile(filename,'READ')
@@ -103,9 +107,9 @@ def doeff(filename, histoname, triggername):
   return n_num/n_den
   
 for i in kinematic_names:
-  compare(i,['trgout_bW1200.root','trgout_bW800.root','trgout_tH1200.root','trgout_tH800.root'],['PFHT900/'+i,'PFHT900/'+i,'PFHT900/'+i,'PFHT900/'+i],['bW 1.2 TeV','bW 800 GeV','tH 1.2 TeV','tH 800 GeV'],True)
+  compare(i,filename_list,['PFHT900/'+i,'PFHT900/'+i,'PFHT900/'+i,'PFHT900/'+i],['bW 1.2 TeV','bW 800 GeV','tH 1.2 TeV','tH 800 GeV'],True)
   for j in ['bW','tH']:
-    compare(j+'_'+i,['trgout_'+j+'1200.root' , 'trgout_'+j+'800.root'],['PFHT900/'+i,'PFHT900/'+i],[j+' 1.2 TeV',j+' 800 GeV'],True)
+    compare(j+'_'+i,['trgout_'+j+'1200'+postfix+'.root' , 'trgout_'+j+'800'+postfix+'.root'],['PFHT900/'+i,'PFHT900/'+i],[j+' 1.2 TeV',j+' 800 GeV'],True)
 
 efficiencies=[]
 for filename in range(len(filename_list)):

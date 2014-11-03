@@ -419,7 +419,7 @@ tH800list=[ 'file:/nfs/dust/cms/user/marchesi/RECO_files_new/CMSSW_7_2_0_pre8/tp
 dizionario={'tH800':tH800list,'tH1200':tH1200list,'bW800':bW800list,'bW1200':bW1200list}
 
 process.TFileService=cms.Service("TFileService",
-fileName=cms.string('trgout_'+NAME+'or3.root'))
+fileName=cms.string('trgout_'+NAME+'nocsv.root'))
 
 process.source = cms.Source("PoolSource",
     # replace 'myfile.root' with the source file you want to use

@@ -165,7 +165,7 @@ TriggerStudies::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
      for (size_t j = 0; j < hltConfig.triggerNames().size(); j++) {
        std::cout << TString(hltConfig.triggerNames()[j]) << std::endl;
        if (TString(hltConfig.triggerNames()[j]).Contains(triggerPath)) triggerBit = j;
-       if (TString(hltConfig.triggerNames()[j]).Contains("HLT_AK8PFHT850_TrimR0p1PT0p03Mass50_v1")) triggerBit2 = j;
+       if (TString(hltConfig.triggerNames()[j]).Contains("HLT_AK8DiPFJet300_200TrimMod_Mass30_v1")) triggerBit2 = j;
        if (TString(hltConfig.triggerNames()[j]).Contains("HLT_PFHT900_v1")) triggerBit3 = j;
      }
      //std::cout << triggerBit << std::endl;
@@ -187,7 +187,8 @@ TriggerStudies::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    std::vector< TLorentzVector > pfJets8Collection;
    
    edm::Handle<reco::JetTagCollection> tagHandle;
-   iEvent.getByLabel("combinedInclusiveSecondaryVertexV2BJetTags", tagHandle);
+   //iEvent.getByLabel("combinedInclusiveSecondaryVertexV2BJetTags", tagHandle);//IVFCSVv2
+   iEvent.getByLabel("combinedSecondaryVertexBJetTags", tagHandle);//CSV
    const reco::JetTagCollection & tagColl = *(tagHandle.product());
    //std::cout << "Found " << tagColl.size() << " B candidates in collection " << pfjets->size()<<std::endl;
    
@@ -199,10 +200,17 @@ TriggerStudies::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    // cout<<theWeight<<endl;
    
    //count btags
+   float maxCSV=0;
    int nbtags=0;
    for (reco::JetTagCollection::const_iterator tagI = tagColl.begin(); tagI != tagColl.end(); ++tagI) {
-     if (tagI->second>minCSV && tagI->first->pt()>40.0 && fabs(tagI->first->eta())<2.5)
+     if (tagI->second>maxCSV && tagI->first->pt()>20.0 && fabs(tagI->first->eta())<2.5)
+     {
+       maxCSV=tagI->second;
+     }
+     if (tagI->second>minCSV && tagI->first->pt()>20.0 && fabs(tagI->first->eta())<2.5)
+     {
        nbtags++;
+     }
        //std::cout<<" jet pt = " << tagI->first->pt() << "  btag discriminator value = " << tagI->second << std::endl;
    }
    
@@ -247,29 +255,34 @@ TriggerStudies::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    if (pfJets8Collection.size()>1) AK8SubleadingPt=pfJets8Collection[1].Pt();
    //sort( pfJets8Collection.begin(), pfJets8Collection.end(), compare_JetPt);
    
-
+   //additional trigger selection
+   bool base_dijet_trigger_cut = triggerResults->accept(triggerBit2);
    
    ////bW selection
    //pT threshold AK8
    bool bW_AK8_pT_cut = (AK8LeadingPt > minPt8);
    //at least one btag
-   bool bW_AK4_btag_cut = (nbtags > 0);
+   //bool bW_AK4_btag_cut = (nbtags > 0);
    //W mass requirement
    bool bW_AK8_mass_cut = (AK8LeadingMass > minMass8);
    //final combined cut
-   bool bW_selection = bW_AK8_pT_cut && bW_AK4_btag_cut && bW_AK8_mass_cut;
+   bool bW_selection = bW_AK8_pT_cut /*&& bW_AK4_btag_cut*/ && bW_AK8_mass_cut && base_dijet_trigger_cut;
    
    
    ////tH selection
    bool tH_AK8_pT_cut = (AK8SubleadingPt > minPt8);
    //at least one btag
-   bool tH_AK4_btag_cut = (nbtags > 1);
+   //bool tH_AK4_btag_cut = (nbtags > 1);
    //W mass requirement
    bool tH_AK8_mass_cut = (AK8LeadingMass > minMass);
    //final combined cut
-   bool tH_selection = tH_AK8_pT_cut && tH_AK4_btag_cut && tH_AK8_mass_cut;
+   bool tH_selection = tH_AK8_pT_cut /*&& tH_AK4_btag_cut*/ && tH_AK8_mass_cut && base_dijet_trigger_cut;
    
+   float maxCSV2=-log(1-maxCSV);
+
    histos1D_[ "nBtag" ]->Fill( nbtags );
+   histos1D_[ "maxCSV" ]->Fill( maxCSV );
+   histos1D_[ "maxCSV2" ]->Fill( maxCSV2 );
    histos1D_[ "nJet" ]->Fill( pfJets8Collection.size() );
    histos1D_[ "nJet4" ]->Fill( pfJetsCollection.size() );
    histos1D_[ "HT" ]->Fill( HT );
@@ -281,14 +294,18 @@ TriggerStudies::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    
    if(bW_selection)
    {
+     histos1D_[ "maxCSVDenom" ]->Fill( maxCSV );
+     histos1D_[ "maxCSV2Denom" ]->Fill( maxCSV2 );
      histos1D_[ "HTDenom" ]->Fill( HT );
      histos1D_[ "jetMassDenom" ]->Fill( AK8LeadingMass );
      histos1D_[ "jetPtDenom" ]->Fill( AK8LeadingPt );
      histos1D_[ "jetMass2Denom" ]->Fill( AK8SubleadingMass );
      histos1D_[ "jetPt2Denom" ]->Fill( AK8SubleadingPt );
-     // if (triggerResults->accept(triggerBit))
-     if (triggerResults->accept(triggerBit) || triggerResults->accept(triggerBit2) || triggerResults->accept(triggerBit3))//!!!!!!!!!!!!!!!!!
+     if (triggerResults->accept(triggerBit))
+//     if (triggerResults->accept(triggerBit) || triggerResults->accept(triggerBit2) || triggerResults->accept(triggerBit3))//!!!!!!!!!!!!!!!!!
      {
+       histos1D_[ "maxCSVPassing" ]->Fill( maxCSV );
+       histos1D_[ "maxCSV2Passing" ]->Fill( maxCSV2 );
        histos1D_[ "HTPassing" ]->Fill( HT );
        histos1D_[ "jetMassPassing" ]->Fill( AK8LeadingMass );
        histos1D_[ "jetPtPassing" ]->Fill( AK8LeadingPt );
@@ -299,14 +316,18 @@ TriggerStudies::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    
    if(tH_selection)
    {
+     histos1D_[ "maxCSVTHDenom" ]->Fill( maxCSV );
+     histos1D_[ "maxCSV2THDenom" ]->Fill( maxCSV2 );
      histos1D_[ "HTTHDenom" ]->Fill( HT );
      histos1D_[ "jetMassTHDenom" ]->Fill( AK8LeadingMass );
      histos1D_[ "jetPtTHDenom" ]->Fill( AK8LeadingPt );
      histos1D_[ "jetMass2THDenom" ]->Fill( AK8SubleadingMass );
      histos1D_[ "jetPt2THDenom" ]->Fill( AK8SubleadingPt );
-     // if (triggerResults->accept(triggerBit))
-     if (triggerResults->accept(triggerBit) || triggerResults->accept(triggerBit2) || triggerResults->accept(triggerBit3))//!!!!!!!!!!!!!!!!!!!!!!!!
+     if (triggerResults->accept(triggerBit))
+//     if (triggerResults->accept(triggerBit) || triggerResults->accept(triggerBit2) || triggerResults->accept(triggerBit3))//!!!!!!!!!!!!!!!!!!!!!!!!
      {
+       histos1D_[ "maxCSVTHPassing" ]->Fill( maxCSV );
+       histos1D_[ "maxCSV2THPassing" ]->Fill( maxCSV2 );
        histos1D_[ "HTTHPassing" ]->Fill( HT );
        histos1D_[ "jetMassTHPassing" ]->Fill( AK8LeadingMass );
        histos1D_[ "jetPtTHPassing" ]->Fill( AK8LeadingPt );
@@ -558,6 +579,66 @@ TriggerStudies::beginJob()
   histos1D_[ "HTTHEfficiency" ]->SetXTitle( "HT [GeV]" );
   histos1D_[ "HTTHEfficiency" ]->SetYTitle( "Efficiency" );
 
+
+
+  histos1D_[ "maxCSV" ] = fileService->make< TH1D >( "maxCSV", "maxCSV", 40, 0., 1.);
+  histos1D_[ "maxCSV" ]->SetXTitle( "maxCSV" );
+  histos1D_[ "maxCSV" ]->Sumw2();
+  histos1D_[ "maxCSVDenom" ] = fileService->make< TH1D >( "maxCSVDenom", "maxCSV", 40, 0., 1.);
+  histos1D_[ "maxCSVDenom" ]->SetXTitle( "maxCSV" );
+  histos1D_[ "maxCSVDenom" ]->Sumw2();
+  histos1D_[ "maxCSVPassing" ] = fileService->make< TH1D >( "maxCSVPassing", "maxCSV passing", 40, 0., 1.);
+  histos1D_[ "maxCSVPassing" ]->SetXTitle( "maxCSV" );
+  histos1D_[ "maxCSVPassing" ]->Sumw2();
+  histos1D_[ "maxCSVEfficiency" ] = fileService->make< TH1D >( "maxCSVEfficiency", "maxCSV efficiency", 40, 0., 1.);
+  histos1D_[ "maxCSVEfficiency" ]->SetXTitle( "maxCSV" );
+  histos1D_[ "maxCSVEfficiency" ]->SetYTitle( "Efficiency" );
+
+  histos1D_[ "maxCSVTHDenom" ] = fileService->make< TH1D >( "maxCSVTHDenom", "maxCSV", 40, 0., 1.);
+  histos1D_[ "maxCSVTHDenom" ]->SetXTitle( "maxCSV" );
+  histos1D_[ "maxCSVTHDenom" ]->Sumw2();
+  histos1D_[ "maxCSVTHPassing" ] = fileService->make< TH1D >( "maxCSVTHPassing", "maxCSV passing", 40, 0., 1.);
+  histos1D_[ "maxCSVTHPassing" ]->SetXTitle( "maxCSV" );
+  histos1D_[ "maxCSVTHPassing" ]->Sumw2();
+  histos1D_[ "maxCSVTHEfficiency" ] = fileService->make< TH1D >( "maxCSVTHEfficiency", "maxCSV efficiency", 40, 0., 1.);
+  histos1D_[ "maxCSVTHEfficiency" ]->SetXTitle( "maxCSV" );
+  histos1D_[ "maxCSVTHEfficiency" ]->SetYTitle( "Efficiency" );
+
+
+
+  histos1D_[ "maxCSV2" ] = fileService->make< TH1D >( "maxCSV2", "maxCSV2", 40, 0., 7.);
+  histos1D_[ "maxCSV2" ]->SetXTitle( "maxCSV2" );
+  histos1D_[ "maxCSV2" ]->Sumw2();
+  histos1D_[ "maxCSV2Denom" ] = fileService->make< TH1D >( "maxCSV2Denom", "maxCSV2", 40, 0., 7.);
+  histos1D_[ "maxCSV2Denom" ]->SetXTitle( "maxCSV2" );
+  histos1D_[ "maxCSV2Denom" ]->Sumw2();
+  histos1D_[ "maxCSV2Passing" ] = fileService->make< TH1D >( "maxCSV2Passing", "maxCSV2 passing", 40, 0., 7.);
+  histos1D_[ "maxCSV2Passing" ]->SetXTitle( "maxCSV2" );
+  histos1D_[ "maxCSV2Passing" ]->Sumw2();
+  histos1D_[ "maxCSV2Efficiency" ] = fileService->make< TH1D >( "maxCSV2Efficiency", "maxCSV2 efficiency", 40, 0., 7.);
+  histos1D_[ "maxCSV2Efficiency" ]->SetXTitle( "maxCSV2" );
+  histos1D_[ "maxCSV2Efficiency" ]->SetYTitle( "Efficiency" );
+
+  histos1D_[ "maxCSV2THDenom" ] = fileService->make< TH1D >( "maxCSV2THDenom", "maxCSV2", 40, 0., 7.);
+  histos1D_[ "maxCSV2THDenom" ]->SetXTitle( "maxCSV2" );
+  histos1D_[ "maxCSV2THDenom" ]->Sumw2();
+  histos1D_[ "maxCSV2THPassing" ] = fileService->make< TH1D >( "maxCSV2THPassing", "maxCSV2 passing", 40, 0., 7.);
+  histos1D_[ "maxCSV2THPassing" ]->SetXTitle( "maxCSV2" );
+  histos1D_[ "maxCSV2THPassing" ]->Sumw2();
+  histos1D_[ "maxCSV2THEfficiency" ] = fileService->make< TH1D >( "maxCSV2THEfficiency", "maxCSV2 efficiency", 40, 0., 7.);
+  histos1D_[ "maxCSV2THEfficiency" ]->SetXTitle( "max2CSV" );
+  histos1D_[ "maxCSV2THEfficiency" ]->SetYTitle( "Efficiency" );
+
+//  histos1D_[ "nBtagDenom" ] = fileService->make< TH1D >( "nBtagDenom", "nBtag", 6, 0., 6);
+//  histos1D_[ "nBtagDenom" ]->SetXTitle( "nBtag" );
+//  histos1D_[ "nBtagDenom" ]->Sumw2();
+//  histos1D_[ "nBtagPassing" ] = fileService->make< TH1D >( "nBtagPassing", "nBtag", 6, 0., 6);
+//  histos1D_[ "nBtagPassing" ]->SetXTitle( "nBtag" );
+//  histos1D_[ "nBtagPassing" ]->Sumw2();
+//  histos1D_[ "nBtagEfficiency" ] = fileService->make< TH1D >( "nBtag", "nBtag", 6, 0., 6);
+//  histos1D_[ "nBtagEfficiency" ]->SetXTitle( "nBtag" );
+//  histos1D_[ "nBtagEfficiency" ]->Sumw2();
+
   
 }
 
@@ -592,6 +673,11 @@ TriggerStudies::endJob()
   
   histos1D_[ "HTTHEfficiency" ]->Sumw2();
   histos1D_[ "HTTHEfficiency" ]->Divide(histos1D_[ "HTTHPassing" ], histos1D_[ "HTTHDenom" ], 1,1,"B");
+
+  histos1D_[ "maxCSVEfficiency" ]->Sumw2();
+  histos1D_[ "maxCSVEfficiency" ]->Divide(histos1D_[ "maxCSVPassing" ], histos1D_[ "maxCSVDenom" ], 1,1,"B");
+  histos1D_[ "maxCSVTHEfficiency" ]->Sumw2();
+  histos1D_[ "maxCSVTHEfficiency" ]->Divide(histos1D_[ "maxCSVTHPassing" ], histos1D_[ "maxCSVTHDenom" ], 1,1,"B");
   
 }
 
