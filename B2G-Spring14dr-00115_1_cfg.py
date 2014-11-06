@@ -2,7 +2,7 @@
 # using: 
 # Revision: 1.19 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: step1 --filein dbs:/SingletopWprime_M2700GeV_right_Tune4C_13TeV-comphep/Fall13-POSTLS162_V1-v1/GEN-SIM --fileout file:B2G-Spring14dr-00115_step1.root --pileup_input dbs:/MinBias_TuneA2MB_13TeV-pythia8/Fall13-POSTLS162_V1-v1/GEN-SIM --mc --eventcontent FEVTDEBUG --pileup AVE_20_BX_25ns --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,Configuration/DataProcessing/Utils.addMonitoring --datatier GEN-SIM-DIGI-RAW-HLT --conditions POSTLS170_V5::All --step DIGI,L1,DIGI2RAW,HLT:User,RAW2DIGI,L1Reco --magField 38T_PostLS1 --geometry DBExtendedPostLS1 --python_filename B2G-Spring14dr-00115_1_cfg.py --no_exec -n 73
+# with command line options: step1 --filein dbs:/SingletopWprime_M2700GeV_right_Tune4C_13TeV-comphep/Fall13-POSTLS162_V1-v1/GEN-SIM --fileout file:B2G-Spring14dr-00115_step1.root --pileup_input dbs:/MinBias_TuneA2MB_13TeV-pythia8/Fall13-POSTLS162_V1-v1/GEN-SIM --mc --eventcontent FEVTDEBUG --pileup AVE_20_BX_25ns --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,Configuration/DataProcessing/Utils.addMonitoring --datatier GEN-SIM-DIGI-RAW-HLT --conditions POSTLS170_V5::All --step DIGI,L1,DIGI2RAW,HLT:User,RAW2DIGI,L1Reco --magField 38T_PostLS1 --geometry DBExtendedPostLS1 --python_filename B2G-Spring14dr-00115_1_cfg.py --no_exec -n 10
 import FWCore.ParameterSet.Config as cms
 
 process = cms.Process('HLT')
@@ -26,14 +26,15 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
 process.load('CondCore.DBCommon.CondDBSetup_cfi')
 
+
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(10)
+    input = cms.untracked.int32(30)
 )
 
 # Input source
 process.source = cms.Source("PoolSource",
     secondaryFileNames = cms.untracked.vstring(),
-    fileNames = cms.untracked.vstring("file:/nfs/dust/cms/user/marchesi/GENSIM_files/CMSSW_6_2_12/tprime_GENSIM_TpjM800_bW_13TeV_1.root")
+    fileNames = cms.untracked.vstring("file:/nfs/dust/cms/user/marchesi/GENSIM_files/CMSSW_6_2_12/tprime_GENSIM_TpjM800_bW_13TeV_xqcut0_1.root")
 )
 
 process.options = cms.untracked.PSet(
@@ -43,7 +44,7 @@ process.options = cms.untracked.PSet(
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
     version = cms.untracked.string('$Revision: 1.19 $'),
-    annotation = cms.untracked.string('step1 nevts:73'),
+    annotation = cms.untracked.string('step1 nevts:10'),
     name = cms.untracked.string('Applications')
 )
 
@@ -92,7 +93,7 @@ process.mix.input.fileNames = cms.untracked.vstring('/store/mc/Fall13/MinBias_Tu
 '/store/mc/Fall13/MinBias_TuneA2MB_13TeV-pythia8/GEN-SIM/POSTLS162_V1-v1/20000/F0BA29B8-5E25-E311-BBE3-00145EDD740F.root',
 '/store/mc/Fall13/MinBias_TuneA2MB_13TeV-pythia8/GEN-SIM/POSTLS162_V1-v1/20000/F265F6AD-5D25-E311-B2DC-00145EDD7759.root')
 #from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
-#process.GlobalTag = GlobalTag(process.GlobalTag, 'PRE_LS172_V16::All', '')
+#process.GlobalTag = GlobalTag(process.GlobalTag, 'POSTLS170_V5::All', '')
 
 process.GlobalTag.globaltag= 'PRE_LS172_V16::All'
 process.GlobalTag.toGet = cms.VPSet(

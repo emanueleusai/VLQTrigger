@@ -12,7 +12,7 @@ process.GlobalTag.globaltag = cms.string('PRE_LS172_V16::All')
 process.source = cms.Source ("PoolSource",
                         fileNames=cms.untracked.vstring(
                 #'file:/nfs/dust/cms/user/marchesi/RECO_files/CMSSW_7_2_0_pre7/tprime_RECO_TpjM1200_bW_13TeV_1.root',
-                "file:/pnfs/desy.de/cms/tier2/store/mc/Spring14dr/QCD_Pt-600to800_Tune4C_13TeV_pythia8/GEN-SIM-RECODEBUG/castor_PU_S14_POSTLS170_V6-v1/00000/0210858E-A409-E411-814E-0025901D40CA.root",
+                "file:/nfs/dust/cms/user/usaiem/trigger/CMSSW_7_2_0_pre8/src/MyTrigger/B2G-Spring14dr-00019.root",
         )
                 )
 

@@ -25,7 +25,7 @@ process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
 process.load('CondCore.DBCommon.CondDBSetup_cfi')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(10)
+    input = cms.untracked.int32(73)
 )
 
 # Input source
@@ -64,19 +64,6 @@ process.RECOoutput = cms.OutputModule("PoolOutputModule",
 #from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 #process.GlobalTag = GlobalTag(process.GlobalTag, 'PRE_LS172_V16::All', '')
 process.GlobalTag.globaltag= 'PRE_LS172_V16::All'
-#process.GlobalTag.toGet = cms.VPSet(
-    #cms.PSet(  record = cms.string( "JetCorrectionsRecord" ),
-      #tag = cms.string( "JetCorrectorParametersCollection_HLT_BX25_V1_AK8CaloHLT" ),
-      #connect = cms.untracked.string( "frontier://FrontierPrep/CMS_COND_PHYSICSTOOLS" ),
-      #label = cms.untracked.string( "AK8CaloHLT" )
-    #),
-    #cms.PSet(  record = cms.string( "JetCorrectionsRecord" ),
-      #tag = cms.string( "JetCorrectorParametersCollection_HLT_BX25_V1_AK8PFHLT" ),
-      #connect = cms.untracked.string( "frontier://FrontierPrep/CMS_COND_PHYSICSTOOLS" ),
-      #label = cms.untracked.string( "AK8PFHLT" )
-    #)
-#)
-
 
 # Path and EndPath definitions
 process.raw2digi_step = cms.Path(process.RawToDigi)
