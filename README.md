@@ -5,7 +5,7 @@ This code serves the purpose of assessing the feasibility of VLQ searches in the
 
 This is a CMSSW package
 
-version >=7_2_0_pre7
+version >=7_2_0_pre8
 
 TriggerStudies EDMAnalyzer produces efficiency histograms
 
