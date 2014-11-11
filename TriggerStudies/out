@@ -1,9 +1,0 @@
-13-Oct-2014 17:36:16 CEST  Initiating request to open file file:/pnfs/desy.de/cms/tier2/store/mc/Spring14dr/QCD_Pt-600to800_Tune4C_13TeV_pythia8/GEN-SIM-RECODEBUG/castor_PU_S14_POSTLS170_V6-v1/00000/0210858E-A409-E411-814E-0025901D40CA.root
-13-Oct-2014 17:36:21 CEST  Successfully opened file file:/pnfs/desy.de/cms/tier2/store/mc/Spring14dr/QCD_Pt-600to800_Tune4C_13TeV_pythia8/GEN-SIM-RECODEBUG/castor_PU_S14_POSTLS170_V6-v1/00000/0210858E-A409-E411-814E-0025901D40CA.root
-13-Oct-2014 17:36:22 CEST  Closed file file:/pnfs/desy.de/cms/tier2/store/mc/Spring14dr/QCD_Pt-600to800_Tune4C_13TeV_pythia8/GEN-SIM-RECODEBUG/castor_PU_S14_POSTLS170_V6-v1/00000/0210858E-A409-E411-814E-0025901D40CA.root
------ Begin Fatal Exception 13-Oct-2014 17:36:22 CEST-----------------------
-An exception of category 'PluginNotFound' occurred while
-   [0] Constructing the EventProcessor
-Exception Message:
-Unable to find plugin 'HLTEventAnalyzerRECO' in category 'CMS EDM Framework Module'. Please check spelling of name.
------ End Fatal Exception -------------------------------------------------
