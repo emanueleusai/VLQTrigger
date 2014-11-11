@@ -28,7 +28,7 @@ process.load('CondCore.DBCommon.CondDBSetup_cfi')
 
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(30)
+    input = cms.untracked.int32(10)
 )
 
 # Input source

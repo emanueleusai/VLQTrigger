@@ -17,14 +17,20 @@ filename_list=['trgout_bW1200'+postfix+'.root' , 'trgout_bW800'+postfix+'.root' 
 kinematic_names=["nBtag","nJet","HT","jetMass","jetPt","jetMass2","jetPt2","eta","nJet4","maxCSV","maxCSV2"]
 efficiency_names=["HT","jetMass","jetPt","jetMass2","jetPt2","HTTH","jetMassTH","jetPtTH","jetMass2TH","jetPt2TH","maxCSV","maxCSVTH","maxCSV2","maxCSV2TH"]
 efficiency_titles=["HT (GeV)","Leading jet mass (GeV)","Leading jet pT (GeV)","Subleading jet mass (GeV)","Subleading jet pt (GeV)","HT (GeV)","Leading jet mass (GeV)","Leading jet pT (GeV)","Subleading jet mass (GeV)","Subleading jet pT (GeV)","maximum CSV","maximum CSV","maximum CSV2","maximum CSV2"]
-trigger_names=['PFHT900','AK8DiPFJet300_200TrimMod_DiMass30','AK8DiPFJet300_250TrimMod_DiMass30',
-'AK8DiPFJet280_250TrimMod_DiMass30','AK8DiPFJet320_280TrimMod_Mass30','AK8DiPFJetAve300TrimMod_Mass30','AK8DiPFJet300_200TrimMod_Mass30','AK8DiPFJet300_250TrimMod_Mass30',
-'AK8DiPFJet280_250TrimMod_Mass30','AK8PFJet280TrimMod_Mass30_AK4PFJet250',
-'AK8PFJet300TrimMod_Mass30_AK4PFJet200','AK8PFJet300TrimMod_Mass30_AK4PFJet250','AK8PFJet360TrimMod_Mass30','AK8PFHT850_TrimR0p1PT0p03Mass50',
-'AK8DiPFJet300_200TrimMod_Mass30_DoubleJetC100','AK8DiPFJet300_250TrimMod_Mass30_DoubleJetC100','AK8DiPFJet280_250TrimMod_Mass30_DoubleJetC100',
-'AK8DiPFJet300_200TrimMod_Mass30_BTagCSVLoose0p3','AK8DiPFJet300_250TrimMod_Mass30_BTagCSVLoose0p3','AK8DiPFJet280_250TrimMod_Mass30_BTagCSVLoose0p3',
-'AK8DiPFJet300_200TrimMod_Mass30_BTagCSVLoose0p5','AK8DiPFJet300_250TrimMod_Mass30_BTagCSVLoose0p5','AK8DiPFJet280_250TrimMod_Mass30_BTagCSVLoose0p5',
-'AK8DiPFJet300_200TrimMod_Mass30_BTagCSVMed0p7','AK8DiPFJet300_250TrimMod_Mass30_BTagCSVMed0p7','AK8DiPFJet280_250TrimMod_Mass30_BTagCSVMed0p7']
+trigger_paths=["HLT_PFHT900_v1",
+"HLT_AK8PFJet360TrimMod_Mass30_v1",
+"HLT_AK8PFHT850_TrimR0p1PT0p03Mass50_v1",
+"HLT_AK8DiPFJet300_200TrimMod_Mass30_BTagCSVLoose0p3_v1",
+"HLT_AK8DiPFJet300_200TrimMod_Mass30_BTagCSVLoose0p5_v1",
+"HLT_AK8DiPFJet280_200TrimMod_Mass30_BTagCSVLoose0p3_v1",
+"HLT_AK8DiPFJet280_200TrimMod_Mass30_BTagCSVLoose0p5_v1",
+"HLT_AK8DiPFJet300_200TrimMod_Mass30_BTagCSVLoose0p3_DoubleJetC100_v1",
+#"HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1",
+#"HLT_Mu40_eta2p1_PFJet200_PFJet50_v1",
+"HLT_PFHT750_4Jet_v1"]
+trigger_names=[]
+for trigger in trigger_paths:
+  trigger_names.append(trigger[4:-3])
 
 outfile=TFile("triggeranalysis"+postfix+".root","RECREATE")
 outfile.cd()
@@ -126,22 +132,28 @@ for filename in range(len(filename_list)):
 for filename in filename_list:
   for histoname in efficiency_names:
     for triggername in trigger_names: 
-      compare("compare_"+filename.split('.')[0]+'_'+histoname+'_'+triggername,filename.split('.')[0]+"_"+histoname+"_",["AK8PFJet360TrimMod_Mass30","AK8PFHT850_TrimR0p1PT0p03Mass50",triggername],[],False, True)
+      compare("eff_"+filename.split('.')[0]+'_'+histoname+'_'+triggername,filename.split('.')[0]+"_"+histoname+"_",[triggername],[],False, True)
 
 
-for filename in filename_list:
-  for histoname in efficiency_names:
-    for triggername in ['_Mass30_BTagCSVLoose0p3','_Mass30_BTagCSVLoose0p5','_Mass30_BTagCSVMed0p7','_Mass30','_DiMass30']: 
-      compare("special_"+filename.split('.')[0]+'_'+histoname+'_'+triggername,filename.split('.')[0]+"_"+histoname+"_",['AK8DiPFJet280_250TrimMod'+triggername,'AK8DiPFJet300_250TrimMod'+triggername,'AK8DiPFJet300_200TrimMod'+triggername],[],False, True)      
+# for filename in filename_list:
+#   for histoname in efficiency_names:
+#     for triggername in trigger_names: 
+#       compare("compare_"+filename.split('.')[0]+'_'+histoname+'_'+triggername,filename.split('.')[0]+"_"+histoname+"_",["AK8PFJet360TrimMod_Mass30","AK8PFHT850_TrimR0p1PT0p03Mass50",triggername],[],False, True)
 
-for filename in filename_list:
-  for histoname in efficiency_names:
-    compare("special2_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",
-      ['AK8DiPFJet300_200TrimMod_Mass30','AK8DiPFJet300_200TrimMod_Mass30_BTagCSVLoose0p3','AK8DiPFJet300_200TrimMod_Mass30_BTagCSVLoose0p5'],[],False, True)
-    compare("special3_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",
-      ['AK8DiPFJet300_200TrimMod_Mass30','AK8DiPFJet300_200TrimMod_DiMass30','AK8PFJet300TrimMod_Mass30_AK4PFJet200'],[],False, True)
-    compare("special4_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",
-      ['AK8DiPFJet300_200TrimMod_Mass30','AK8PFHT850_TrimR0p1PT0p03Mass50'],[],False, True)
+
+# for filename in filename_list:
+#   for histoname in efficiency_names:
+#     for triggername in ['_Mass30_BTagCSVLoose0p3','_Mass30_BTagCSVLoose0p5','_Mass30_BTagCSVMed0p7','_Mass30','_DiMass30']: 
+#       compare("special_"+filename.split('.')[0]+'_'+histoname+'_'+triggername,filename.split('.')[0]+"_"+histoname+"_",['AK8DiPFJet280_250TrimMod'+triggername,'AK8DiPFJet300_250TrimMod'+triggername,'AK8DiPFJet300_200TrimMod'+triggername],[],False, True)      
+
+# for filename in filename_list:
+#   for histoname in efficiency_names:
+#     compare("special2_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",
+#       ['AK8DiPFJet300_200TrimMod_Mass30','AK8DiPFJet300_200TrimMod_Mass30_BTagCSVLoose0p3','AK8DiPFJet300_200TrimMod_Mass30_BTagCSVLoose0p5'],[],False, True)
+#     compare("special3_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",
+#       ['AK8DiPFJet300_200TrimMod_Mass30','AK8DiPFJet300_200TrimMod_DiMass30','AK8PFJet300TrimMod_Mass30_AK4PFJet200'],[],False, True)
+#     compare("special4_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",
+#       ['AK8DiPFJet300_200TrimMod_Mass30','AK8PFHT850_TrimR0p1PT0p03Mass50'],[],False, True)
 
 
 print filename_list

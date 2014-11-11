@@ -256,27 +256,27 @@ TriggerStudies::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    //sort( pfJets8Collection.begin(), pfJets8Collection.end(), compare_JetPt);
    
    //additional trigger selection
-   bool base_dijet_trigger_cut = triggerResults->accept(triggerBit2);
+   // bool base_dijet_trigger_cut = triggerResults->accept(triggerBit2);
    
    ////bW selection
    //pT threshold AK8
    bool bW_AK8_pT_cut = (AK8LeadingPt > minPt8);
    //at least one btag
-   //bool bW_AK4_btag_cut = (nbtags > 0);
+   bool bW_AK4_btag_cut = (nbtags > 0);
    //W mass requirement
    bool bW_AK8_mass_cut = (AK8LeadingMass > minMass8);
    //final combined cut
-   bool bW_selection = bW_AK8_pT_cut /*&& bW_AK4_btag_cut*/ && bW_AK8_mass_cut && base_dijet_trigger_cut;
+   bool bW_selection = bW_AK8_pT_cut && bW_AK4_btag_cut && bW_AK8_mass_cut; //&& base_dijet_trigger_cut;
    
    
    ////tH selection
    bool tH_AK8_pT_cut = (AK8SubleadingPt > minPt8);
    //at least one btag
-   //bool tH_AK4_btag_cut = (nbtags > 1);
+   bool tH_AK4_btag_cut = (nbtags > 1);
    //W mass requirement
    bool tH_AK8_mass_cut = (AK8LeadingMass > minMass);
    //final combined cut
-   bool tH_selection = tH_AK8_pT_cut /*&& tH_AK4_btag_cut*/ && tH_AK8_mass_cut && base_dijet_trigger_cut;
+   bool tH_selection = tH_AK8_pT_cut && tH_AK4_btag_cut && tH_AK8_mass_cut; //&& base_dijet_trigger_cut;
    
    float maxCSV2=-log(1-maxCSV);
 
