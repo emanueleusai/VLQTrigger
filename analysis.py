@@ -134,6 +134,13 @@ for filename in filename_list:
     for triggername in trigger_names: 
       compare("eff_"+filename.split('.')[0]+'_'+histoname+'_'+triggername,filename.split('.')[0]+"_"+histoname+"_",[triggername],[],False, True)
 
+for filename in filename_list:
+  for histoname in ['jetPt','jetPtTH']: 
+      compare("comp1_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",['AK8DiPFJet300_200TrimMod_Mass30_BTagCSVLoose0p3','AK8DiPFJet280_200TrimMod_Mass30_BTagCSVLoose0p3'],[],False, True)
+      compare("comp2_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",['AK8DiPFJet300_200TrimMod_Mass30_BTagCSVLoose0p5','AK8DiPFJet280_200TrimMod_Mass30_BTagCSVLoose0p5'],[],False, True)
+      compare("comp3_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",['AK8DiPFJet280_200TrimMod_Mass30_BTagCSVLoose0p3','AK8DiPFJet280_200TrimMod_Mass30_BTagCSVLoose0p5'],[],False, True)
+      compare("comp4_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",['AK8DiPFJet300_200TrimMod_Mass30_BTagCSVLoose0p3','AK8DiPFJet300_200TrimMod_Mass30_BTagCSVLoose0p5'],[],False, True)
+
 
 # for filename in filename_list:
 #   for histoname in efficiency_names:

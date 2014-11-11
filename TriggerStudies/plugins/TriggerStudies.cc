@@ -187,8 +187,8 @@ TriggerStudies::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    std::vector< TLorentzVector > pfJets8Collection;
    
    edm::Handle<reco::JetTagCollection> tagHandle;
-   //iEvent.getByLabel("combinedInclusiveSecondaryVertexV2BJetTags", tagHandle);//IVFCSVv2
-   iEvent.getByLabel("combinedSecondaryVertexBJetTags", tagHandle);//CSV
+   iEvent.getByLabel("combinedInclusiveSecondaryVertexV2BJetTags", tagHandle);//IVFCSVv2
+   //iEvent.getByLabel("combinedSecondaryVertexBJetTags", tagHandle);//CSV
    const reco::JetTagCollection & tagColl = *(tagHandle.product());
    //std::cout << "Found " << tagColl.size() << " B candidates in collection " << pfjets->size()<<std::endl;
    
