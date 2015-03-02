@@ -152,7 +152,7 @@ TriggerStudies::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 // #endif
    
    bool changedConfig = false;
-   if (!hltConfig.init(iEvent.getRun(), iSetup, "HLT", changedConfig)) {
+   if (!hltConfig.init(iEvent.getRun(), iSetup, "HLT2", changedConfig)) {
      cout << "Initialization of HLTConfigProvider failed!!" << endl;
      return;
    }
@@ -174,7 +174,7 @@ TriggerStudies::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
      if (triggerBit3 == -1) cout << "HLT path 3 not found" << endl;
    }
    
-   edm::InputTag triggerResultsLabel = edm::InputTag("TriggerResults", "", "HLT");
+   edm::InputTag triggerResultsLabel = edm::InputTag("TriggerResults", "", "HLT2");
    edm::Handle<edm::TriggerResults> triggerResults;
    iEvent.getByLabel(triggerResultsLabel, triggerResults);
 

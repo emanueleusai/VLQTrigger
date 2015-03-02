@@ -1,0 +1,12 @@
+[test1]
+prefix = file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/test1
+TpTp_0_B2G-Phys14DR-00039_step1.root = 100
+TpTp_1_B2G-Phys14DR-00039_step1.root = 100
+TpTp_2_B2G-Phys14DR-00039_step1.root = 100
+TpTp_3_B2G-Phys14DR-00039_step1.root = 100
+TpTp_4_B2G-Phys14DR-00039_step1.root = 100
+TpTp_5_B2G-Phys14DR-00039_step1.root = 100
+TpTp_6_B2G-Phys14DR-00039_step1.root = 100
+TpTp_7_B2G-Phys14DR-00039_step1.root = 100
+TpTp_8_B2G-Phys14DR-00039_step1.root = 100
+TpTp_9_B2G-Phys14DR-00039_step1.root = 100

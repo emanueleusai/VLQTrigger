@@ -10,7 +10,78 @@ process.load("FWCore.MessageService.MessageLogger_cfi")
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 
 process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_cff')
-process.GlobalTag.globaltag = cms.string('PRE_LS172_V16::All')
+process.GlobalTag.globaltag = cms.string('PHYS14_25_V2::All')
+
+testlist=[
+'file:/afs/desy.de/user/u/usaiem/xxl-af-cms/code/cmssw/CMSSW_7_3_2_patch2/src/MyStudies/B2G-Phys14DR-00039_step2.root'
+]
+
+Zplist=[
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_0_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_10_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_11_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_12_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_13_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_14_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_15_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_16_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_17_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_18_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_19_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_1_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_20_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_21_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_22_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_23_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_24_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_25_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_26_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_27_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_28_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_29_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_2_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_30_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_31_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_32_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_33_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_34_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_35_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_36_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_37_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_38_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_39_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_3_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_40_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_41_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_42_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_43_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_44_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_45_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_46_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_47_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_48_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_49_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_4_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_5_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_6_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_7_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_8_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_9_B2G-Phys14DR-00039_step2.root',
+
+]
+
+tHtHlist=[
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/test2/TpTp_0_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/test2/TpTp_1_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/test2/TpTp_2_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/test2/TpTp_3_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/test2/TpTp_4_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/test2/TpTp_5_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/test2/TpTp_6_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/test2/TpTp_7_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/test2/TpTp_8_B2G-Phys14DR-00039_step2.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/test2/TpTp_9_B2G-Phys14DR-00039_step2.root',
+]
 
 bW1200list=["file:/nfs/dust/cms/user/marchesi/RECO_files_Menu4/CMSSW_7_2_0_pre8/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_1.root",
 "file:/nfs/dust/cms/user/marchesi/RECO_files_Menu4/CMSSW_7_2_0_pre8/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_10.root",
@@ -384,7 +455,7 @@ tH800list=["file:/nfs/dust/cms/user/marchesi/RECO_files_Menu4/CMSSW_7_2_0_pre8/t
 "file:/nfs/dust/cms/user/marchesi/RECO_files_Menu4/CMSSW_7_2_0_pre8/tprime_RECO_TpjM800_tH_13TeV_xqcut0_99.root"]
 
 
-dizionario={'tH800':tH800list,'tH1200':tH1200list,'bW800':bW800list,'bW1200':bW1200list}
+dizionario={'tH800':tH800list,'tH1200':tH1200list,'bW800':bW800list,'bW1200':bW1200list,'tHtH':tHtHlist, 'test':testlist, 'Zp':Zplist}
 
 process.TFileService=cms.Service("TFileService",
 fileName=cms.string('trgout_'+NAME+'nocsv.root'))
@@ -408,7 +479,7 @@ process.source.duplicateCheckMode = cms.untracked.string('noDuplicateCheck')
 #process.triggerstudies = cms.EDAnalyzer('TriggerStudies'
 #)
 
-process.load("MyStudies.TriggerStudies.TriggerMenu_cff")
+process.load("VLQTrigger.TriggerStudies.TriggerMenu_cff")
 
 
 # minHT_par = "0"
