@@ -12,7 +12,7 @@ if len(argv[1:])>0:
   postfix=argv[1]
   #foldername=argv[2]
 #f=TFile(postfix,'READ')
-filename_list=['trgout_Zp'+postfix+'.root']
+filename_list=['trgout_Zp'+postfix+'.root','trgout_bW1200'+postfix+'.root' , 'trgout_bW800'+postfix+'.root' , 'trgout_tH1200'+postfix+'.root' , 'trgout_tH800'+postfix+'.root', 'trgout_TpTp'+postfix+'.root']
 # filename_list=['trgout_bW1200.root' , 'trgout_bW800.root' , 'trgout_tH1200.root' , 'trgout_tH800.root']
 kinematic_names=["nBtag","nJet","HT","jetMass","jetPt","jetMass2","jetPt2","eta","nJet4","maxCSV","maxCSV2"]
 efficiency_names=["HT","jetMass","jetPt","jetMass2","jetPt2","HTTH","jetMassTH","jetPtTH","jetMass2TH","jetPt2TH","maxCSV","maxCSVTH","maxCSV2","maxCSV2TH"]
@@ -51,7 +51,7 @@ folder='pdf'+postfix+'/'
 if not exists(folder):
   mkdir(folder)
 
-def compare(name,file_list,name_list,legend_list,normalize=False, useOutfile=False,overlayKin=False):
+def compare(name,file_list,name_list,legend_list,normalize=False, useOutfile=False,overlayKin=False,filename=''):
   c=TCanvas(name,'',600,600)
   c.SetLeftMargin(0.15)#
   c.SetRightMargin(0.05)#
@@ -102,12 +102,15 @@ def compare(name,file_list,name_list,legend_list,normalize=False, useOutfile=Fal
         histo_list[i].SetMinimum(0.0)
       histo_list[i].Draw()
       if useOutfile:
-        histo_list[i].GetXaxis().SetTitle(efficiency_titles[efficiency_names.index(file_list.split('_')[2])])
+        if len(file_list.split('_'))>1:
+          histo_list[i].GetXaxis().SetTitle(efficiency_titles[efficiency_names.index(file_list.split('_')[2])])
+        else:  
+          histo_list[i].GetXaxis().SetTitle('Leading jet pT [GeV]')
         histo_list[i].GetYaxis().SetTitle('Efficiency')
     else:
       histo_list[i].Draw('SAME')
     if overlayKin:
-      ttfile=TFile(filename_list[0],'READ')
+      ttfile=TFile(filename,'READ')
       overlay=ttfile.Get('PFHT900/'+name.split('_')[-1].split('TH')[0])
       overlay.Scale(6.0/(overlay.Integral()+0.00000001))
       overlay.SetFillStyle(3002)
@@ -119,12 +122,14 @@ def compare(name,file_list,name_list,legend_list,normalize=False, useOutfile=Fal
   c.SaveAs(folder+name+'.pdf')
   #c.SaveAs(folder+name+'.png')
 
-def doeff(filename, histoname, triggername):
+def doeff(filename, histoname, triggername, rebin=1):
   tmp_file=TFile(filename,'READ')
   numerator=tmp_file.Get(triggername+'/'+histoname+'Passing')
   denominator=tmp_file.Get(triggername+'/'+histoname+'Denom')
   n_num=numerator.Integral()
   n_den=denominator.Integral()
+  numerator.Rebin(rebin)
+  denominator.Rebin(rebin)
   error_bars=TGraphAsymmErrors()
   error_bars.Divide(numerator,denominator,"cl=0.683 b(1,1) mode")
   outfile.cd()
@@ -132,7 +137,10 @@ def doeff(filename, histoname, triggername):
   return n_num/n_den
   
 for i in kinematic_names:
-  compare(i,filename_list,['PFHT900/'+i],["Z' 1 TeV"],True)
+  compare(i,filename_list,['PFHT900/'+i]*6,["Z' 1 TeV","T'#rightarrow bW 1.2 TeV" , "T'#rightarrow bW 0.8 TeV" , "T'#rightarrow tH 1.2 TeV" , "T'#rightarrow tH 0.8 TeV", "T'T' 1 TeV"],True)
+
+
+
   # compare(i,filename_list,['PFHT900/'+i,'PFHT900/'+i,'PFHT900/'+i,'PFHT900/'+i],['bW 1.2 TeV','bW 800 GeV','tH 1.2 TeV','tH 800 GeV'],True)
   # for j in ['bW','tH']:
   #   compare(j+'_'+i,['trgout_'+j+'1200'+postfix+'.root' , 'trgout_'+j+'800'+postfix+'.root'],['PFHT900/'+i,'PFHT900/'+i],[j+' 1.2 TeV',j+' 800 GeV'],True)
@@ -143,7 +151,7 @@ for filename in range(len(filename_list)):
   for histoname in range(len(efficiency_names)):
     for triggername in range(len(trigger_names)):
       print filename_list[filename],efficiency_names[histoname],trigger_names[triggername]
-      eff_tmp=doeff(filename_list[filename],efficiency_names[histoname],trigger_names[triggername])
+      eff_tmp=doeff(filename_list[filename],efficiency_names[histoname],trigger_names[triggername],rebin=1)
       if ('bW' in filename_list[filename]) and (efficiency_names[histoname]=='jetPt'):
         efficiencies[-1].append(eff_tmp)
       if ('Zp' in filename_list[filename]) and (efficiency_names[histoname]=='jetPtTH'):
@@ -155,8 +163,9 @@ for filename in filename_list:
       compare("eff_"+filename.split('.')[0]+'_'+histoname+'_'+triggername,filename.split('.')[0]+"_"+histoname+"_",[triggername],[],False, True)
 
 for filename in filename_list:
-  for histoname in ['HTTH','jetPtTH']: 
-      compare("comp1_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",['PFHT900','AK8PFJet360TrimMod_Mass30','AK8DiPFJet280_200_TrimMass30_BTagCSV0p41','AK8PFHT700_TrimR0p1PT0p03Mass50'],[],False, True, True)
+  compare("comp2_"+filename.split('.')[0]+'_jetPtTH','',[filename.split('.')[0]+"_jetPtTH_"+'AK8PFJet360TrimMod_Mass30',filename.split('.')[0]+"_jetPtTH_"+'AK8DiPFJet280_200_TrimMass30_BTagCSV0p41',filename.split('.')[0]+"_jetPt_"+'AK8DiPFJet280_200_TrimMass30_BTagCSV0p41'],[],False, True, True,filename)
+  for histoname in ['HTTH','jetPtTH','HT','jetPt','jetMass','jetMassTH','maxCSV','maxCSVTH','maxCSV2','maxCSV2TH']: 
+      compare("comp1_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",['PFHT900','AK8PFJet360TrimMod_Mass30','AK8DiPFJet280_200_TrimMass30_BTagCSV0p41','AK8PFHT700_TrimR0p1PT0p03Mass50'],[],False, True, True,filename)
       #compare("comp1_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",['AK8DiPFJet300_200TrimMod_Mass30_BTagCSVLoose0p3','AK8DiPFJet280_200TrimMod_Mass30_BTagCSVLoose0p3'],[],False, True)
       # compare("comp2_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",['AK8DiPFJet300_200TrimMod_Mass30_BTagCSVLoose0p5','AK8DiPFJet280_200TrimMod_Mass30_BTagCSVLoose0p5'],[],False, True)
       # compare("comp3_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",['AK8DiPFJet280_200TrimMod_Mass30_BTagCSVLoose0p3','AK8DiPFJet280_200TrimMod_Mass30_BTagCSVLoose0p5'],[],False, True)

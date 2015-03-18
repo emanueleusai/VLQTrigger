@@ -165,7 +165,7 @@ TriggerStudies::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
      for (size_t j = 0; j < hltConfig.triggerNames().size(); j++) {
        std::cout << TString(hltConfig.triggerNames()[j]) << std::endl;
        if (TString(hltConfig.triggerNames()[j]).Contains(triggerPath)) triggerBit = j;
-       if (TString(hltConfig.triggerNames()[j]).Contains("HLT_AK8DiPFJet300_200TrimMod_Mass30_v1")) triggerBit2 = j;
+       if (TString(hltConfig.triggerNames()[j]).Contains("HLT_AK8PFJet360TrimMod_Mass30_v1")) triggerBit2 = j;
        if (TString(hltConfig.triggerNames()[j]).Contains("HLT_PFHT900_v1")) triggerBit3 = j;
      }
      //std::cout << triggerBit << std::endl;
@@ -256,17 +256,18 @@ TriggerStudies::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    //sort( pfJets8Collection.begin(), pfJets8Collection.end(), compare_JetPt);
    
    //additional trigger selection
-   // bool base_dijet_trigger_cut = triggerResults->accept(triggerBit2);
+    //bool base_dijet_trigger_cut = triggerResults->accept(triggerBit2);
    
    ////bW selection
-   //pT threshold AK8
-   bool bW_AK8_pT_cut = (AK8LeadingPt > minPt8);
-   //at least one btag
-   bool bW_AK4_btag_cut = (nbtags > 0);
-   //W mass requirement
-   bool bW_AK8_mass_cut = (AK8LeadingMass > minMass8);
-   //final combined cut
-   bool bW_selection = bW_AK8_pT_cut && bW_AK4_btag_cut && bW_AK8_mass_cut; //&& base_dijet_trigger_cut;
+   // //pT threshold AK8
+   // bool bW_AK8_pT_cut = (AK8LeadingPt > minPt8);
+   // //bool bW_AK8_pT_cut = (AK8SubleadingPt > minPt8);
+   // //at least one btag
+   // bool bW_AK4_btag_cut = (nbtags > 0);
+   // //W mass requirement
+   // bool bW_AK8_mass_cut = (AK8LeadingMass > minMass8);
+   // //final combined cut
+   // bool bW_selection = bW_AK8_pT_cut && bW_AK4_btag_cut && bW_AK8_mass_cut;// && base_dijet_trigger_cut;
    
    
    ////tH selection
@@ -276,7 +277,7 @@ TriggerStudies::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    //W mass requirement
    bool tH_AK8_mass_cut = (AK8LeadingMass > minMass);
    //final combined cut
-   bool tH_selection = tH_AK8_pT_cut && tH_AK4_btag_cut && tH_AK8_mass_cut; //&& base_dijet_trigger_cut;
+   bool tH_selection = tH_AK8_pT_cut && tH_AK4_btag_cut && tH_AK8_mass_cut;// && base_dijet_trigger_cut;
    
    float maxCSV2=-log(1-maxCSV);
 
@@ -292,7 +293,8 @@ TriggerStudies::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    histos1D_[ "jetPt2" ]->Fill( AK8SubleadingPt );
    histos1D_[ "eta" ]->Fill( AK8LeadingEta );
    
-   if(bW_selection)
+   //if(bW_selection)
+    if(tH_selection)//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
    {
      histos1D_[ "maxCSVDenom" ]->Fill( maxCSV );
      histos1D_[ "maxCSV2Denom" ]->Fill( maxCSV2 );
@@ -301,7 +303,8 @@ TriggerStudies::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
      histos1D_[ "jetPtDenom" ]->Fill( AK8LeadingPt );
      histos1D_[ "jetMass2Denom" ]->Fill( AK8SubleadingMass );
      histos1D_[ "jetPt2Denom" ]->Fill( AK8SubleadingPt );
-     if (triggerResults->accept(triggerBit))
+     //if (triggerResults->accept(triggerBit))
+      if (triggerResults->accept(triggerBit) || triggerResults->accept(triggerBit2)) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //     if (triggerResults->accept(triggerBit) || triggerResults->accept(triggerBit2) || triggerResults->accept(triggerBit3))//!!!!!!!!!!!!!!!!!
      {
        histos1D_[ "maxCSVPassing" ]->Fill( maxCSV );
