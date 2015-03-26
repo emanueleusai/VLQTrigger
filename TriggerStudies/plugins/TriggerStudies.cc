@@ -201,15 +201,20 @@ TriggerStudies::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    
    //count btags
    float maxCSV=0;
+   //float ptmax=0;
+   float phimax=0;
    int nbtags=0;
    for (reco::JetTagCollection::const_iterator tagI = tagColl.begin(); tagI != tagColl.end(); ++tagI) {
      if (tagI->second>maxCSV && tagI->first->pt()>20.0 && fabs(tagI->first->eta())<2.5)
      {
        maxCSV=tagI->second;
+       //ptmax=tagI->first->pt();
+       phimax=tagI->first->phi();
      }
      if (tagI->second>minCSV && tagI->first->pt()>20.0 && fabs(tagI->first->eta())<2.5)
      {
        nbtags++;
+
      }
        //std::cout<<" jet pt = " << tagI->first->pt() << "  btag discriminator value = " << tagI->second << std::endl;
    }
@@ -217,6 +222,7 @@ TriggerStudies::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    
    //calculate HT and AK4 pT, mass
    double HT = 0;
+   bool phiw=0;
    for(edm::View<reco::PFJet>::const_iterator ijet=pfjets->begin(); ijet!=pfjets->end();ijet++){
      if ( ijet->pt() < 40.0 || fabs( ijet->eta() ) > 2.5 ) continue;
      HT += ijet->pt();
@@ -232,16 +238,20 @@ TriggerStudies::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 //    sort( pfJetsCollection.begin(), pfJetsCollection.end(), compare_JetPt);
 //    AK4LeadingPt=pfJetsCollection[0].Pt();
 //    AK4SubleadingPt=pfJetsCollection[1].Pt();
-  
+   //bool good=false;
    for(edm::View<reco::PFJet>::const_iterator ijet=pfjets8->begin(); ijet!=pfjets8->end();ijet++){
      if ( ijet->pt() < 40.0 || fabs( ijet->eta() ) > 2.5 ) continue;
      pfJets8Collection.push_back( TLorentzVector( ijet->px(), ijet->py(), ijet->pz(), ijet->energy() ) );
+     //if (ijet->pt()>400 && ijet->mass()>60) good=true;
    }
    float AK8LeadingMass=0;
    float AK8SubleadingMass=0;
    sort( pfJets8Collection.begin(), pfJets8Collection.end(), compare_JetMass);
-   if (pfJets8Collection.size()>0) AK8LeadingMass=pfJets8Collection[0].M();
+   if (pfJets8Collection.size()>0) {AK8LeadingMass=pfJets8Collection[0].M(); phiw=pfJets8Collection[0].Phi();}
    if (pfJets8Collection.size()>1) AK8SubleadingMass=pfJets8Collection[1].M();
+   bool dphi=fabs(phimax-phiw);
+   if(dphi > M_PI) dphi = 2* M_PI - dphi;
+   bool phicond= dphi> 2.0*3.0/3.1415;
    float AK8LeadingPt=0;
    float AK8LeadingEta=100;
    float AK8SubleadingPt=0;
@@ -258,16 +268,16 @@ TriggerStudies::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    //additional trigger selection
     //bool base_dijet_trigger_cut = triggerResults->accept(triggerBit2);
    
-   ////bW selection
-   // //pT threshold AK8
-   // bool bW_AK8_pT_cut = (AK8LeadingPt > minPt8);
-   // //bool bW_AK8_pT_cut = (AK8SubleadingPt > minPt8);
-   // //at least one btag
-   // bool bW_AK4_btag_cut = (nbtags > 0);
-   // //W mass requirement
-   // bool bW_AK8_mass_cut = (AK8LeadingMass > minMass8);
-   // //final combined cut
-   // bool bW_selection = bW_AK8_pT_cut && bW_AK4_btag_cut && bW_AK8_mass_cut;// && base_dijet_trigger_cut;
+   //bW selection
+   //pT threshold AK8
+   bool bW_AK8_pT_cut = (AK8LeadingPt > minPt8);
+   //bool bW_AK8_pT_cut = (AK8SubleadingPt > minPt8);
+   //at least one btag
+   bool bW_AK4_btag_cut = (nbtags > 0);
+   //W mass requirement
+   bool bW_AK8_mass_cut = (AK8LeadingMass > minMass8);
+   //final combined cut
+   bool bW_selection = bW_AK8_pT_cut && bW_AK4_btag_cut && bW_AK8_mass_cut && phicond;// && base_dijet_trigger_cut;
    
    
    ////tH selection
@@ -293,8 +303,8 @@ TriggerStudies::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    histos1D_[ "jetPt2" ]->Fill( AK8SubleadingPt );
    histos1D_[ "eta" ]->Fill( AK8LeadingEta );
    
-   //if(bW_selection)
-    if(tH_selection)//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   if(bW_selection)
+   // if(tH_selection)//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
    {
      histos1D_[ "maxCSVDenom" ]->Fill( maxCSV );
      histos1D_[ "maxCSV2Denom" ]->Fill( maxCSV2 );
@@ -303,8 +313,8 @@ TriggerStudies::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
      histos1D_[ "jetPtDenom" ]->Fill( AK8LeadingPt );
      histos1D_[ "jetMass2Denom" ]->Fill( AK8SubleadingMass );
      histos1D_[ "jetPt2Denom" ]->Fill( AK8SubleadingPt );
-     //if (triggerResults->accept(triggerBit))
-      if (triggerResults->accept(triggerBit) || triggerResults->accept(triggerBit2)) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     if (triggerResults->accept(triggerBit))
+     // if (triggerResults->accept(triggerBit) || triggerResults->accept(triggerBit2)) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //     if (triggerResults->accept(triggerBit) || triggerResults->accept(triggerBit2) || triggerResults->accept(triggerBit3))//!!!!!!!!!!!!!!!!!
      {
        histos1D_[ "maxCSVPassing" ]->Fill( maxCSV );

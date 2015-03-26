@@ -8,7 +8,7 @@ minCSV_par = "0.814"
 
 minMass_par = "100"#tH
 minMass8_par = "60"#bW
-minPt8_par = "200"#tH bW
+minPt8_par = "500"#tH bW
 
 
 triggermenu=[
@@ -36,9 +36,10 @@ triggermenu=[
 
 for triggerpath in triggermenu:
   globals()[triggerpath[4:-3]]=cms.EDAnalyzer("TriggerStudies",
+
     triggerPath = cms.string( triggerpath ),
     pfJets = cms.InputTag( "ak4PFJetsCHS" ),
-    pfJets8 = cms.InputTag( "ak8PFJetsCHS" ),
+    pfJets8 = cms.InputTag( "ak8PFJetsTrimmed" ),
     minHT = cms.double(minHT_par),
     minMass = cms.double(minMass_par),
     minPt = cms.double(minPt_par),
@@ -47,8 +48,19 @@ for triggerpath in triggermenu:
     minPt8 = cms.double(minPt8_par)
     )
 
-percorso=globals()[triggermenu[0][4:-3]]
+
+from RecoJets.JetProducers.ak4PFJetsTrimmed_cfi import ak4PFJetsTrimmed
+
+ak8PFJetsTrimmed=ak4PFJetsTrimmed.clone()
+
+ak8PFJetsTrimmed.rParam = cms.double(0.8)
+ak8PFJetsTrimmed.rFilt = cms.double(0.1)
+ak8PFJetsTrimmed.trimPtFracMin = cms.double(0.03)
+
+percorso=ak8PFJetsTrimmed
+percorso+=globals()[triggermenu[0][4:-3]]
 for triggerpath in triggermenu[1:]:
   percorso+=globals()[triggerpath[4:-3]]
+
 p=cms.Path(percorso)
 

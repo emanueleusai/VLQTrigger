@@ -12,7 +12,8 @@ if len(argv[1:])>0:
   postfix=argv[1]
   #foldername=argv[2]
 #f=TFile(postfix,'READ')
-filename_list=['trgout_Zp'+postfix+'.root','trgout_bW1200'+postfix+'.root' , 'trgout_bW800'+postfix+'.root' , 'trgout_tH1200'+postfix+'.root' , 'trgout_tH800'+postfix+'.root', 'trgout_TpTp'+postfix+'.root']
+filename_list=['trgout_bW1200'+postfix+'.root' , 'trgout_bW800'+postfix+'.root' ]
+#filename_list=['trgout_Zp'+postfix+'.root','trgout_bW1200'+postfix+'.root' , 'trgout_bW800'+postfix+'.root' , 'trgout_tH1200'+postfix+'.root' , 'trgout_tH800'+postfix+'.root', 'trgout_TpTp'+postfix+'.root']
 # filename_list=['trgout_bW1200.root' , 'trgout_bW800.root' , 'trgout_tH1200.root' , 'trgout_tH800.root']
 kinematic_names=["nBtag","nJet","HT","jetMass","jetPt","jetMass2","jetPt2","eta","nJet4","maxCSV","maxCSV2"]
 efficiency_names=["HT","jetMass","jetPt","jetMass2","jetPt2","HTTH","jetMassTH","jetPtTH","jetMass2TH","jetPt2TH","maxCSV","maxCSVTH","maxCSV2","maxCSV2TH"]
@@ -134,10 +135,10 @@ def doeff(filename, histoname, triggername, rebin=1):
   error_bars.Divide(numerator,denominator,"cl=0.683 b(1,1) mode")
   outfile.cd()
   error_bars.Write(filename.split('.')[0]+'_'+histoname+'_'+triggername)
-  return n_num/n_den
+  return n_num/(n_den+0.00001)
   
-for i in kinematic_names:
-  compare(i,filename_list,['PFHT900/'+i]*6,["Z' 1 TeV","T'#rightarrow bW 1.2 TeV" , "T'#rightarrow bW 0.8 TeV" , "T'#rightarrow tH 1.2 TeV" , "T'#rightarrow tH 0.8 TeV", "T'T' 1 TeV"],True)
+# for i in kinematic_names:
+#   compare(i,filename_list,['PFHT900/'+i]*6,["Z' 1 TeV","T'#rightarrow bW 1.2 TeV" , "T'#rightarrow bW 0.8 TeV" , "T'#rightarrow tH 1.2 TeV" , "T'#rightarrow tH 0.8 TeV", "T'T' 1 TeV"],True)
 
 
 
@@ -163,8 +164,8 @@ for filename in filename_list:
       compare("eff_"+filename.split('.')[0]+'_'+histoname+'_'+triggername,filename.split('.')[0]+"_"+histoname+"_",[triggername],[],False, True)
 
 for filename in filename_list:
-  compare("comp2_"+filename.split('.')[0]+'_jetPtTH','',[filename.split('.')[0]+"_jetPtTH_"+'AK8PFJet360TrimMod_Mass30',filename.split('.')[0]+"_jetPtTH_"+'AK8DiPFJet280_200_TrimMass30_BTagCSV0p41',filename.split('.')[0]+"_jetPt_"+'AK8DiPFJet280_200_TrimMass30_BTagCSV0p41'],[],False, True, True,filename)
-  for histoname in ['HTTH','jetPtTH','HT','jetPt','jetMass','jetMassTH','maxCSV','maxCSVTH','maxCSV2','maxCSV2TH']: 
+  #compare("comp2_"+filename.split('.')[0]+'_jetPtTH','',[filename.split('.')[0]+"_jetPtTH_"+'AK8PFJet360TrimMod_Mass30',filename.split('.')[0]+"_jetPtTH_"+'AK8DiPFJet280_200_TrimMass30_BTagCSV0p41',filename.split('.')[0]+"_jetPt_"+'AK8DiPFJet280_200_TrimMass30_BTagCSV0p41'],[],False, True, True,filename)
+  for histoname in ['HT','jetPt','jetMass']:#['HTTH','jetPtTH','HT','jetPt','jetMass','jetMassTH','maxCSV','maxCSVTH','maxCSV2','maxCSV2TH']: 
       compare("comp1_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",['PFHT900','AK8PFJet360TrimMod_Mass30','AK8DiPFJet280_200_TrimMass30_BTagCSV0p41','AK8PFHT700_TrimR0p1PT0p03Mass50'],[],False, True, True,filename)
       #compare("comp1_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",['AK8DiPFJet300_200TrimMod_Mass30_BTagCSVLoose0p3','AK8DiPFJet280_200TrimMod_Mass30_BTagCSVLoose0p3'],[],False, True)
       # compare("comp2_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",['AK8DiPFJet300_200TrimMod_Mass30_BTagCSVLoose0p5','AK8DiPFJet280_200TrimMod_Mass30_BTagCSVLoose0p5'],[],False, True)

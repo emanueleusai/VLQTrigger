@@ -525,7 +525,7 @@ tH800list=[
 dizionario={'tH800':tH800list,'tH1200':tH1200list,'TpTp':TpTplist, 'test':testlist, 'Zp':Zplist, 'bW800':bW800list,'bW1200':bW1200list}
 
 process.TFileService=cms.Service("TFileService",
-fileName=cms.string('trgout_'+NAME+'or.root'))
+fileName=cms.string('trgout_'+NAME+'500phi.root'))
 
 process.source = cms.Source("PoolSource",
     # replace 'myfile.root' with the source file you want to use
@@ -548,5 +548,11 @@ process.source.duplicateCheckMode = cms.untracked.string('noDuplicateCheck')
 #)
 
 process.load("VLQTrigger.TriggerStudies.TriggerMenu_cff")
+
+
+# process.out = cms.OutputModule("PoolOutputModule",
+#                 fileName = cms.untracked.string("file:/nfs/dust/cms/user/usaiem/test2.root")
+#         )
+# process.outpath=cms.EndPath(process.out)
 
 

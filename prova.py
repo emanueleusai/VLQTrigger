@@ -12,7 +12,7 @@ process.GlobalTag.globaltag = cms.string('PHYS14_25_V2::All')
 process.source = cms.Source ("PoolSource",
                         fileNames=cms.untracked.vstring(
                 #'file:/nfs/dust/cms/user/marchesi/RECO_files/CMSSW_7_2_0_pre7/tprime_RECO_TpjM1200_bW_13TeV_1.root',
-                "file:B2G-Phys14DR-00039_step2.root",
+                "file:/afs/desy.de/user/u/usaiem/xxl-af-cms/code/cmssw/CMSSW_7_3_2_patch2/src/MyStudies/B2G-Phys14DR-00039_step2.root",
         )
                 )
 
