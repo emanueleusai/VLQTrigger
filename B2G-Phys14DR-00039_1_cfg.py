@@ -5,7 +5,7 @@
 # with command line options: step1 --filein dbs:/TprimeTprime_M_1000_Tune4C_13TeV-madgraph/Phys14DR-PU20bx25_PHYS14_25_V1-v1/GEN-SIM-RAW --fileout file:B2G-Phys14DR-00039_step1.root --pileup_input dbs:/MinBias_TuneA2MB_13TeV-pythia8/Fall13-POSTLS162_V1-v1/GEN-SIM --mc --eventcontent RAWSIM --inputEventContent REGEN --pileup AVE_20_BX_25ns --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,Configuration/DataProcessing/Utils.addMonitoring --datatier GEN-SIM-RAW --conditions PHYS14_25_V2 --step DIGI,L1,DIGI2RAW,HLT:User --magField 38T_PostLS1 --python_filename B2G-Phys14DR-00039_1_cfg.py --processName=HLT2 --no_exec -n 3
 import FWCore.ParameterSet.Config as cms
 
-process = cms.Process('HLT2')
+process = cms.Process('HLT')
 
 # import of standard configurations
 process.load('Configuration.StandardSequences.Services_cff')
@@ -29,16 +29,7 @@ process.maxEvents = cms.untracked.PSet(
 # Input source
 process.source = cms.Source("PoolSource",
     secondaryFileNames = cms.untracked.vstring(),
-    fileNames = cms.untracked.vstring('/store/mc/Phys14DR/TprimeTprime_M_1000_Tune4C_13TeV-madgraph/GEN-SIM-RAW/PU20bx25_PHYS14_25_V1-v1/00000/00236237-FB66-E411-9F51-485B39800BF2.root', 
-        '/store/mc/Phys14DR/TprimeTprime_M_1000_Tune4C_13TeV-madgraph/GEN-SIM-RAW/PU20bx25_PHYS14_25_V1-v1/00000/026EDAA9-E166-E411-8FDC-002590D0B00C.root', 
-        '/store/mc/Phys14DR/TprimeTprime_M_1000_Tune4C_13TeV-madgraph/GEN-SIM-RAW/PU20bx25_PHYS14_25_V1-v1/00000/02DF97F6-F766-E411-A680-E0CB4E29C4D8.root', 
-        '/store/mc/Phys14DR/TprimeTprime_M_1000_Tune4C_13TeV-madgraph/GEN-SIM-RAW/PU20bx25_PHYS14_25_V1-v1/00000/0421B8A8-E166-E411-B4CB-002590D0AFC8.root', 
-        '/store/mc/Phys14DR/TprimeTprime_M_1000_Tune4C_13TeV-madgraph/GEN-SIM-RAW/PU20bx25_PHYS14_25_V1-v1/00000/042F974A-EE66-E411-821E-20CF3027A5DC.root', 
-        '/store/mc/Phys14DR/TprimeTprime_M_1000_Tune4C_13TeV-madgraph/GEN-SIM-RAW/PU20bx25_PHYS14_25_V1-v1/00000/043751A9-E166-E411-87D2-0025905280BE.root', 
-        '/store/mc/Phys14DR/TprimeTprime_M_1000_Tune4C_13TeV-madgraph/GEN-SIM-RAW/PU20bx25_PHYS14_25_V1-v1/00000/0A1688B0-E166-E411-A274-00259074AE7A.root', 
-        '/store/mc/Phys14DR/TprimeTprime_M_1000_Tune4C_13TeV-madgraph/GEN-SIM-RAW/PU20bx25_PHYS14_25_V1-v1/00000/0A3BA414-F166-E411-8E37-20CF30724B0A.root', 
-        '/store/mc/Phys14DR/TprimeTprime_M_1000_Tune4C_13TeV-madgraph/GEN-SIM-RAW/PU20bx25_PHYS14_25_V1-v1/00000/0AC0F0A2-0967-E411-A299-0025907B4ECA.root', 
-        '/store/mc/Phys14DR/TprimeTprime_M_1000_Tune4C_13TeV-madgraph/GEN-SIM-RAW/PU20bx25_PHYS14_25_V1-v1/00000/0ACC4F06-E166-E411-8EBD-E0CB4EA0A8FA.root'),
+    fileNames = cms.untracked.vstring('file:/nfs/dust/cms/user/usaiem/gc-output/ZpToVLQ/ZpSIM4/bW_0_sim.root'),
     inputCommands = cms.untracked.vstring('keep *', 
         'drop *_genParticles_*_*', 
         'drop *_genParticlesForJets_*_*', 
