@@ -6,4 +6,5 @@
 <use name="CommonTools/UtilAlgos"/>
 <use name="HLTrigger/HLTcore"/>
 <use name="DataFormats/JetReco"/>
+<use name="DataFormats/PatCandidates"/>
 <flags EDM_PLUGIN="1"/>

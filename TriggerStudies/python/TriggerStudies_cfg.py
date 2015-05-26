@@ -1,558 +1,236 @@
+# import FWCore.ParameterSet.Config as cms
+# import sys
+
+# NAME = sys.argv[2]
+
+# process = cms.Process("TriggerStudies")
+
+# process.load("FWCore.MessageService.MessageLogger_cfi")
+
+# process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(1000) )
+
+
+
+
+
+# from VLQTrigger.TriggerStudies.Samples_cff import *
+
+
+# process.TFileService=cms.Service("TFileService",
+# fileName=cms.string('trgout_'+NAME+'test.root'))
 import FWCore.ParameterSet.Config as cms
 import sys
-
 NAME = sys.argv[2]
-
 process = cms.Process("TriggerStudies")
-
 process.load("FWCore.MessageService.MessageLogger_cfi")
-
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
-
-process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_cff')
-process.GlobalTag.globaltag = cms.string('PHYS14_25_V2::All')
-
-testlist=['file:/afs/desy.de/user/u/usaiem/xxl-af-cms/code/cmssw/CMSSW_7_3_2_patch2/src/MyStudies/B2G-Phys14DR-00039_step2.root']
-
-Zplist=['file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_0_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_10_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_11_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_12_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_13_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_14_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_15_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_16_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_17_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_18_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_19_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_1_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_20_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_21_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_22_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_23_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_24_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_25_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_26_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_27_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_28_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_29_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_2_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_30_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_31_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_32_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_33_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_34_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_35_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_36_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_37_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_38_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_39_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_3_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_40_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_41_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_42_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_43_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_44_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_45_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_46_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_47_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_48_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_49_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_4_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_5_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_6_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_7_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_8_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/ZpStep2/ZpStep2_9_B2G-Phys14DR-00039_step2.root',]
-
-TpTplist=['file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_0_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_10_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_11_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_12_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_13_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_14_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_15_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_16_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_17_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_18_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_19_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_1_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_20_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_21_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_22_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_23_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_24_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_25_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_26_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_27_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_28_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_29_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_2_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_30_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_31_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_32_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_33_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_34_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_35_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_36_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_37_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_38_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_39_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_3_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_40_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_41_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_42_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_43_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_44_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_45_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_46_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_47_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_48_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_49_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_4_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_5_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_6_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_7_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_8_B2G-Phys14DR-00039_step2.root',
-'file:/nfs/dust/cms/user/usaiem/gc-output/TriggerStudies/TpTpStep2/TpTpStep2_9_B2G-Phys14DR-00039_step2.root',]
-
-bW1200list=[
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_1.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_10.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_100.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_11.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_12.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_13.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_14.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_15.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_16.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_17.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_18.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_19.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_2.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_20.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_21.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_22.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_23.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_24.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_25.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_26.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_27.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_28.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_29.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_3.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_30.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_31.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_32.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_33.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_34.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_35.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_36.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_37.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_38.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_39.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_4.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_40.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_41.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_42.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_43.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_44.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_45.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_46.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_47.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_48.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_49.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_5.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_50.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_51.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_52.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_53.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_54.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_55.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_56.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_57.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_59.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_6.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_60.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_61.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_62.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_63.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_64.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_65.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_66.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_67.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_68.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_69.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_7.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_70.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_71.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_72.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_73.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_74.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_75.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_76.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_77.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_78.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_79.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_8.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_80.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_81.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_82.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_84.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_85.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_86.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_87.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_88.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_89.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_9.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_90.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_91.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_92.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_93.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_94.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_95.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_96.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_97.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_98.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_bW_13TeV_xqcut0_99.root',
-]
-
-tH1200list=[
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_1.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_10.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_100.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_11.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_12.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_13.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_14.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_15.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_16.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_17.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_18.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_19.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_2.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_20.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_21.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_22.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_23.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_24.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_25.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_26.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_27.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_28.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_29.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_3.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_30.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_31.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_32.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_33.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_34.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_35.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_36.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_37.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_38.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_39.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_4.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_40.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_41.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_42.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_43.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_44.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_45.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_46.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_47.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_48.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_49.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_5.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_50.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_51.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_52.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_53.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_54.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_55.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_56.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_57.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_58.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_59.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_6.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_60.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_61.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_62.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_63.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_64.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_65.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_66.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_67.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_68.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_69.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_7.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_70.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_71.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_72.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_73.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_74.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_76.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_77.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_78.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_79.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_8.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_80.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_81.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_82.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_83.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_84.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_85.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_86.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_87.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_88.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_89.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_9.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_90.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_91.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_92.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_93.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_94.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_95.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_96.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_97.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_98.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM1200_tH_13TeV_xqcut0_99.root']
-
-bW800list=[
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_1.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_10.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_100.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_11.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_12.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_13.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_14.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_15.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_16.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_17.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_18.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_19.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_2.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_20.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_21.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_22.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_23.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_24.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_25.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_26.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_27.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_28.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_29.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_3.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_30.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_31.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_32.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_33.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_34.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_35.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_36.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_37.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_38.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_39.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_4.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_40.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_41.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_42.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_44.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_45.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_46.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_47.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_48.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_49.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_5.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_50.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_51.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_52.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_53.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_54.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_55.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_56.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_57.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_58.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_59.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_6.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_60.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_61.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_62.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_63.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_64.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_65.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_66.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_67.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_68.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_69.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_7.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_70.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_71.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_72.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_73.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_74.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_75.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_76.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_77.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_78.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_79.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_8.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_80.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_81.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_82.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_83.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_84.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_85.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_86.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_87.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_88.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_89.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_9.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_90.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_91.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_92.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_93.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_94.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_95.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_96.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_97.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_98.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_bW_13TeV_xqcut0_99.root',
-]
-
-tH800list=[
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_1.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_10.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_100.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_11.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_12.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_13.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_14.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_15.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_16.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_17.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_18.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_19.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_2.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_20.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_21.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_22.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_23.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_24.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_25.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_26.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_27.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_29.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_3.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_30.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_31.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_32.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_33.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_34.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_35.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_36.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_37.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_38.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_39.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_4.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_40.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_41.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_42.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_43.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_44.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_45.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_46.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_47.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_48.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_49.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_5.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_50.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_51.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_52.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_53.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_54.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_55.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_56.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_57.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_58.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_59.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_6.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_60.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_61.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_62.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_63.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_64.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_65.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_66.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_67.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_68.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_69.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_7.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_70.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_71.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_72.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_73.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_74.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_75.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_76.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_77.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_78.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_79.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_8.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_80.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_81.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_82.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_83.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_84.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_85.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_86.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_87.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_88.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_89.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_9.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_90.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_91.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_92.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_93.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_94.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_95.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_96.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_97.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_98.root',
-'file:/nfs/dust/cms/user/marchesi/RECO_files_Phys14like/CMSSW_7_3_2_patch2/tprime_RECO_TpjM800_tH_13TeV_xqcut0_99.root']
-
-
-dizionario={'tH800':tH800list,'tH1200':tH1200list,'TpTp':TpTplist, 'test':testlist, 'Zp':Zplist, 'bW800':bW800list,'bW1200':bW1200list}
-
-process.TFileService=cms.Service("TFileService",
-fileName=cms.string('trgout_'+NAME+'500phi.root'))
-
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(1000) )
+from VLQTrigger.TriggerStudies.Samples_cff import dizionario
 process.source = cms.Source("PoolSource",
-    # replace 'myfile.root' with the source file you want to use
-    fileNames = cms.untracked.vstring(
-    #    'file:/nfs/dust/cms/user/marchesi/RECO_files_new/CMSSW_7_2_0_pre8/tprime_RECO_TpjM1200_bW_13TeV_1.root',
-#'file:/nfs/dust/cms/user/marchesi/RECO_files_new/CMSSW_7_2_0_pre8/tprime_RECO_TpjM1200_bW_13TeV_10.root'
-
-#'file:/nfs/dust/cms/user/usaiem/trigger/CMSSW_7_2_0_pre7/src/B2G-Spring14dr-00019.root'
-
-#"file:/pnfs/desy.de/cms/tier2/store/mc/Spring14dr/QCD_Pt-600to800_Tune4C_13TeV_pythia8/GEN-SIM-RECODEBUG/castor_PU_S14_POSTLS170_V6-v1/00000/0210858E-A409-E411-814E-0025901D40CA.root"
-
-dizionario[NAME]
-
-    ),
+    fileNames = cms.untracked.vstring(dizionario[NAME]),
     skipBadFiles= cms.untracked.bool(True)
 )
 process.source.duplicateCheckMode = cms.untracked.string('noDuplicateCheck')
 
-#process.triggerstudies = cms.EDAnalyzer('TriggerStudies'
-#)
+process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_cff')
+process.GlobalTag.globaltag = cms.string('MCRUN2_74_V9A::All')
 
 process.load("VLQTrigger.TriggerStudies.TriggerMenu_cff")
 
+process.TFileService=cms.Service("TFileService",
+fileName=cms.string('trgout_'+NAME+'run2.root'))
+
+# bTagDiscriminators = [
+#     'pfCombinedInclusiveSecondaryVertexV2BJetTags'
+# ]
+# from PhysicsTools.PatAlgos.tools.jetTools import addJetCollection
+# addJetCollection(
+#     process,
+#     labelName = 'ca15CHSJetsFiltered',
+#     jetSource = cms.InputTag('ca15CHSJetsFiltered'),
+#     pvSource = cms.InputTag('offlineSlimmedPrimaryVertices'),
+#     pfCandidates = cms.InputTag('chs'),
+#     svSource = cms.InputTag('slimmedSecondaryVertices'),
+#     btagDiscriminators = bTagDiscriminators,
+#     jetCorrections = ('AK4PFchs', ['L1FastJet', 'L2Relative', 'L3Absolute'], 'None'),
+#     genJetCollection = cms.InputTag('slimmedGenJetsAK8'),
+#     genParticles = cms.InputTag('prunedGenParticles'),
+#     algo = 'CA',
+#     rParam = 1.5
+# )
+
+# process.OUT = cms.OutputModule("PoolOutputModule",
+#     fileName = cms.untracked.string('test.root'),
+# )
+
+# process.endpath= cms.EndPath(process.OUT)
+
+# process.options = cms.untracked.PSet(
+#         allowUnscheduled = cms.untracked.bool(True)
+# )
+
+# from PhysicsTools.PatAlgos.tools.jetTools import addJetCollection
+# addJetCollection(
+#     process,
+#     labelName = 'AK4PFCHS',
+#     jetSource = cms.InputTag('ak4PFJetsCHS'),
+#     pvSource = cms.InputTag('offlineSlimmedPrimaryVertices'),
+#     pfCandidates = cms.InputTag('packedPFCandidates'),
+#     svSource = cms.InputTag('slimmedSecondaryVertices'),
+#     btagDiscriminators = bTagDiscriminators,
+#     jetCorrections = ('AK4PFchs', ['L1FastJet', 'L2Relative', 'L3Absolute'], 'None'),
+#     genJetCollection = cms.InputTag('ak4GenJetsNoNu'),
+#     genParticles = cms.InputTag('prunedGenParticles'),
+#     algo = 'AK',
+#     rParam = 0.4
+# )
+
+# #process.triggerstudies = cms.EDAnalyzer('TriggerStudies'
+# #)
+
+# process.load("VLQTrigger.TriggerStudies.TriggerMenu_cff")
+
+
+
+# process.selectedMuons = cms.EDFilter("CandPtrSelector", src = cms.InputTag("slimmedMuons"), cut = cms.string('''abs(eta)<2.5 && pt>10. &&
+#        (pfIsolationR04().sumChargedHadronPt+
+# 	max(0.,pfIsolationR04().sumNeutralHadronEt+
+# 	pfIsolationR04().sumPhotonEt-
+# 	0.50*pfIsolationR04().sumPUPt))/pt < 0.20 && 
+# 	(isPFMuon && (isGlobalMuon || isTrackerMuon) )'''))
+# process.selectedElectrons = cms.EDFilter("CandPtrSelector", src = cms.InputTag("slimmedElectrons"), cut = cms.string('''abs(eta)<2.5 && pt>20. &&
+# 	gsfTrack.isAvailable() &&
+# 	gsfTrack.hitPattern().numberOfLostHits(\'MISSING_INNER_HITS\') < 2 &&
+# 	(pfIsolationVariables().sumChargedHadronPt+
+# 	max(0.,pfIsolationVariables().sumNeutralHadronEt+
+# 	pfIsolationVariables().sumPhotonEt-
+# 	0.5*pfIsolationVariables().sumPUPt))/pt < 0.15'''))
+# ## Do projections
+# process.pfCHS = cms.EDFilter("CandPtrSelector", src = cms.InputTag("packedPFCandidates"), cut = cms.string("fromPV"))
+# process.pfNoMuonCHS =  cms.EDProducer("CandPtrProjector", src = cms.InputTag("pfCHS"), veto = cms.InputTag("selectedMuons"))
+# process.pfNoElectronsCHS = cms.EDProducer("CandPtrProjector", src = cms.InputTag("pfNoMuonCHS"), veto = cms.InputTag("selectedElectrons"))
+
+# #Import RECO jet producer for ak4 PF and GEN jet
+# from RecoJets.JetProducers.ak4PFJets_cfi import ak4PFJets
+# from RecoJets.JetProducers.ak4GenJets_cfi import ak4GenJets
+# process.ak4PFJetsCHS = ak4PFJets.clone(src = 'pfNoElectronsCHS', doAreaFastjet = True)
+# process.packedGenParticlesForJetsNoNu = cms.EDFilter("CandPtrSelector", src = cms.InputTag("packedGenParticles"), cut = cms.string("abs(pdgId) != 12 && abs(pdgId) != 14 && abs(pdgId) != 16"))
+# process.ak4GenJetsNoNu = ak4GenJets.clone(src = 'packedGenParticlesForJetsNoNu')
+
+# # The following is make patJets, but EI is done with the above
+# process.load("Configuration.StandardSequences.MagneticField_cff")
+# process.load("Configuration.Geometry.GeometryRecoDB_cff")
+# process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
+# from Configuration.AlCa.GlobalTag import GlobalTag
+# process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc')
+
+# bTagDiscriminators = [
+#     'pfCombinedInclusiveSecondaryVertexV2BJetTags'
+# ]
+
+# from PhysicsTools.PatAlgos.tools.jetTools import addJetCollection
+# addJetCollection(
+#     process,
+#     labelName = 'AK4PFCHS',
+#     jetSource = cms.InputTag('ak4PFJetsCHS'),
+#     pvSource = cms.InputTag('offlineSlimmedPrimaryVertices'),
+#     pfCandidates = cms.InputTag('packedPFCandidates'),
+#     svSource = cms.InputTag('slimmedSecondaryVertices'),
+#     btagDiscriminators = bTagDiscriminators,
+#     jetCorrections = ('AK4PFchs', ['L1FastJet', 'L2Relative', 'L3Absolute'], 'None'),
+#     genJetCollection = cms.InputTag('ak4GenJetsNoNu'),
+#     genParticles = cms.InputTag('prunedGenParticles'),
+#     algo = 'AK',
+#     rParam = 0.4
+# )
+
+# #adjust PV used for Jet Corrections
+# process.patJetCorrFactorsAK4PFCHS.primaryVertices = "offlineSlimmedPrimaryVertices"
+
+# process.options = cms.untracked.PSet(
+#         allowUnscheduled = cms.untracked.bool(True)
+# )
 
 # process.out = cms.OutputModule("PoolOutputModule",
 #                 fileName = cms.untracked.string("file:/nfs/dust/cms/user/usaiem/test2.root")
 #         )
 # process.outpath=cms.EndPath(process.out)
 
+# import FWCore.ParameterSet.Config as cms
 
+# process = cms.Process("EX")
+# # Input source
+# process.source = cms.Source("PoolSource",
+#                                 fileNames = cms.untracked.vstring(
+#         'file:miniAOD-prod_PAT.root'
+#     )
+# )
+
+# process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
+
+#select isolated  muons and electrons collections
+#tune the requirements to whatever ID and isolation you prefer 
+
+# process.selectedMuons = cms.EDFilter("CandPtrSelector", src = cms.InputTag("slimmedMuons"), cut = cms.string('''abs(eta)<2.5 && pt>10. &&
+#        (pfIsolationR04().sumChargedHadronPt+
+# 	max(0.,pfIsolationR04().sumNeutralHadronEt+
+# 	pfIsolationR04().sumPhotonEt-
+# 	0.50*pfIsolationR04().sumPUPt))/pt < 0.20 && 
+# 	(isPFMuon && (isGlobalMuon || isTrackerMuon) )'''))
+# process.selectedElectrons = cms.EDFilter("CandPtrSelector", src = cms.InputTag("slimmedElectrons"), cut = cms.string('''abs(eta)<2.5 && pt>20. &&
+# 	gsfTrack.isAvailable() &&
+# 	gsfTrack.hitPattern().numberOfLostHits(\'MISSING_INNER_HITS\') < 2 &&
+# 	(pfIsolationVariables().sumChargedHadronPt+
+# 	max(0.,pfIsolationVariables().sumNeutralHadronEt+
+# 	pfIsolationVariables().sumPhotonEt-
+# 	0.5*pfIsolationVariables().sumPUPt))/pt < 0.15'''))
+# ## Do projections
+# process.pfCHS = cms.EDFilter("CandPtrSelector", src = cms.InputTag("packedPFCandidates"), cut = cms.string("fromPV"))
+# process.pfNoMuonCHS =  cms.EDProducer("CandPtrProjector", src = cms.InputTag("pfCHS"), veto = cms.InputTag("selectedMuons"))
+# process.pfNoElectronsCHS = cms.EDProducer("CandPtrProjector", src = cms.InputTag("pfNoMuonCHS"), veto = cms.InputTag("selectedElectrons"))
+
+# #Import RECO jet producer for ak4 PF and GEN jet
+# from RecoJets.JetProducers.ak4PFJets_cfi import ak4PFJets
+# from RecoJets.JetProducers.ak4GenJets_cfi import ak4GenJets
+# process.ak4PFJetsCHS = ak4PFJets.clone(src = 'pfNoElectronsCHS', doAreaFastjet = True)
+# process.packedGenParticlesForJetsNoNu = cms.EDFilter("CandPtrSelector", src = cms.InputTag("packedGenParticles"), cut = cms.string("abs(pdgId) != 12 && abs(pdgId) != 14 && abs(pdgId) != 16"))
+# process.ak4GenJetsNoNu = ak4GenJets.clone(src = 'packedGenParticlesForJetsNoNu')
+
+# # The following is make patJets, but EI is done with the above
+# process.load("Configuration.StandardSequences.MagneticField_cff")
+# process.load("Configuration.Geometry.GeometryRecoDB_cff")
+# process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
+# from Configuration.AlCa.GlobalTag import GlobalTag
+# process.GlobalTag = GlobalTag(process.GlobalTag, 'MCRUN2_74_V9::All')
+
+# bTagDiscriminators = [
+#     'pfCombinedInclusiveSecondaryVertexV2BJetTags'
+# ]
+
+# from PhysicsTools.PatAlgos.tools.jetTools import addJetCollection
+# addJetCollection(
+#     process,
+#     labelName = 'AK4PFCHS',
+#     jetSource = cms.InputTag('ak4PFJetsCHS'),
+#     pvSource = cms.InputTag('offlineSlimmedPrimaryVertices'),
+#     pfCandidates = cms.InputTag('packedPFCandidates'),
+#     svSource = cms.InputTag('slimmedSecondaryVertices'),
+#     btagDiscriminators = bTagDiscriminators,
+#     jetCorrections = ('AK4PFchs', ['L1FastJet', 'L2Relative', 'L3Absolute'], 'None'),
+#     genJetCollection = cms.InputTag('ak4GenJetsNoNu'),
+#     genParticles = cms.InputTag('prunedGenParticles'),
+#     algo = 'AK',
+#     rParam = 0.4
+# )
+
+# #adjust PV used for Jet Corrections
+# process.patJetCorrFactorsAK4PFCHS.primaryVertices = "offlineSlimmedPrimaryVertices"
+
+#new PAT default running is "unscheduled" so we just need to say in the outputCommands what we want to store
+
+
+# process.OUT = cms.OutputModule("PoolOutputModule",
+#     fileName = cms.untracked.string('test.root'),
+#     outputCommands = cms.untracked.vstring(['drop *','keep patJets_patJetsAK4PFCHS_*_*','keep *_*_*_PAT'])
+# )
+# 
+# process.endpath= cms.EndPath(process.OUT)
