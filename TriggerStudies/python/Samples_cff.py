@@ -44,33 +44,33 @@ M3000W300list=[
 ]
 
 RSG1250list=[
-'file:/nfs/dust/cms/user/usaiem/run2/RSG1250/',
-'file:/nfs/dust/cms/user/usaiem/run2/RSG1250/',
+'file:/nfs/dust/cms/user/usaiem/run2/RSG1250/A8A6F5CB-AD00-E511-93F4-008CFA197B54.root',
+'file:/nfs/dust/cms/user/usaiem/run2/RSG1250/AA4F5EF9-AD00-E511-93A6-008CFA197AC4.root',
 ]
 
 RSG3000list=[
-'file:/nfs/dust/cms/user/usaiem/run2/RSG3000/',
-'file:/nfs/dust/cms/user/usaiem/run2/RSG3000/',
+'file:/nfs/dust/cms/user/usaiem/run2/RSG3000/26C3219C-7001-E511-B182-0025905B8572.root',
+'file:/nfs/dust/cms/user/usaiem/run2/RSG3000/74E60777-7001-E511-BBCB-0025905B8562.root',
 ]
 
 RSG4000list=[
-'file:/nfs/dust/cms/user/usaiem/run2/RSG4000/',
-'file:/nfs/dust/cms/user/usaiem/run2/RSG4000/',
+'file:/nfs/dust/cms/user/usaiem/run2/RSG4000/A28A7A95-8501-E511-903F-00259073E456.root',
+'file:/nfs/dust/cms/user/usaiem/run2/RSG4000/D419142C-2A02-E511-A4F3-14DAE93E5699.root',
 ]
 
 Z1250list=[
-'file:/nfs/dust/cms/user/usaiem/run2/Z1250/',
-'file:/nfs/dust/cms/user/usaiem/run2/Z1250/',
+'file:/nfs/dust/cms/user/usaiem/run2/Z1250/9ABDB122-FF01-E511-A2EF-549F358EB7E4.root',
+'file:/nfs/dust/cms/user/usaiem/run2/Z1250/EC8F310A-CE01-E511-B3CD-008CFA1980B8.root',
 ]
 
 Z1500list=[
-'file:/nfs/dust/cms/user/usaiem/run2/Z1500/',
-'file:/nfs/dust/cms/user/usaiem/run2/Z1500/',
+'file:/nfs/dust/cms/user/usaiem/run2/Z1500/22E9C253-B500-E511-BB9E-00259029E84C.root',
+'file:/nfs/dust/cms/user/usaiem/run2/Z1500/7833CB7E-7C01-E511-AFF8-002590D9D9DA.root',
 ]
 
 Z2500list=[
-'file:/nfs/dust/cms/user/usaiem/run2/Z2500/',
-'file:/nfs/dust/cms/user/usaiem/run2/Z2500/',
+'file:/nfs/dust/cms/user/usaiem/run2/Z2500/10976E7D-D901-E511-8282-00304865C2D0.root',
+'file:/nfs/dust/cms/user/usaiem/run2/Z2500/66390E02-2602-E511-8528-F45214C748CE.root',
 ]
 
 Z3000list=[
@@ -79,8 +79,8 @@ Z3000list=[
 ]
 
 Z4000list=[
-'file:/nfs/dust/cms/user/usaiem/run2/Z4000/',
-'file:/nfs/dust/cms/user/usaiem/run2/Z4000/',
+'file:/nfs/dust/cms/user/usaiem/run2/Z4000/880CA4F6-2302-E511-96A5-002590A370FE.root',
+'file:/nfs/dust/cms/user/usaiem/run2/Z4000/92A1DB97-7F01-E511-B7AD-002590D0AF50.root',
 ]
 
 Zplist=["/store/user/htholen/ZPrimeToTTJets_M1000GeV_W100GeV_Tune4C_13TeV-madgraph-tauola/Trig20160506_Zp_TTJ_step2/150519_144643/0000/step2_RAW2DIGI_L1Reco_RECO_EI_1.root",

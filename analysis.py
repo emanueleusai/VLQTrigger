@@ -21,7 +21,15 @@ filename_list=['trgout_ZpM500W5'+postfix+'.root',
 'trgout_ZpM2000W200'+postfix+'.root',
 'trgout_ZpM2500W25'+postfix+'.root',
 'trgout_ZpM3000W30'+postfix+'.root',
-'trgout_ZpM3000W300'+postfix+'.root']
+'trgout_ZpM3000W300'+postfix+'.root',
+'trgout_RSG1250'+postfix+'.root',
+'trgout_RSG3000'+postfix+'.root',
+'trgout_RSG4000'+postfix+'.root',
+'trgout_Z1250'+postfix+'.root',
+'trgout_Z1500'+postfix+'.root',
+'trgout_Z2500'+postfix+'.root',
+'trgout_Z4000'+postfix+'.root',
+]
 #filename_list=['trgout_Zp'+postfix+'.root']#['trgout_bW1200'+postfix+'.root' , 'trgout_bW800'+postfix+'.root' ]
 #filename_list=['trgout_Zp'+postfix+'.root','trgout_bW1200'+postfix+'.root' , 'trgout_bW800'+postfix+'.root' , 'trgout_tH1200'+postfix+'.root' , 'trgout_tH800'+postfix+'.root', 'trgout_TpTp'+postfix+'.root']
 # filename_list=['trgout_bW1200.root' , 'trgout_bW800.root' , 'trgout_tH1200.root' , 'trgout_tH800.root']
@@ -55,6 +63,8 @@ trigger_paths=[
 trigger_names=[]
 for trigger in trigger_paths:
   trigger_names.append(trigger[4:-3])
+  trigger_names.append(trigger[4:-3]+'_ak8trim')
+  trigger_names.append(trigger[4:-3]+'_ak15trim')
 
 outfile=TFile("triggeranalysis"+postfix+".root","RECREATE")
 outfile.cd()
@@ -63,7 +73,7 @@ folder='pdf'+postfix+'/'
 if not exists(folder):
   mkdir(folder)
 
-def compare(name,file_list,name_list,legend_list,normalize=False, useOutfile=False,overlayKin=False,filename=''):
+def compare(name,file_list,name_list,legend_list,normalize=False, useOutfile=False,overlayKin=False,filename='',drawoption='',xmin=0,ymax=0,xmax=0):
   c=TCanvas(name,'',600,600)
   c.SetLeftMargin(0.15)#
   c.SetRightMargin(0.05)#
@@ -99,6 +109,8 @@ def compare(name,file_list,name_list,legend_list,normalize=False, useOutfile=Fal
       histo_list[-1].SetStats(0)
     histo_list[-1].SetLineWidth(3)
     histo_list[-1].SetLineColor(i+1)
+    if i>8:
+      histo_list[-1].SetLineColor(i+2)
     histo_list[-1].SetTitle('')
     if not useOutfile:
       legend.AddEntry(histo_list[-1],legend_list[i],'l')
@@ -109,10 +121,16 @@ def compare(name,file_list,name_list,legend_list,normalize=False, useOutfile=Fal
     if i==0:
       if not useOutfile:
         histo_list[i].SetMaximum(maxy)
+        if xmin!=0:
+          histo_list[i].GetXaxis().SetRangeUser(xmin,10000)
+        if ymax!=0:
+          histo_list[i].SetMaximum(ymax)
       else:
         histo_list[i].SetMaximum(1.05)
         histo_list[i].SetMinimum(0.0)
-      histo_list[i].Draw()
+        if xmax!=0:
+          histo_list[i].GetXaxis().SetRangeUser(0,xmax)
+      histo_list[i].Draw(drawoption)
       if useOutfile:
         if len(file_list.split('_'))>1:
           histo_list[i].GetXaxis().SetTitle(efficiency_titles[efficiency_names.index(file_list.split('_')[2])])
@@ -120,7 +138,7 @@ def compare(name,file_list,name_list,legend_list,normalize=False, useOutfile=Fal
           histo_list[i].GetXaxis().SetTitle('Leading jet pT [GeV]')
         histo_list[i].GetYaxis().SetTitle('Efficiency')
     else:
-      histo_list[i].Draw('SAME')
+      histo_list[i].Draw('SAME'+drawoption)
     if overlayKin:
       ttfile=TFile(filename,'READ')
       overlay=ttfile.Get('PFHT900/'+name.split('_')[-1].split('TH')[0])
@@ -163,7 +181,11 @@ for filename in range(len(filename_list)):
   for histoname in range(len(efficiency_names)):
     for triggername in range(len(trigger_names)):
       print filename_list[filename],efficiency_names[histoname],trigger_names[triggername]
-      eff_tmp=doeff(filename_list[filename],efficiency_names[histoname],trigger_names[triggername],rebin=1)
+      rebinna=1
+      if 'M500' in filename_list[filename]:
+        rebinna=4
+      eff_tmp=doeff(filename_list[filename],efficiency_names[histoname],trigger_names[triggername],rebin=rebinna)
+
       if ('bW' in filename_list[filename]) and (efficiency_names[histoname]=='jetPt'):
         efficiencies[-1].append(eff_tmp)
       if ('Zp' in filename_list[filename]) and (efficiency_names[histoname]=='jetPtTH'):
@@ -176,8 +198,20 @@ for filename in range(len(filename_list)):
 
 for filename in filename_list:
   #compare("comp2_"+filename.split('.')[0]+'_jetPtTH','',[filename.split('.')[0]+"_jetPtTH_"+'AK8PFJet360TrimMod_Mass30',filename.split('.')[0]+"_jetPtTH_"+'AK8DiPFJet280_200_TrimMass30_BTagCSV0p41',filename.split('.')[0]+"_jetPt_"+'AK8DiPFJet280_200_TrimMass30_BTagCSV0p41'],[],False, True, True,filename)
-  for histoname in ['HTTH','jetPtTH','jetMassTH']:#['HTTH','jetPtTH','HT','jetPt','jetMass','jetMassTH','maxCSV','maxCSVTH','maxCSV2','maxCSV2TH']: 
+  for histoname in ['HTTH','jetPtTH','jetMassTH','HT','jetPt','jetMass','jetPt2','jetPt2TH','jetMass2','jetMass2TH','maxCSV','maxCSVTH','maxCSV2','maxCSV2TH']:#['HTTH','jetPtTH','HT','jetPt','jetMass','jetMassTH','maxCSV','maxCSVTH','maxCSV2','maxCSV2TH']: 
+    if 'M500' in filename:
       compare("comp1_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",['PFHT900','AK8PFJet360_TrimMass30','AK8DiPFJet280_200_TrimMass30_BTagCSV0p41','AK8PFHT700_TrimR0p1PT0p03Mass50','PFHT450_SixJet40_PFBTagCSV'],[],False, True, True,filename)
+      compare("compak8trim_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",['PFHT900_ak8trim','AK8PFJet360_TrimMass30_ak8trim','AK8DiPFJet280_200_TrimMass30_BTagCSV0p41_ak8trim','AK8PFHT700_TrimR0p1PT0p03Mass50_ak8trim','PFHT450_SixJet40_PFBTagCSV_ak8trim'],[],False, True, True,filename)
+      compare("compak15trim_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",['PFHT900_ak15trim','AK8PFJet360_TrimMass30_ak15trim','AK8DiPFJet280_200_TrimMass30_BTagCSV0p41_ak15trim','AK8PFHT700_TrimR0p1PT0p03Mass50_ak15trim','PFHT450_SixJet40_PFBTagCSV_ak15trim'],[],False, True, True,filename)
+    else:
+      xmassimo=0
+      if 'Pt' in histoname:
+        xmassimo=800
+      if 'HT' in histoname:
+        xmassimo=2000
+      compare("comp1_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",['PFHT900','AK8PFJet360_TrimMass30','AK8DiPFJet280_200_TrimMass30_BTagCSV0p41','AK8PFHT700_TrimR0p1PT0p03Mass50'],[],False, True, True,filename,xmax=xmassimo)
+      compare("compak8trim_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",['PFHT900_ak8trim','AK8PFJet360_TrimMass30_ak8trim','AK8DiPFJet280_200_TrimMass30_BTagCSV0p41_ak8trim','AK8PFHT700_TrimR0p1PT0p03Mass50_ak8trim'],[],False, True, True,filename,xmax=xmassimo)
+      compare("compak15trim_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",['PFHT900_ak15trim','AK8PFJet360_TrimMass30_ak15trim','AK8DiPFJet280_200_TrimMass30_BTagCSV0p41_ak15trim','AK8PFHT700_TrimR0p1PT0p03Mass50_ak15trim'],[],False, True, True,filename,xmax=xmassimo)
       #compare("comp1_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",['AK8DiPFJet300_200TrimMod_Mass30_BTagCSVLoose0p3','AK8DiPFJet280_200TrimMod_Mass30_BTagCSVLoose0p3'],[],False, True)
       # compare("comp2_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",['AK8DiPFJet300_200TrimMod_Mass30_BTagCSVLoose0p5','AK8DiPFJet280_200TrimMod_Mass30_BTagCSVLoose0p5'],[],False, True)
       # compare("comp3_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",['AK8DiPFJet280_200TrimMod_Mass30_BTagCSVLoose0p3','AK8DiPFJet280_200TrimMod_Mass30_BTagCSVLoose0p5'],[],False, True)
@@ -203,6 +237,107 @@ for filename in filename_list:
 #       ['AK8DiPFJet300_200TrimMod_Mass30','AK8DiPFJet300_200TrimMod_DiMass30','AK8PFJet300TrimMod_Mass30_AK4PFJet200'],[],False, True)
 #     compare("special4_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",
 #       ['AK8DiPFJet300_200TrimMod_Mass30','AK8PFHT850_TrimR0p1PT0p03Mass50'],[],False, True)
+
+merge=0
+merge_ak8trim=0
+merge_ak15trim=0
+merge_list=[]
+for filename in filename_list:
+  f=TFile(filename)
+  #merge_list.append(f)
+  jm=f.Get('PFHT900/jetMassPt')
+  jm_ak8trim=f.Get('PFHT900_ak8trim/jetMassPt')
+  jm_ak15trim=f.Get('PFHT900_ak15trim/jetMassPt')
+  outfile.cd()
+  if merge==0:
+    merge=jm.Clone("merge")
+  else:
+    merge.Add(jm)
+  if merge_ak8trim==0:
+    merge_ak8trim=jm_ak8trim.Clone("merge_ak8trim")
+  else:
+    merge_ak8trim.Add(jm_ak8trim)
+  if merge_ak15trim==0:
+    merge_ak15trim=jm_ak15trim.Clone("merge_ak15trim")
+  else:
+    merge_ak15trim.Add(jm_ak15trim)
+  #f.Close()
+merge.Write()
+merge_ak8trim.Write()
+merge_ak15trim.Write()
+
+for histoname in kinematic_names:
+  compare(
+    name='kin'+histoname,
+    file_list=['trgout_ZpM500W5'+postfix+'.root',
+'trgout_ZpM1000W10'+postfix+'.root',
+'trgout_ZpM1500W15'+postfix+'.root',
+'trgout_ZpM2000W20'+postfix+'.root',
+'trgout_ZpM2500W25'+postfix+'.root',
+'trgout_ZpM3000W30'+postfix+'.root',],
+    name_list=['PFHT900/'+histoname]*6,
+    legend_list=['ZpM500W5',
+'ZpM1000W10',
+'ZpM1500W15',
+'ZpM2000W20',
+'ZpM2500W25',
+'ZpM3000W30',],
+    normalize=True,
+    useOutfile=False,
+    overlayKin=False,
+    filename='',
+    drawoption='HIST',
+    xmin=100,
+    ymax=0.18
+    )
+
+  compare(
+    name='kin_ak8trim'+histoname,
+    file_list=['trgout_ZpM500W5'+postfix+'.root',
+'trgout_ZpM1000W10'+postfix+'.root',
+'trgout_ZpM1500W15'+postfix+'.root',
+'trgout_ZpM2000W20'+postfix+'.root',
+'trgout_ZpM2500W25'+postfix+'.root',
+'trgout_ZpM3000W30'+postfix+'.root',],
+    name_list=['PFHT900_ak8trim/'+histoname]*6,
+    legend_list=['ZpM500W5',
+'ZpM1000W10',
+'ZpM1500W15',
+'ZpM2000W20',
+'ZpM2500W25',
+'ZpM3000W30',],
+    normalize=True,
+    useOutfile=False,
+    overlayKin=False,
+    filename='',
+    drawoption='HIST',
+    xmin=100,
+    ymax=0.18
+    )
+
+  compare(
+    name='kin_ak15trim'+histoname,
+    file_list=['trgout_ZpM500W5'+postfix+'.root',
+'trgout_ZpM1000W10'+postfix+'.root',
+'trgout_ZpM1500W15'+postfix+'.root',
+'trgout_ZpM2000W20'+postfix+'.root',
+'trgout_ZpM2500W25'+postfix+'.root',
+'trgout_ZpM3000W30'+postfix+'.root',],
+    name_list=['PFHT900_ak15trim/'+histoname]*6,
+    legend_list=['ZpM500W5',
+'ZpM1000W10',
+'ZpM1500W15',
+'ZpM2000W20',
+'ZpM2500W25',
+'ZpM3000W30',],
+    normalize=True,
+    useOutfile=False,
+    overlayKin=False,
+    filename='',
+    drawoption='HIST',
+    xmin=100,
+    ymax=0.18
+    )
 
 
 print filename_list

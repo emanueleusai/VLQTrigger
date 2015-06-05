@@ -221,11 +221,13 @@ float maxCSV=0;
      AK8LeadingPt=pfJets8Collection[0].Pt();
      AK8LeadingEta=pfJets8Collection[0].Eta();
      AK8LeadingMass=pfJets8Collection[0].M();
+     histos2D_[ "jetMassPt" ]->Fill(AK8LeadingPt,AK8LeadingMass);
    }
    if (pfJets8Collection.size()>1)
    {
      AK8SubleadingPt=pfJets8Collection[1].Pt();
      AK8SubleadingMass=pfJets8Collection[1].M();
+     histos2D_[ "jetMassPt" ]->Fill(AK8SubleadingPt,AK8SubleadingMass);
    }
 
    // for(edm::View<reco::Jet>::const_iterator ijet=ak8trim->begin(); ijet!=pfjets8->end();ijet++){
@@ -242,9 +244,9 @@ float maxCSV=0;
    bool bW_AK8_pT_cut = (AK8SubleadingPt > 200.0);
    //bool bW_AK8_pT_cut = (AK8SubleadingPt > minPt8);
    //at least one btag
-   bool bW_AK4_btag_cut = (nbtags > 0);
+   bool bW_AK4_btag_cut = (nbtags > -1);
    //W mass requirement
-   bool bW_AK8_mass_cut = (AK8LeadingMass > 120.0) && (AK8SubleadingMass > 120.0);
+   bool bW_AK8_mass_cut = true;//(AK8LeadingMass > 120.0) && (AK8SubleadingMass > 120.0);
    //final combined cut
    bool bW_selection = bW_AK8_pT_cut && bW_AK4_btag_cut && bW_AK8_mass_cut; //&& phicond;// && base_dijet_trigger_cut;
    
@@ -277,7 +279,8 @@ float maxCSV=0;
    histos1D_[ "jetPt2" ]->Fill( AK8SubleadingPt );
    histos1D_[ "eta" ]->Fill( AK8LeadingEta );
 
-  for (auto i : pfJets8Collection) histos2D_[ "jetMassPt" ]->Fill(i.Pt(),i.M());
+  //for (auto i : pfJets8Collection) histos2D_[ "jetMassPt" ]->Fill(i.Pt(),i.M());
+
    
    if(bW_selection)
    // if(tH_selection)//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -392,16 +395,16 @@ TriggerStudies::beginJob()
   histos1D_[ "jetPt2Efficiency" ]->SetXTitle( "Subleading Jet Pt [GeV]" );
   histos1D_[ "jetPt2Efficiency" ]->SetYTitle( "Efficiency" );
   
-  histos1D_[ "HT" ] = fileService->make< TH1D >( "HT", "HT", 40, 0., 2000);
+  histos1D_[ "HT" ] = fileService->make< TH1D >( "HT", "HT", 80, 0., 4000);
   histos1D_[ "HT" ]->SetXTitle( "HT [GeV]" );
   histos1D_[ "HT" ]->Sumw2();
-  histos1D_[ "HTDenom" ] = fileService->make< TH1D >( "HTDenom", "HT", 40, 0., 2000);
+  histos1D_[ "HTDenom" ] = fileService->make< TH1D >( "HTDenom", "HT", 80, 0., 4000);
   histos1D_[ "HTDenom" ]->SetXTitle( "HT [GeV]" );
   histos1D_[ "HTDenom" ]->Sumw2();
-  histos1D_[ "HTPassing" ] = fileService->make< TH1D >( "HTPassing", "HT passing", 40, 0., 2000);
+  histos1D_[ "HTPassing" ] = fileService->make< TH1D >( "HTPassing", "HT passing", 80, 0., 4000);
   histos1D_[ "HTPassing" ]->SetXTitle( "HT [GeV]" );
   histos1D_[ "HTPassing" ]->Sumw2();
-  histos1D_[ "HTEfficiency" ] = fileService->make< TH1D >( "HTEfficiency", "HT efficiency", 40, 0., 2000);
+  histos1D_[ "HTEfficiency" ] = fileService->make< TH1D >( "HTEfficiency", "HT efficiency", 80, 0., 4000);
   histos1D_[ "HTEfficiency" ]->SetXTitle( "HT [GeV]" );
   histos1D_[ "HTEfficiency" ]->SetYTitle( "Efficiency" );
   
@@ -461,13 +464,13 @@ TriggerStudies::beginJob()
   histos1D_[ "jetPt2THEfficiency" ]->SetXTitle( "Subleading Jet Pt [GeV]" );
   histos1D_[ "jetPt2THEfficiency" ]->SetYTitle( "Efficiency" );
   
-  histos1D_[ "HTTHDenom" ] = fileService->make< TH1D >( "HTTHDenom", "HT", 40, 0., 2000);
+  histos1D_[ "HTTHDenom" ] = fileService->make< TH1D >( "HTTHDenom", "HT", 80, 0., 4000);
   histos1D_[ "HTTHDenom" ]->SetXTitle( "HT [GeV]" );
   histos1D_[ "HTTHDenom" ]->Sumw2();
-  histos1D_[ "HTTHPassing" ] = fileService->make< TH1D >( "HTTHPassing", "HT passing", 40, 0., 2000);
+  histos1D_[ "HTTHPassing" ] = fileService->make< TH1D >( "HTTHPassing", "HT passing", 80, 0., 4000);
   histos1D_[ "HTTHPassing" ]->SetXTitle( "HT [GeV]" );
   histos1D_[ "HTTHPassing" ]->Sumw2();
-  histos1D_[ "HTTHEfficiency" ] = fileService->make< TH1D >( "HTTHEfficiency", "HT efficiency", 40, 0., 2000);
+  histos1D_[ "HTTHEfficiency" ] = fileService->make< TH1D >( "HTTHEfficiency", "HT efficiency", 80, 0., 4000);
   histos1D_[ "HTTHEfficiency" ]->SetXTitle( "HT [GeV]" );
   histos1D_[ "HTTHEfficiency" ]->SetYTitle( "Efficiency" );
 
