@@ -13,14 +13,14 @@ minPt8_par = "200"#tH bW
 
 triggermenu=[
 
-'HLT_AK8PFJet360_TrimMass30_v1',
-'HLT_AK8PFHT700_TrimR0p1PT0p03Mass50_v1',
-'HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV0p41_v1',
-'HLT_PFHT750_4Jet_v1',
-'HLT_PFHT900_v1',
-'HLT_QuadJet45_TripleCSV0p5_v1',
-'HLT_DoubleJet90_Double30_TripleCSV0p5_v1',
-'HLT_PFHT450_SixJet40_PFBTagCSV_v1',
+#'HLT_AK8PFJet360_TrimMass30_v1',
+#'HLT_AK8PFHT700_TrimR0p1PT0p03Mass50_v1',
+#'HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV0p41_v1',
+#'HLT_PFHT750_4Jet_v1',
+'HLT_PFHT800_v1',
+#'HLT_QuadJet45_TripleCSV0p5_v1',
+#'HLT_DoubleJet90_Double30_TripleCSV0p5_v1',
+#'HLT_PFHT450_SixJet40_PFBTagCSV_v1',
 # 'HLT_PFHT400_SixJet30_BTagCSV0p5_2PFBTagCSV_v1',
 # 'HLT_PFHT450_SixJet40_v1',
 # 'HLT_PFHT400_SixJet30_v1',

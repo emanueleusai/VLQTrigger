@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 
-testlist=['file:miniAOD-prod_PAT.root']
+testlist=['file:step3.root']
 
 M500W5list=[
 'file:/nfs/dust/cms/user/usaiem/run2/M500W5/22F33CD7-90FF-E411-B76A-00259073E466.root',
