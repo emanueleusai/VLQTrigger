@@ -1,0 +1,9 @@
+cmsDriver.py step1 --filein "file:/nfs/dust/cms/user/usaiem/mc/1C5CBF84-12F0-E411-8315-0002C90B7F74.root" --fileout file:step1.root --pileup_input "dbs:/MinBias_TuneCUETP8M1_13TeV-pythia8/RunIIWinter15GS-MCRUN2_71_V1-v1/GEN-SIM" --mc --eventcontent RAWSIM --pileup 2015_25ns_Startup_PoissonOOTPU --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,Configuration/DataProcessing/Utils.addMonitoring --datatier GEN-SIM-RAW --conditions MCRUN2_74_V9 --step DIGI,L1,DIGI2RAW,HLT:User	 --magField 38T_PostLS1 --python_filename step1.py --no_exec -n 10 --processName=HLT2
+
+hltGetConfiguration --cff --offline /users/drankin/FullMenuForBOOST/V2  > HLT_User_cff.py
+
+cmsDriver.py step2 --filein file:step1.root --fileout file:step2.root --mc --eventcontent AODSIM,DQM --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,Configuration/DataProcessing/Utils.addMonitoring --datatier AODSIM,DQMIO --conditions MCRUN2_74_V9 --step RAW2DIGI,L1Reco,RECO,EI,DQM:DQMOfflinePOGMC --magField 38T_PostLS1 --python_filename step2.py --no_exec -n 10
+
+cmsDriver.py step3 --filein file:step2.root --fileout file:step3.root --mc --eventcontent MINIAODSIM --runUnscheduled --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,Configuration/DataProcessing/Utils.addMonitoring --datatier MINIAODSIM --conditions MCRUN2_74_V9 --step PAT --python_filename step3.py --no_exec -n 10
+
+cmsRun step1.py; cmsRun step2.py; cmsRun step3.py
