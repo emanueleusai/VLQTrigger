@@ -47,6 +47,8 @@
 #include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
 #include "SimDataFormats/GeneratorProducts/interface/GenRunInfoProduct.h"
 
+#include "DataFormats/PatCandidates/interface/TriggerObjectStandAlone.h"
+
 //
 // class declaration
 //
@@ -86,6 +88,9 @@ class TriggerStudies : public edm::EDAnalyzer {
       int triggerBit;
       int triggerBit2;
       int triggerBit3;
+
+      //trigger emulation
+      edm::EDGetTokenT<pat::TriggerObjectStandAloneCollection> triggerObjects_;
       
       //virtual void beginRun(edm::Run const&, edm::EventSetup const&) override;
       //virtual void endRun(edm::Run const&, edm::EventSetup const&) override;
@@ -118,6 +123,8 @@ TriggerStudies::TriggerStudies(const edm::ParameterSet& iConfig)
    minCSV 	= iConfig.getParameter<double> ( "minCSV" );
    minMass8 	= iConfig.getParameter<double> ( "minMass8" );
    minPt8 	= iConfig.getParameter<double> ( "minPt8" );
+
+   triggerObjects_=consumes<pat::TriggerObjectStandAloneCollection>(edm::InputTag("selectedPatTrigger"));
 }
 
 
@@ -168,6 +175,46 @@ TriggerStudies::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    edm::InputTag triggerResultsLabel = edm::InputTag("TriggerResults", "", "HLT");
    edm::Handle<edm::TriggerResults> triggerResults;
    iEvent.getByLabel(triggerResultsLabel, triggerResults);
+
+
+HLT_AK8PFJet260_TrimMass30_v2
+{280,290,300,310,320,330,340,350,360}
+TriggerObjectType::TriggerJet
+
+HLT_AK8PFHT500_TrimR0p1PT0p03Mass50_v2
+{600,620,640,650,660,670,680,690,700}
+TriggerObjectType::TriggerTHT 
+
+HLT_AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45_v2
+{600,620,640,650,660,670,680,690,700}
+TriggerObjectType::TriggerTHT 
+
+HLT_AK8DiPFJet200_200_TrimMass30_BTagCSV0p45_v2
+{200,210,220,230,240,250,260,270,280}
+TriggerObjectType::TriggerJet
+
+   //get trigger objects
+   edm::Handle<pat::TriggerObjectStandAloneCollection> triggerObjects;
+   iEvent.getByToken(triggerObjects_, triggerObjects);
+   const edm::TriggerNames &names = iEvent.triggerNames(*triggerResults);
+    for (unsigned int i = 0, n = triggerResults->size(); i < n; ++i) {
+        if (names.triggerName(i)==origPath_ && triggerResults->accept(i)) {
+            //std::cout << "Found path pass... ";
+            for (pat::TriggerObjectStandAlone obj : *triggerObjects) {
+                obj.unpackPathNames(names);
+                for (unsigned h = 0; h < obj.filterIds().size(); ++h) {
+                    if (obj.filterIds()[h]==triggerType_ && obj.hasPathName( origPath_, true, true )) { //look at https://github.com/cms-sw/cmssw/blob/CMSSW_7_4_X/DataFormats/HLTReco/interface/TriggerTypeDefs.h for an explanation of trigger types
+                        //std::cout << "Found correct type and path object... ";
+                        if (obj.pt()>newThresh_) {
+                            //std::cout << "Found passing object!" << std::endl;
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
 
 //get jet collections
