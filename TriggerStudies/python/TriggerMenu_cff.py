@@ -13,43 +13,43 @@ minPt8_par = "200"#tH bW
 
 triggermenu=[
 
-#'HLT_AK8PFJet360_TrimMass30_v1',
-#'HLT_AK8PFHT700_TrimR0p1PT0p03Mass50_v1',
-#'HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV0p41_v1',
-#'HLT_PFHT750_4Jet_v1',
 'HLT_PFHT800_v1',
-#'HLT_QuadJet45_TripleCSV0p5_v1',
-#'HLT_DoubleJet90_Double30_TripleCSV0p5_v1',
-#'HLT_PFHT450_SixJet40_PFBTagCSV_v1',
-# 'HLT_PFHT400_SixJet30_BTagCSV0p5_2PFBTagCSV_v1',
-# 'HLT_PFHT450_SixJet40_v1',
-# 'HLT_PFHT400_SixJet30_v1',
+'HLT_AK8PFJet360_TrimMass30_v2',
+'HLT_AK8PFHT700_TrimR0p1PT0p03Mass50_v2',
+'HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV0p45_v2',
+'HLT_PFHT450_SixJet40_PFBTagCSV0p72_v2',
+'HLT_PFHT400_SixJet30_BTagCSV0p55_2PFBTagCSV0p72_v2',
+#to be tuned
+'HLT_AK8PFJet260_TrimMass30_v2',
+'HLT_AK8PFHT500_TrimR0p1PT0p03Mass50_v2',
+'HLT_AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45_v2',
+'HLT_AK8DiPFJet200_200_TrimMass30_BTagCSV0p45_v2',
 
-
-
-#'HLT_AK8PFJet360TrimMod_Mass30_v1',
-#'HLT_AK8PFHT700_TrimR0p1PT0p03Mass50_v1',
-#'HLT_PFHT750_4Jet_v1',
-#'HLT_PFHT900_v1',
-#'HLT_QuadJet45_TripleCSV0p5_v1',
-#'HLT_DoubleJet90_Double30_TripleCSV0p5_v1',
-#'HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV0p41_v1'
-
- # "HLT_PFHT900_v1",
- # "HLT_AK8PFJet360TrimMod_Mass30_v1"
-# "HLT_AK8PFHT850_TrimR0p1PT0p03Mass50_v1",
-# "HLT_AK8DiPFJet300_200TrimMod_Mass30_BTagCSVLoose0p3_v1",
-# "HLT_AK8DiPFJet300_200TrimMod_Mass30_BTagCSVLoose0p5_v1",
-# "HLT_AK8DiPFJet280_200TrimMod_Mass30_BTagCSVLoose0p3_v1",
-# "HLT_AK8DiPFJet280_200TrimMod_Mass30_BTagCSVLoose0p5_v1",
-# "HLT_AK8DiPFJet300_200TrimMod_Mass30_BTagCSVLoose0p3_DoubleJetC100_v1",
-# #"HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v1",
-# #"HLT_Mu40_eta2p1_PFJet200_PFJet50_v1",
-# "HLT_PFHT750_4Jet_v1"
 ]
 
-for triggerpath in triggermenu:
-  globals()[triggerpath[4:-3]]=cms.EDAnalyzer("TriggerStudies",
+triggertune=
+[
+
+[-1],
+[-1],
+[-1],
+[-1],
+[-1],
+[-1],
+#to be tuned
+[280,290,300,310,320,330,340,350,360],
+[600,620,640,650,660,670,680,690,700],
+[600,620,640,650,660,670,680,690,700],
+[200,210,220,230,240,250,260,270,280],
+
+]
+
+for i in range(len(triggermenu):
+  for j in triggertune[i]:
+    triggerpath=triggermenu[i]
+    if j>0:
+      triggerpath=triggerpath+str(j)
+    globals()[triggerpath[4:-3]]=cms.EDAnalyzer("TriggerStudies",
 
     triggerPath = cms.string( triggerpath ),
     pfJets = cms.InputTag( "slimmedJets" ),
@@ -60,11 +60,11 @@ for triggerpath in triggermenu:
     minHT = cms.double(minHT_par),
     minMass = cms.double(minMass_par),
     minPt = cms.double(minPt_par),
-    minCSV = cms.double(minCSV_par),
+    minCSV = cms.double(j),
     minMass8 = cms.double(minMass8_par),
     minPt8 = cms.double(minPt8_par)
     )
-  globals()[triggerpath[4:-3]+'_ak8trim']=cms.EDAnalyzer("TriggerStudies",
+    globals()[triggerpath[4:-3]+'_ak8trim']=cms.EDAnalyzer("TriggerStudies",
 
     triggerPath = cms.string( triggerpath ),
     pfJets = cms.InputTag( "slimmedJets" ),
@@ -75,11 +75,11 @@ for triggerpath in triggermenu:
     minHT = cms.double(minHT_par),
     minMass = cms.double(minMass_par),
     minPt = cms.double(minPt_par),
-    minCSV = cms.double(minCSV_par),
+    minCSV = cms.double(j),
     minMass8 = cms.double(minMass8_par),
     minPt8 = cms.double(minPt8_par)
     )
-  globals()[triggerpath[4:-3]+'_ak15trim']=cms.EDAnalyzer("TriggerStudies",
+    globals()[triggerpath[4:-3]+'_ak15trim']=cms.EDAnalyzer("TriggerStudies",
 
     triggerPath = cms.string( triggerpath ),
     pfJets = cms.InputTag( "slimmedJets" ),
@@ -90,7 +90,7 @@ for triggerpath in triggermenu:
     minHT = cms.double(minHT_par),
     minMass = cms.double(minMass_par),
     minPt = cms.double(minPt_par),
-    minCSV = cms.double(minCSV_par),
+    minCSV = cms.double(j),
     minMass8 = cms.double(minMass8_par),
     minPt8 = cms.double(minPt8_par)
     )

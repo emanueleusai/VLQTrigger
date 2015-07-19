@@ -163,8 +163,8 @@ TriggerStudies::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
      for (size_t j = 0; j < hltConfig.triggerNames().size(); j++) {
        std::cout << TString(hltConfig.triggerNames()[j]) << std::endl;
        if (TString(hltConfig.triggerNames()[j]).Contains(triggerPath)) triggerBit = j;
-       if (TString(hltConfig.triggerNames()[j]).Contains("HLT_AK8PFJet360_TrimMass30_v1")) triggerBit2 = j;
-       if (TString(hltConfig.triggerNames()[j]).Contains("HLT_PFHT900_v1")) triggerBit3 = j;
+       if (TString(hltConfig.triggerNames()[j]).Contains("HLT_AK8PFJet360_TrimMass30_v2")) triggerBit2 = j;
+       if (TString(hltConfig.triggerNames()[j]).Contains("HLT_PFHT800_v1")) triggerBit3 = j;
      }
      //std::cout << triggerBit << std::endl;
      if (triggerBit == -1) cout << "HLT path not found" << endl;
@@ -194,26 +194,33 @@ HLT_AK8DiPFJet200_200_TrimMass30_BTagCSV0p45_v2
 TriggerObjectType::TriggerJet
 
    //get trigger objects
+bool pass=triggerResults->accept(triggerBit);
+if (minCSV>0)
+{
+  pass=false;
+  trigger::TriggerObjectType triggerType_ = trigger::TriggerTHT;
+  if (triggerPath.find("PFJet")!=string::npos) triggerType_ = trigger::TriggerJet;
    edm::Handle<pat::TriggerObjectStandAloneCollection> triggerObjects;
    iEvent.getByToken(triggerObjects_, triggerObjects);
    const edm::TriggerNames &names = iEvent.triggerNames(*triggerResults);
     for (unsigned int i = 0, n = triggerResults->size(); i < n; ++i) {
-        if (names.triggerName(i)==origPath_ && triggerResults->accept(i)) {
+        if (names.triggerName(i)==triggerPath && triggerResults->accept(i)) {
             //std::cout << "Found path pass... ";
             for (pat::TriggerObjectStandAlone obj : *triggerObjects) {
                 obj.unpackPathNames(names);
                 for (unsigned h = 0; h < obj.filterIds().size(); ++h) {
-                    if (obj.filterIds()[h]==triggerType_ && obj.hasPathName( origPath_, true, true )) { //look at https://github.com/cms-sw/cmssw/blob/CMSSW_7_4_X/DataFormats/HLTReco/interface/TriggerTypeDefs.h for an explanation of trigger types
+                    if (obj.filterIds()[h]==triggerType_ && obj.hasPathName( triggerPath, true, true )) { //look at https://github.com/cms-sw/cmssw/blob/CMSSW_7_4_X/DataFormats/HLTReco/interface/TriggerTypeDefs.h for an explanation of trigger types
                         //std::cout << "Found correct type and path object... ";
-                        if (obj.pt()>newThresh_) {
+                        if (obj.pt()>minCSV) {
                             //std::cout << "Found passing object!" << std::endl;
-                            return true;
+                            pass=true;
                         }
                     }
                 }
             }
         }
     }
+}
 
 
 
@@ -332,6 +339,7 @@ float maxCSV=0;
    if(bW_selection)
    // if(tH_selection)//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
    {
+     histos1D_[ "nevtsDenom" ]->Fill( 0.5 );
      histos1D_[ "maxCSVDenom" ]->Fill( maxCSV );
      histos1D_[ "maxCSV2Denom" ]->Fill( maxCSV2 );
      histos1D_[ "HTDenom" ]->Fill( HT );
@@ -339,10 +347,11 @@ float maxCSV=0;
      histos1D_[ "jetPtDenom" ]->Fill( AK8LeadingPt );
      histos1D_[ "jetMass2Denom" ]->Fill( AK8SubleadingMass );
      histos1D_[ "jetPt2Denom" ]->Fill( AK8SubleadingPt );
-     if (triggerResults->accept(triggerBit))
+     if (pass)
      // if (triggerResults->accept(triggerBit) || triggerResults->accept(triggerBit2)) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //     if (triggerResults->accept(triggerBit) || triggerResults->accept(triggerBit2) || triggerResults->accept(triggerBit3))//!!!!!!!!!!!!!!!!!
      {
+       histos1D_[ "nevtsPassing" ]->Fill( 0.5 );
        histos1D_[ "maxCSVPassing" ]->Fill( maxCSV );
        histos1D_[ "maxCSV2Passing" ]->Fill( maxCSV2 );
        histos1D_[ "HTPassing" ]->Fill( HT );
@@ -355,6 +364,7 @@ float maxCSV=0;
    
    if(tH_selection)
    {
+     histos1D_[ "nevtsTHDenom" ]->Fill( 0.5 );
      histos1D_[ "maxCSVTHDenom" ]->Fill( maxCSV );
      histos1D_[ "maxCSV2THDenom" ]->Fill( maxCSV2 );
      histos1D_[ "HTTHDenom" ]->Fill( HT );
@@ -362,9 +372,10 @@ float maxCSV=0;
      histos1D_[ "jetPtTHDenom" ]->Fill( AK8LeadingPt );
      histos1D_[ "jetMass2THDenom" ]->Fill( AK8SubleadingMass );
      histos1D_[ "jetPt2THDenom" ]->Fill( AK8SubleadingPt );
-     if (triggerResults->accept(triggerBit))
+     if (pass)
 //     if (triggerResults->accept(triggerBit) || triggerResults->accept(triggerBit2) || triggerResults->accept(triggerBit3))//!!!!!!!!!!!!!!!!!!!!!!!!
      {
+       histos1D_[ "nevtsTHPassing" ]->Fill( 0.5 );
        histos1D_[ "maxCSVTHPassing" ]->Fill( maxCSV );
        histos1D_[ "maxCSV2THPassing" ]->Fill( maxCSV2 );
        histos1D_[ "HTTHPassing" ]->Fill( HT );
@@ -571,6 +582,20 @@ TriggerStudies::beginJob()
   histos1D_[ "maxCSV2THEfficiency" ]->SetXTitle( "max2CSV" );
   histos1D_[ "maxCSV2THEfficiency" ]->SetYTitle( "Efficiency" );
 
+//nevts
+  histos1D_[ "nevtsDenom" ] = fileService->make< TH1D >( "nevtsDenom", ";;Events", 1, 0., 1.);
+  histos1D_[ "nevtsDenom" ]->Sumw2();
+  histos1D_[ "nevtsPassing" ] = fileService->make< TH1D >( "nevtsPassing", ";;Events", 1, 0., 1.);
+  histos1D_[ "nevtsPassing" ]->Sumw2();
+  histos1D_[ "nevtsEfficiency" ] = fileService->make< TH1D >( "nevtsEfficiency", ";;Efficiency", 1, 0., 1.);
+  histos1D_[ "nevtsEfficiency" ]->Sumw2();
+  histos1D_[ "nevtsTHDenom" ] = fileService->make< TH1D >( "nevtsTHDenom", ";;Events", 1, 0., 1.);
+  histos1D_[ "nevtsTHDenom" ]->Sumw2();
+  histos1D_[ "nevtsTHPassing" ] = fileService->make< TH1D >( "nevtsTHPassing", ";;Events", 1, 0., 1.);
+  histos1D_[ "nevtsTHPassing" ]->Sumw2();
+  histos1D_[ "nevtsTHEfficiency" ] = fileService->make< TH1D >( "nevtsTHEfficiency", ";;Efficiency", 1, 0., 1.);
+  histos1D_[ "nevtsTHEfficiency" ]->Sumw2();
+
 //  histos1D_[ "nBtagDenom" ] = fileService->make< TH1D >( "nBtagDenom", "nBtag", 6, 0., 6);
 //  histos1D_[ "nBtagDenom" ]->SetXTitle( "nBtag" );
 //  histos1D_[ "nBtagDenom" ]->Sumw2();
@@ -620,6 +645,12 @@ TriggerStudies::endJob()
   histos1D_[ "maxCSVEfficiency" ]->Divide(histos1D_[ "maxCSVPassing" ], histos1D_[ "maxCSVDenom" ], 1,1,"B");
   histos1D_[ "maxCSVTHEfficiency" ]->Sumw2();
   histos1D_[ "maxCSVTHEfficiency" ]->Divide(histos1D_[ "maxCSVTHPassing" ], histos1D_[ "maxCSVTHDenom" ], 1,1,"B");
+
+  //nevts
+  histos1D_[ "nevtsEfficiency" ]->Sumw2();
+  histos1D_[ "nevtsEfficiency" ]->Divide(histos1D_[ "nevtsPassing" ], histos1D_[ "nevtsDenom" ], 1,1,"B");
+  histos1D_[ "nevtsTHEfficiency" ]->Sumw2();
+  histos1D_[ "nevtsTHEfficiency" ]->Divide(histos1D_[ "nevtsTHPassing" ], histos1D_[ "nevtsTHDenom" ], 1,1,"B");
   
 }
 
