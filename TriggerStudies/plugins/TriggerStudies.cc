@@ -177,21 +177,21 @@ TriggerStudies::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    iEvent.getByLabel(triggerResultsLabel, triggerResults);
 
 
-HLT_AK8PFJet260_TrimMass30_v2
-{280,290,300,310,320,330,340,350,360}
-TriggerObjectType::TriggerJet
+// HLT_AK8PFJet260_TrimMass30_v2
+// {280,290,300,310,320,330,340,350,360}
+// TriggerObjectType::TriggerJet
 
-HLT_AK8PFHT500_TrimR0p1PT0p03Mass50_v2
-{600,620,640,650,660,670,680,690,700}
-TriggerObjectType::TriggerTHT 
+// HLT_AK8PFHT500_TrimR0p1PT0p03Mass50_v2
+// {600,620,640,650,660,670,680,690,700}
+// TriggerObjectType::TriggerTHT 
 
-HLT_AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45_v2
-{600,620,640,650,660,670,680,690,700}
-TriggerObjectType::TriggerTHT 
+// HLT_AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45_v2
+// {600,620,640,650,660,670,680,690,700}
+// TriggerObjectType::TriggerTHT 
 
-HLT_AK8DiPFJet200_200_TrimMass30_BTagCSV0p45_v2
-{200,210,220,230,240,250,260,270,280}
-TriggerObjectType::TriggerJet
+// HLT_AK8DiPFJet200_200_TrimMass30_BTagCSV0p45_v2
+// {200,210,220,230,240,250,260,270,280}
+// TriggerObjectType::TriggerJet
 
    //get trigger objects
 bool pass=triggerResults->accept(triggerBit);
@@ -293,22 +293,22 @@ float maxCSV=0;
    //additional trigger selection
     //bool base_dijet_trigger_cut = triggerResults->accept(triggerBit2);
    
-   //bW selection
-   //pT threshold AK8
-   bool bW_AK8_pT_cut = (AK8SubleadingPt > 200.0);
-   //bool bW_AK8_pT_cut = (AK8SubleadingPt > minPt8);
-   //at least one btag
-   bool bW_AK4_btag_cut = (nbtags > -1);
-   //W mass requirement
-   bool bW_AK8_mass_cut = true;//(AK8LeadingMass > 120.0) && (AK8SubleadingMass > 120.0);
-   //final combined cut
-   bool bW_selection = bW_AK8_pT_cut && bW_AK4_btag_cut && bW_AK8_mass_cut; //&& phicond;// && base_dijet_trigger_cut;
+   // //bW selection
+   // //pT threshold AK8
+   // bool bW_AK8_pT_cut = (AK8SubleadingPt > 200.0);
+   // //bool bW_AK8_pT_cut = (AK8SubleadingPt > minPt8);
+   // //at least one btag
+   // bool bW_AK4_btag_cut = (nbtags > -1);
+   // //W mass requirement
+   // bool bW_AK8_mass_cut = true;//(AK8LeadingMass > 120.0) && (AK8SubleadingMass > 120.0);
+   // //final combined cut
+   // bool bW_selection = bW_AK8_pT_cut && bW_AK4_btag_cut && bW_AK8_mass_cut; //&& phicond;// && base_dijet_trigger_cut;
    
    
    ////tH selection
    bool tH_AK8_pT_cut = (AK8SubleadingPt > 200.0);
    //at least one btag
-   bool tH_AK4_btag_cut = (nbtags > 1);
+   bool tH_AK4_btag_cut = (nbtags > -1);
    //W mass requirement
    bool tH_AK8_mass_cut = (AK8LeadingMass > 120.0) && (AK8SubleadingMass > 120.0);
    //final combined cut
@@ -336,8 +336,8 @@ float maxCSV=0;
   //for (auto i : pfJets8Collection) histos2D_[ "jetMassPt" ]->Fill(i.Pt(),i.M());
 
    
-   if(bW_selection)
-   // if(tH_selection)//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   //if(bW_selection)
+    if(tH_selection)//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
    {
      histos1D_[ "nevtsDenom" ]->Fill( 0.5 );
      histos1D_[ "maxCSVDenom" ]->Fill( maxCSV );
@@ -347,7 +347,7 @@ float maxCSV=0;
      histos1D_[ "jetPtDenom" ]->Fill( AK8LeadingPt );
      histos1D_[ "jetMass2Denom" ]->Fill( AK8SubleadingMass );
      histos1D_[ "jetPt2Denom" ]->Fill( AK8SubleadingPt );
-     if (pass)
+     if (pass || triggerResults->accept(triggerBit3))
      // if (triggerResults->accept(triggerBit) || triggerResults->accept(triggerBit2)) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //     if (triggerResults->accept(triggerBit) || triggerResults->accept(triggerBit2) || triggerResults->accept(triggerBit3))//!!!!!!!!!!!!!!!!!
      {
@@ -588,13 +588,13 @@ TriggerStudies::beginJob()
   histos1D_[ "nevtsPassing" ] = fileService->make< TH1D >( "nevtsPassing", ";;Events", 1, 0., 1.);
   histos1D_[ "nevtsPassing" ]->Sumw2();
   histos1D_[ "nevtsEfficiency" ] = fileService->make< TH1D >( "nevtsEfficiency", ";;Efficiency", 1, 0., 1.);
-  histos1D_[ "nevtsEfficiency" ]->Sumw2();
+  //histos1D_[ "nevtsEfficiency" ]->Sumw2();
   histos1D_[ "nevtsTHDenom" ] = fileService->make< TH1D >( "nevtsTHDenom", ";;Events", 1, 0., 1.);
   histos1D_[ "nevtsTHDenom" ]->Sumw2();
   histos1D_[ "nevtsTHPassing" ] = fileService->make< TH1D >( "nevtsTHPassing", ";;Events", 1, 0., 1.);
   histos1D_[ "nevtsTHPassing" ]->Sumw2();
   histos1D_[ "nevtsTHEfficiency" ] = fileService->make< TH1D >( "nevtsTHEfficiency", ";;Efficiency", 1, 0., 1.);
-  histos1D_[ "nevtsTHEfficiency" ]->Sumw2();
+  //histos1D_[ "nevtsTHEfficiency" ]->Sumw2();
 
 //  histos1D_[ "nBtagDenom" ] = fileService->make< TH1D >( "nBtagDenom", "nBtag", 6, 0., 6);
 //  histos1D_[ "nBtagDenom" ]->SetXTitle( "nBtag" );

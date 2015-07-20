@@ -27,8 +27,7 @@ triggermenu=[
 
 ]
 
-triggertune=
-[
+triggertune=[
 
 [-1],
 [-1],
@@ -44,14 +43,20 @@ triggertune=
 
 ]
 
-for i in range(len(triggermenu):
+triggerpaths=[]
+
+for i in range(len(triggermenu)):
   for j in triggertune[i]:
-    triggerpath=triggermenu[i]
+    triggerfullname=triggermenu[i]
+    triggerpath=triggermenu[i][4:-3]
     if j>0:
       triggerpath=triggerpath+str(j)
-    globals()[triggerpath[4:-3]]=cms.EDAnalyzer("TriggerStudies",
+    triggerpaths.append(triggerpath)
+    triggerpaths.append(triggerpath+'_ak8trim')
+    triggerpaths.append(triggerpath+'_ak15trim')
+    globals()[triggerpath]=cms.EDAnalyzer("TriggerStudies",
 
-    triggerPath = cms.string( triggerpath ),
+    triggerPath = cms.string( triggerfullname ),
     pfJets = cms.InputTag( "slimmedJets" ),
     #pfJets = cms.InputTag( "ak4PFJetsCHS" ),
     #pfJets8 = cms.InputTag( "ak8PFJetsTrimmed" ),
@@ -64,9 +69,9 @@ for i in range(len(triggermenu):
     minMass8 = cms.double(minMass8_par),
     minPt8 = cms.double(minPt8_par)
     )
-    globals()[triggerpath[4:-3]+'_ak8trim']=cms.EDAnalyzer("TriggerStudies",
+    globals()[triggerpath+'_ak8trim']=cms.EDAnalyzer("TriggerStudies",
 
-    triggerPath = cms.string( triggerpath ),
+    triggerPath = cms.string( triggerfullname ),
     pfJets = cms.InputTag( "slimmedJets" ),
     #pfJets = cms.InputTag( "ak4PFJetsCHS" ),
     #pfJets8 = cms.InputTag( "ak8PFJetsTrimmed" ),
@@ -79,9 +84,9 @@ for i in range(len(triggermenu):
     minMass8 = cms.double(minMass8_par),
     minPt8 = cms.double(minPt8_par)
     )
-    globals()[triggerpath[4:-3]+'_ak15trim']=cms.EDAnalyzer("TriggerStudies",
+    globals()[triggerpath+'_ak15trim']=cms.EDAnalyzer("TriggerStudies",
 
-    triggerPath = cms.string( triggerpath ),
+    triggerPath = cms.string( triggerfullname ),
     pfJets = cms.InputTag( "slimmedJets" ),
     #pfJets = cms.InputTag( "ak4PFJetsCHS" ),
     #pfJets8 = cms.InputTag( "ak8PFJetsTrimmed" ),
@@ -95,6 +100,7 @@ for i in range(len(triggermenu):
     minPt8 = cms.double(minPt8_par)
     )
 
+print triggerpaths
 
 from RecoJets.JetProducers.ak4PFJetsTrimmed_cfi import ak4PFJetsTrimmed
 #from RecoJets.JetProducers.ak4PFJetsFiltered_cfi import ak4PFJetsFiltered
@@ -126,9 +132,9 @@ percorso=chs
 percorso+=ak8PFJetsTrimmed
 percorso+=ak15PFJetsTrimmed
 #percorso+=globals()[triggermenu[0][4:-3]]
-for triggerpath in triggermenu:
-  percorso+=globals()[triggerpath[4:-3]]
-  percorso+=globals()[triggerpath[4:-3]+'_ak8trim']
-  percorso+=globals()[triggerpath[4:-3]+'_ak15trim']
+for triggerpath in triggerpaths:
+  percorso+=globals()[triggerpath]
+  #percorso+=globals()[triggerpath[4:-3]+'_ak8trim']
+  #percorso+=globals()[triggerpath[4:-3]+'_ak15trim']
 p=cms.Path(percorso)
 
