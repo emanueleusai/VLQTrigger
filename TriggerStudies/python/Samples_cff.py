@@ -3,6 +3,57 @@ import FWCore.ParameterSet.Config as cms
 testlist=['file:step3.root']
 
 # 
+bWlist=[
+
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/bW_0_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/bW_10_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/bW_11_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/bW_12_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/bW_13_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/bW_14_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/bW_15_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/bW_16_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/bW_17_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/bW_18_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/bW_19_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/bW_1_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/bW_20_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/bW_2_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/bW_3_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/bW_4_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/bW_5_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/bW_6_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/bW_7_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/bW_8_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/bW_9_step3.root'
+
+]
+
+tWlist=[
+
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/tW_21_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/tW_22_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/tW_23_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/tW_24_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/tW_25_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/tW_26_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/tW_27_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/tW_28_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/tW_29_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/tW_30_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/tW_31_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/tW_32_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/tW_33_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/tW_34_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/tW_35_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/tW_36_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/tW_37_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/tW_38_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/tW_39_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/tW_40_step3.root',
+'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3VLQ/tW_41_step3.root'
+
+]
 
 Zplist=[
 'file:/nfs/dust/cms/user/usaiem/gc-output/TrgStudiesBoost/step3/step3_0_step3.root',
@@ -63,7 +114,7 @@ Zplist=[
 ]
 
 
-dizionario={'test':testlist, 'Zp':Zplist
+dizionario={'test':testlist, 'Zp':Zplist, 'bW':bWlist, 'tW':tWlist
 }
 
 # 'tH800':tH800list,'tH1200':tH1200list,'TpTp':TpTplist, 

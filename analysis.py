@@ -31,7 +31,11 @@ filename_list=[
 # 'trgout_Z2500'+postfix+'.root',
 # 'trgout_Z4000'+postfix+'.root',
 'trgout_Zp'+postfix+'.root',
+'trgout_Zp15'+postfix+'.root',
+'trgout_bW'+postfix+'.root',
+'trgout_tW'+postfix+'.root',
 ]
+touse='_ak8trim'
 #filename_list=['trgout_Zp'+postfix+'.root']#['trgout_bW1200'+postfix+'.root' , 'trgout_bW800'+postfix+'.root' ]
 #filename_list=['trgout_Zp'+postfix+'.root','trgout_bW1200'+postfix+'.root' , 'trgout_bW800'+postfix+'.root' , 'trgout_tH1200'+postfix+'.root' , 'trgout_tH800'+postfix+'.root', 'trgout_TpTp'+postfix+'.root']
 # filename_list=['trgout_bW1200.root' , 'trgout_bW800.root' , 'trgout_tH1200.root' , 'trgout_tH800.root']
@@ -132,7 +136,7 @@ def compare(name,file_list,name_list,legend_list,normalize=False, useOutfile=Fal
       histo_list[i].Draw('SAME'+drawoption)
     if overlayKin and not 'nevts' in name:
       ttfile=TFile(filename,'READ')
-      overlay=ttfile.Get('PFHT800_ak15trim/'+name.split('_')[-1].split('TH')[0])
+      overlay=ttfile.Get('PFHT800'+touse+'/'+name.split('_')[-1].split('TH')[0]+"Denom")
       overlay.Scale(6.0/(overlay.Integral()+0.00000001))
       overlay.SetFillStyle(3002)
       overlay.SetFillColor(38)
@@ -209,117 +213,125 @@ for filename in range(len(filename_list)):
 #       # compare("comp4_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",['AK8DiPFJet300_200TrimMod_Mass30_BTagCSVLoose0p3','AK8DiPFJet300_200TrimMod_Mass30_BTagCSVLoose0p5'],[],False, True)
 
 for filename in filename_list:
+  if 'Zp15' in filename:
+    touse='_ak15trim'
+  elif 'Zp'in filename:
+    touse='_ak8trim'
+  elif 'bW'in filename:
+    touse='_ak8trim'
+  elif 'tW'in filename:
+    touse='_ak8trim'
   for histoname in ['nevts','nevtsTH','HT','HTTH','jetPt','jetPtTH']:
     xmassimo=1
     if 'Pt' in histoname:
         xmassimo=800
     if 'HT' in histoname:
         xmassimo=2000
-    triglist=['AK8PFJet360_TrimMass30_ak15trim',
-    'AK8PFJet260_TrimMass30280_ak15trim',
-    'AK8PFJet260_TrimMass30290_ak15trim',
-    'AK8PFJet260_TrimMass30300_ak15trim',
-    'AK8PFJet260_TrimMass30310_ak15trim',
-    'AK8PFJet260_TrimMass30320_ak15trim',
-    'AK8PFJet260_TrimMass30330_ak15trim',
-    'AK8PFJet260_TrimMass30340_ak15trim',
-    'AK8PFJet260_TrimMass30350_ak15trim',
-    'PFHT800_ak15trim'
+    triglist=['AK8PFJet360_TrimMass30'+touse,
+    'AK8PFJet260_TrimMass30280'+touse,
+    #'AK8PFJet260_TrimMass30290'+touse,
+    'AK8PFJet260_TrimMass30300'+touse,
+    #'AK8PFJet260_TrimMass30310'+touse,
+    'AK8PFJet260_TrimMass30320'+touse,
+    #'AK8PFJet260_TrimMass30330'+touse,
+    'AK8PFJet260_TrimMass30340'+touse,
+    #'AK8PFJet260_TrimMass30350'+touse,
+    'PFHT800'+touse
     ]
     leglist=['AK8PFJet360_TrimMass30',
     'AK8PFJet280_TrimMass30',
-    'AK8PFJet290_TrimMass30',
+    #'AK8PFJet290_TrimMass30',
     'AK8PFJet300_TrimMass30',
-    'AK8PFJet310_TrimMass30',
+    #'AK8PFJet310_TrimMass30',
     'AK8PFJet320_TrimMass30',
-    'AK8PFJet330_TrimMass30',
+    #'AK8PFJet330_TrimMass30',
     'AK8PFJet340_TrimMass30',
-    'AK8PFJet350_TrimMass30',
+    #'AK8PFJet350_TrimMass30',
     'PFHT800'
     ]
     compare("compSingleJet_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",triglist,leglist,False, True, True,filename,xmax=xmassimo)
 
 
-    triglist=['AK8PFHT700_TrimR0p1PT0p03Mass50_ak15trim',
-    'AK8PFHT500_TrimR0p1PT0p03Mass50600_ak15trim',
-    'AK8PFHT500_TrimR0p1PT0p03Mass50620_ak15trim',
-    'AK8PFHT500_TrimR0p1PT0p03Mass50640_ak15trim',
-    'AK8PFHT500_TrimR0p1PT0p03Mass50650_ak15trim',
-    'AK8PFHT500_TrimR0p1PT0p03Mass50660_ak15trim',
-    'AK8PFHT500_TrimR0p1PT0p03Mass50670_ak15trim',
-    'AK8PFHT500_TrimR0p1PT0p03Mass50680_ak15trim',
-    'AK8PFHT500_TrimR0p1PT0p03Mass50690_ak15trim',
-    'PFHT800_ak15trim'
+    triglist=['AK8PFHT700_TrimR0p1PT0p03Mass50'+touse,
+    'AK8PFHT500_TrimR0p1PT0p03Mass50600'+touse,
+    #'AK8PFHT500_TrimR0p1PT0p03Mass50620'+touse,
+    'AK8PFHT500_TrimR0p1PT0p03Mass50640'+touse,
+    #'AK8PFHT500_TrimR0p1PT0p03Mass50650'+touse,
+    'AK8PFHT500_TrimR0p1PT0p03Mass50660'+touse,
+    #'AK8PFHT500_TrimR0p1PT0p03Mass50670'+touse,
+    'AK8PFHT500_TrimR0p1PT0p03Mass50680'+touse,
+    #'AK8PFHT500_TrimR0p1PT0p03Mass50690'+touse,
+    'PFHT800'+touse
     ]
     leglist=['AK8PFHT700_TrimR0p1PT0p03Mass50',
     'AK8PFHT600_TrimR0p1PT0p03Mass50',
-    'AK8PFHT620_TrimR0p1PT0p03Mass50',
+    #'AK8PFHT620_TrimR0p1PT0p03Mass50',
     'AK8PFHT640_TrimR0p1PT0p03Mass50',
-    'AK8PFHT650_TrimR0p1PT0p03Mass50',
+    #'AK8PFHT650_TrimR0p1PT0p03Mass50',
     'AK8PFHT660_TrimR0p1PT0p03Mass50',
-    'AK8PFHT670_TrimR0p1PT0p03Mass50',
+    #'AK8PFHT670_TrimR0p1PT0p03Mass50',
     'AK8PFHT680_TrimR0p1PT0p03Mass50',
-    'AK8PFHT690_TrimR0p1PT0p03Mass50',
+    #'AK8PFHT690_TrimR0p1PT0p03Mass50',
     'PFHT800'
     ]
     compare("compHTJet_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",triglist,leglist,False, True, True,filename,xmax=xmassimo)
 
 
-    triglist=['AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45700_ak15trim',
-    'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45600_ak15trim',
-    'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45620_ak15trim',
-    'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45640_ak15trim',
-    'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45650_ak15trim',
-    'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45660_ak15trim',
-    'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45670_ak15trim',
-    'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45680_ak15trim',
-    'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45690_ak15trim',
-    'PFHT800_ak15trim'
+    triglist=['AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45700'+touse,
+    'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45600'+touse,
+    #'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45620'+touse,
+    'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45640'+touse,
+    #'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45650'+touse,
+    'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45660'+touse,
+    #'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45670'+touse,
+    'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45680'+touse,
+    #'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45690'+touse,
+    'PFHT800'+touse
     ]
     leglist=['AK8PFHT700_TrimR0p1PT0p03Mass50_BTagCSV0p45',
     'AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV0p45',
-    'AK8PFHT620_TrimR0p1PT0p03Mass50_BTagCSV0p45',
+    #'AK8PFHT620_TrimR0p1PT0p03Mass50_BTagCSV0p45',
     'AK8PFHT640_TrimR0p1PT0p03Mass50_BTagCSV0p45',
-    'AK8PFHT650_TrimR0p1PT0p03Mass50_BTagCSV0p45',
+    #'AK8PFHT650_TrimR0p1PT0p03Mass50_BTagCSV0p45',
     'AK8PFHT660_TrimR0p1PT0p03Mass50_BTagCSV0p45',
-    'AK8PFHT670_TrimR0p1PT0p03Mass50_BTagCSV0p45',
+    #'AK8PFHT670_TrimR0p1PT0p03Mass50_BTagCSV0p45',
     'AK8PFHT680_TrimR0p1PT0p03Mass50_BTagCSV0p45',
-    'AK8PFHT690_TrimR0p1PT0p03Mass50_BTagCSV0p45',
+    #'AK8PFHT690_TrimR0p1PT0p03Mass50_BTagCSV0p45',
     'PFHT800'
     ]
     compare("compHTJetBtag_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",triglist,leglist,False, True, True,filename,xmax=xmassimo)
 
 
-    triglist=['AK8DiPFJet280_200_TrimMass30_BTagCSV0p45_ak15trim',
-    'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45200_ak15trim',
-    'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45210_ak15trim',
-    'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45220_ak15trim',
-    'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45230_ak15trim',
-    'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45240_ak15trim',
-    'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45250_ak15trim',
-    'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45260_ak15trim',
-    'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45270_ak15trim',
-    'PFHT800_ak15trim'
+    triglist=['AK8DiPFJet280_200_TrimMass30_BTagCSV0p45'+touse,
+    'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45200'+touse,
+    #'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45210'+touse,
+    'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45220'+touse,
+    #'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45230'+touse,
+    'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45240'+touse,
+    #'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45250'+touse,
+    'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45260'+touse,
+    #'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45270'+touse,
+    'PFHT800'+touse
     ]
     leglist=['AK8DiPFJet280_200_TrimMass30_BTagCSV0p45',
     'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45',
-    'AK8DiPFJet210_200_TrimMass30_BTagCSV0p45',
+    #'AK8DiPFJet210_200_TrimMass30_BTagCSV0p45',
     'AK8DiPFJet220_200_TrimMass30_BTagCSV0p45',
-    'AK8DiPFJet230_200_TrimMass30_BTagCSV0p45',
+    #'AK8DiPFJet230_200_TrimMass30_BTagCSV0p45',
     'AK8DiPFJet240_200_TrimMass30_BTagCSV0p45',
-    'AK8DiPFJet250_200_TrimMass30_BTagCSV0p45',
+    #'AK8DiPFJet250_200_TrimMass30_BTagCSV0p45',
     'AK8DiPFJet260_200_TrimMass30_BTagCSV0p45',
-    'AK8DiPFJet270_200_TrimMass30_BTagCSV0p45',
+    #'AK8DiPFJet270_200_TrimMass30_BTagCSV0p45',
     'PFHT800'
     ]
     compare("compDijet_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",triglist,leglist,False, True, True,filename,xmax=xmassimo)
 
 
     triglist=[
-    'PFHT800_ak15trim',
-    'AK8PFJet360_TrimMass30_ak15trim',
-    'AK8PFHT700_TrimR0p1PT0p03Mass50_ak15trim',
-    'AK8DiPFJet280_200_TrimMass30_BTagCSV0p45_ak15trim',
+    'PFHT800'+touse,
+    'AK8PFJet360_TrimMass30'+touse,
+    'AK8PFHT700_TrimR0p1PT0p03Mass50'+touse,
+    'AK8DiPFJet280_200_TrimMass30_BTagCSV0p45'+touse,
     ]
     leglist=[
     'PFHT800',

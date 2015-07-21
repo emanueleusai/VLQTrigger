@@ -305,15 +305,42 @@ float maxCSV=0;
    // bool bW_selection = bW_AK8_pT_cut && bW_AK4_btag_cut && bW_AK8_mass_cut; //&& phicond;// && base_dijet_trigger_cut;
    
    
-   ////tH selection
+   //bW
+   // bool tH_AK8_pT_cut = /*(AK8SubleadingPt > 200.0)*/ (AK8LeadingPt > 200.0);
+   // //at least one btag
+   // bool tH_AK4_btag_cut = (nbtags > 0);
+   // //W mass requirement
+   // bool tH_AK8_mass_cut = (AK8LeadingMass > 60.0) || (AK8SubleadingMass > 60.0);
+   // //final combined cut
+   // bool tH_selection = tH_AK8_pT_cut && tH_AK4_btag_cut && tH_AK8_mass_cut;// && base_dijet_trigger_cut;
+   
+   // //Zp15
+   // bool tH_AK8_pT_cut = (AK8SubleadingPt > 200.0);
+   // //at least one btag
+   // bool tH_AK4_btag_cut = (nbtags > -1);
+   // //W mass requirement
+   // bool tH_AK8_mass_cut = (AK8LeadingMass > 100.0) && (AK8SubleadingMass > 100.0);
+   // //final combined cut
+   // bool tH_selection = tH_AK8_pT_cut && tH_AK4_btag_cut && tH_AK8_mass_cut;// && base_dijet_trigger_cut;
+
+   //  //Zp8
+   // bool tH_AK8_pT_cut = (AK8SubleadingPt > 200.0);
+   // //at least one btag
+   // bool tH_AK4_btag_cut = (nbtags > 1);
+   // //W mass requirement
+   // bool tH_AK8_mass_cut = (AK8LeadingMass > 50.0) && (AK8SubleadingMass > 50.0);
+   // //final combined cut
+   // bool tH_selection = tH_AK8_pT_cut && tH_AK4_btag_cut && tH_AK8_mass_cut;// && base_dijet_trigger_cut;
+
+   //tW
    bool tH_AK8_pT_cut = (AK8SubleadingPt > 200.0);
    //at least one btag
-   bool tH_AK4_btag_cut = (nbtags > -1);
+   bool tH_AK4_btag_cut = (nbtags > 0);
    //W mass requirement
-   bool tH_AK8_mass_cut = (AK8LeadingMass > 120.0) && (AK8SubleadingMass > 120.0);
+   bool tH_AK8_mass_cut = (((AK8LeadingMass > 50.0) && (AK8SubleadingMass > 100.0) ) || ( (AK8LeadingMass > 100.0) && (AK8SubleadingMass > 50.0) ) );
    //final combined cut
    bool tH_selection = tH_AK8_pT_cut && tH_AK4_btag_cut && tH_AK8_mass_cut;// && base_dijet_trigger_cut;
-   
+
 
    //15 selection
 
