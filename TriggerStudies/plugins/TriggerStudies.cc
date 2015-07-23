@@ -402,6 +402,10 @@ float maxCSV=0;
      if (pass)
 //     if (triggerResults->accept(triggerBit) || triggerResults->accept(triggerBit2) || triggerResults->accept(triggerBit3))//!!!!!!!!!!!!!!!!!!!!!!!!
      {
+       if (HT<300.0)
+      {
+        cout<<"weird "<<iEvent.id().event()<<" "<<iEvent.id().luminosityBlock()<<" "<<iEvent.id().run()<<endl;
+      }
        histos1D_[ "nevtsTHPassing" ]->Fill( 0.5 );
        histos1D_[ "maxCSVTHPassing" ]->Fill( maxCSV );
        histos1D_[ "maxCSV2THPassing" ]->Fill( maxCSV2 );

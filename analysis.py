@@ -1,8 +1,9 @@
-from ROOT import TFile,TCanvas,gROOT,gStyle,TLegend,TGraphAsymmErrors
+from ROOT import TFile,TCanvas,gROOT,gStyle,TLegend,TGraphAsymmErrors,kOrange,kViolet,kBlue
 from os import system
 from sys import argv
 from os import mkdir
 from os.path import exists
+from array import array
 gStyle.SetNumberContours(255)
 gStyle.SetPalette(55)
 gROOT.SetBatch()
@@ -30,8 +31,9 @@ filename_list=[
 # 'trgout_Z1500'+postfix+'.root',
 # 'trgout_Z2500'+postfix+'.root',
 # 'trgout_Z4000'+postfix+'.root',
-'trgout_Zp'+postfix+'.root',
-'trgout_Zp15'+postfix+'.root',
+
+#'trgout_Zp'+postfix+'.root',
+#'trgout_Zp15'+postfix+'.root',
 'trgout_bW'+postfix+'.root',
 'trgout_tW'+postfix+'.root',
 ]
@@ -40,8 +42,8 @@ touse='_ak8trim'
 #filename_list=['trgout_Zp'+postfix+'.root','trgout_bW1200'+postfix+'.root' , 'trgout_bW800'+postfix+'.root' , 'trgout_tH1200'+postfix+'.root' , 'trgout_tH800'+postfix+'.root', 'trgout_TpTp'+postfix+'.root']
 # filename_list=['trgout_bW1200.root' , 'trgout_bW800.root' , 'trgout_tH1200.root' , 'trgout_tH800.root']
 kinematic_names=["nBtag","nJet","HT","jetMass","jetPt","jetMass2","jetPt2","eta","nJet4","maxCSV","maxCSV2"]
-efficiency_names=['nevts','nevtsTH',"HT","jetMass","jetPt","jetMass2","jetPt2","HTTH","jetMassTH","jetPtTH","jetMass2TH","jetPt2TH","maxCSV","maxCSVTH","maxCSV2","maxCSV2TH"]
-efficiency_titles=['Number of events','Number of events',"HT (GeV)","Leading jet mass (GeV)","Leading jet pT (GeV)","Subleading jet mass (GeV)","Subleading jet pt (GeV)","HT (GeV)","Leading jet mass (GeV)","Leading jet pT (GeV)","Subleading jet mass (GeV)","Subleading jet pT (GeV)","maximum CSV","maximum CSV","maximum CSV2","maximum CSV2"]
+efficiency_names=['nevts','nevtsTH',"HT","jetMass","jetPt","jetMass2","jetPt2","HTTH","jetMassTH","jetPtTH","jetMass2TH","jetPt2TH"]#,"maxCSV","maxCSVTH","maxCSV2","maxCSV2TH"]
+efficiency_titles=['Number of events','Number of events',"HT (GeV)","Leading jet mass (GeV)","Leading jet pT (GeV)","Subleading jet mass (GeV)","Subleading jet pt (GeV)","HT (GeV)","Leading jet mass (GeV)","Leading jet pT (GeV)","Subleading jet mass (GeV)","Subleading jet pT (GeV)"]#,"maximum CSV","maximum CSV","maximum CSV2","maximum CSV2"]
 
 trigger_names=['PFHT800', 'PFHT800_ak8trim', 'PFHT800_ak15trim', 'AK8PFJet360_TrimMass30', 'AK8PFJet360_TrimMass30_ak8trim', 'AK8PFJet360_TrimMass30_ak15trim', 'AK8PFHT700_TrimR0p1PT0p03Mass50', 'AK8PFHT700_TrimR0p1PT0p03Mass50_ak8trim', 'AK8PFHT700_TrimR0p1PT0p03Mass50_ak15trim', 'AK8DiPFJet280_200_TrimMass30_BTagCSV0p45', 'AK8DiPFJet280_200_TrimMass30_BTagCSV0p45_ak8trim', 'AK8DiPFJet280_200_TrimMass30_BTagCSV0p45_ak15trim', 'PFHT450_SixJet40_PFBTagCSV0p72', 'PFHT450_SixJet40_PFBTagCSV0p72_ak8trim', 'PFHT450_SixJet40_PFBTagCSV0p72_ak15trim', 'PFHT400_SixJet30_BTagCSV0p55_2PFBTagCSV0p72', 'PFHT400_SixJet30_BTagCSV0p55_2PFBTagCSV0p72_ak8trim', 'PFHT400_SixJet30_BTagCSV0p55_2PFBTagCSV0p72_ak15trim', 'AK8PFJet260_TrimMass30280', 'AK8PFJet260_TrimMass30280_ak8trim', 'AK8PFJet260_TrimMass30280_ak15trim', 'AK8PFJet260_TrimMass30290', 'AK8PFJet260_TrimMass30290_ak8trim', 'AK8PFJet260_TrimMass30290_ak15trim', 'AK8PFJet260_TrimMass30300', 'AK8PFJet260_TrimMass30300_ak8trim', 'AK8PFJet260_TrimMass30300_ak15trim', 'AK8PFJet260_TrimMass30310', 'AK8PFJet260_TrimMass30310_ak8trim', 'AK8PFJet260_TrimMass30310_ak15trim', 'AK8PFJet260_TrimMass30320', 'AK8PFJet260_TrimMass30320_ak8trim', 'AK8PFJet260_TrimMass30320_ak15trim', 'AK8PFJet260_TrimMass30330', 'AK8PFJet260_TrimMass30330_ak8trim', 'AK8PFJet260_TrimMass30330_ak15trim', 'AK8PFJet260_TrimMass30340', 'AK8PFJet260_TrimMass30340_ak8trim', 'AK8PFJet260_TrimMass30340_ak15trim', 'AK8PFJet260_TrimMass30350', 'AK8PFJet260_TrimMass30350_ak8trim', 'AK8PFJet260_TrimMass30350_ak15trim', 'AK8PFJet260_TrimMass30360', 'AK8PFJet260_TrimMass30360_ak8trim', 'AK8PFJet260_TrimMass30360_ak15trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50600', 'AK8PFHT500_TrimR0p1PT0p03Mass50600_ak8trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50600_ak15trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50620', 'AK8PFHT500_TrimR0p1PT0p03Mass50620_ak8trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50620_ak15trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50640', 'AK8PFHT500_TrimR0p1PT0p03Mass50640_ak8trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50640_ak15trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50650', 'AK8PFHT500_TrimR0p1PT0p03Mass50650_ak8trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50650_ak15trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50660', 'AK8PFHT500_TrimR0p1PT0p03Mass50660_ak8trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50660_ak15trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50670', 'AK8PFHT500_TrimR0p1PT0p03Mass50670_ak8trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50670_ak15trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50680', 'AK8PFHT500_TrimR0p1PT0p03Mass50680_ak8trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50680_ak15trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50690', 'AK8PFHT500_TrimR0p1PT0p03Mass50690_ak8trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50690_ak15trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50700', 'AK8PFHT500_TrimR0p1PT0p03Mass50700_ak8trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50700_ak15trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45600', 'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45600_ak8trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45600_ak15trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45620', 'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45620_ak8trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45620_ak15trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45640', 'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45640_ak8trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45640_ak15trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45650', 'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45650_ak8trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45650_ak15trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45660', 'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45660_ak8trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45660_ak15trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45670', 'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45670_ak8trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45670_ak15trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45680', 'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45680_ak8trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45680_ak15trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45690', 'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45690_ak8trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45690_ak15trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45700', 'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45700_ak8trim', 'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45700_ak15trim', 'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45200', 'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45200_ak8trim', 'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45200_ak15trim', 'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45210', 'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45210_ak8trim', 'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45210_ak15trim', 'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45220', 'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45220_ak8trim', 'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45220_ak15trim', 'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45230', 'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45230_ak8trim', 'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45230_ak15trim', 'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45240', 'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45240_ak8trim', 'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45240_ak15trim', 'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45250', 'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45250_ak8trim', 'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45250_ak15trim', 'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45260', 'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45260_ak8trim', 'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45260_ak15trim', 'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45270', 'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45270_ak8trim', 'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45270_ak15trim', 'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45280', 'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45280_ak8trim', 'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45280_ak15trim']
 
@@ -67,6 +69,8 @@ outfile.cd()
 folder='pdf'+postfix+'/'
 if not exists(folder):
   mkdir(folder)
+
+colors=[1,2,3,4,kOrange+1,kViolet-6,8,9,5,6,7,11,12,13,14,15,16,17,18,19]
 
 def compare(name,file_list,name_list,legend_list,normalize=False, useOutfile=False,overlayKin=False,filename='',drawoption='',xmin=0,ymax=0,xmax=0):
   c=TCanvas(name,'',600,600)
@@ -103,9 +107,9 @@ def compare(name,file_list,name_list,legend_list,normalize=False, useOutfile=Fal
     if not useOutfile:
       histo_list[-1].SetStats(0)
     histo_list[-1].SetLineWidth(3)
-    histo_list[-1].SetLineColor(i+1)
-    if i>8:
-      histo_list[-1].SetLineColor(i+2)
+    histo_list[-1].SetLineColor(colors[i+1])
+    #if i>8:
+    #  histo_list[-1].SetLineColor(i+2)
     histo_list[-1].SetTitle('')
     if len(legend_list)>0:
       legend.AddEntry(histo_list[-1],legend_list[i],'l')
@@ -124,7 +128,7 @@ def compare(name,file_list,name_list,legend_list,normalize=False, useOutfile=Fal
         histo_list[i].SetMaximum(1.05)
         histo_list[i].SetMinimum(0.0)
         if xmax!=0:
-          histo_list[i].GetXaxis().SetRangeUser(0,xmax)
+          histo_list[i].GetXaxis().SetRangeUser(xmin,xmax)
       histo_list[i].Draw(drawoption)
       if useOutfile:
         if len(file_list.split('_'))>1:
@@ -133,13 +137,14 @@ def compare(name,file_list,name_list,legend_list,normalize=False, useOutfile=Fal
           histo_list[i].GetXaxis().SetTitle('Leading jet pT [GeV]')
         histo_list[i].GetYaxis().SetTitle('Efficiency')
     else:
-      histo_list[i].Draw('SAME'+drawoption)
+      drawoption2= drawoption.replace("a", "")
+      histo_list[i].Draw('SAME'+drawoption2)
     if overlayKin and not 'nevts' in name:
       ttfile=TFile(filename,'READ')
       overlay=ttfile.Get('PFHT800'+touse+'/'+name.split('_')[-1].split('TH')[0]+"Denom")
-      overlay.Scale(6.0/(overlay.Integral()+0.00000001))
-      overlay.SetFillStyle(3002)
-      overlay.SetFillColor(38)
+      overlay.Scale(5.0/(overlay.Integral()+0.00000001))
+      overlay.SetFillStyle(3004)
+      overlay.SetFillColorAlpha(kBlue, 0.35)
       overlay.Draw('SAMEHIST')
   legend.Draw()
   outfile.cd()
@@ -151,6 +156,13 @@ def doeff(filename, histoname, triggername, rebin=1):
   tmp_file=TFile(filename,'READ')
   numerator=tmp_file.Get(triggername+'/'+histoname+'Passing')
   denominator=tmp_file.Get(triggername+'/'+histoname+'Denom')
+  if 'Pt' in histoname:
+    numerator=numerator.Rebin(21,triggername+'_'+histoname+'Passing',array('d',[0, 25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400, 450, 500, 600, 700, 800]))
+    denominator=denominator.Rebin(21,triggername+'_'+histoname+'Denom',array('d',[0, 25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400, 450, 500, 600, 700, 800]))
+  if 'HT' in histoname:
+    numerator=numerator.Rebin(28,triggername+'_'+histoname+'Passing',array('d',[0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000, 1100, 1200, 1300, 1400, 1600, 1650, 1800, 2000]))
+    denominator=denominator.Rebin(28,triggername+'_'+histoname+'Denom',array('d',[0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000, 1100, 1200, 1300, 1400, 1600, 1650, 1800, 2000]))
+    
   n_num=numerator.Integral()
   n_den=denominator.Integral()
   numerator.Rebin(rebin)
@@ -340,6 +352,37 @@ for filename in filename_list:
     'AK8DiPFJet280_200_TrimMass30_BTagCSV0p45',
     ]
     compare("compCurrent_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",triglist,leglist,False, True, True,filename,xmax=xmassimo)
+
+    #final plots
+    triglist=[
+    'PFHT800'+touse,
+    'AK8PFJet360_TrimMass30'+touse,
+    'AK8PFHT500_TrimR0p1PT0p03Mass50650'+touse,
+    'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45600'+touse,
+    'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45250'+touse,
+    ]
+    leglist=[
+    'PFHT800',
+    'AK8PFJet360_TrimMass30',
+    'AK8PFHT650_TrimR0p1PT0p03Mass50',
+    'AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV0p45',
+    'AK8DiPFJet280_200_TrimMass30_BTagCSV0p45',
+    ]
+    # xminimo=0
+    # if 'HT' in histoname:
+    #   xminimo=300
+    xmassimo=1
+    if 'Pt' in histoname:
+        xmassimo=700
+    if 'HT' in histoname:
+        xmassimo=1600
+    xminimo=1
+    if 'Pt' in histoname:
+        xminimo=200
+    if 'HT' in histoname:
+        xminimo=350
+    compare("compFinal_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",triglist,leglist,False, True, True,
+      filename,xmax=xmassimo,xmin=xminimo,drawoption='ap')
 
 # for filename in filename_list:
 #   for histoname in efficiency_names:
