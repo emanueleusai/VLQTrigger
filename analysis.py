@@ -121,6 +121,7 @@ def compare(name,file_list,name_list,legend_list,normalize=False, useOutfile=Fal
       overlay.SetTitle("")
       overlay.SetLineColor(ci)
       overlay.SetLineWidth(2)
+      overlay.SetLineStyle(2)
       overlay.GetXaxis().SetTitle("p_{T}(2nd AK8 jet) [GeV]")
       if 'HT' in name:
         overlay.GetXaxis().SetTitle("H_{T} (AK8 jets) [GeV]")
