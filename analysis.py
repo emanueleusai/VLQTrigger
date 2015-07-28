@@ -1,4 +1,4 @@
-from ROOT import TFile,TCanvas,gROOT,gStyle,TLegend,TGraphAsymmErrors,kOrange,kViolet,kBlue
+from ROOT import TFile,TCanvas,gROOT,gStyle,TLegend,TGraphAsymmErrors,kOrange,kViolet,kBlue,TLatex,TColor,TLegendEntry,TPad,TGaxis,kGreen
 from os import system
 from sys import argv
 from os import mkdir
@@ -70,14 +70,96 @@ folder='pdf'+postfix+'/'
 if not exists(folder):
   mkdir(folder)
 
-colors=[1,2,3,4,kOrange+1,kViolet-6,8,9,5,6,7,11,12,13,14,15,16,17,18,19]
+colors=[kOrange+7,kGreen+2,kViolet-5,1,2,3,4,kOrange+1,kViolet-6,8,9,5,6,7,11,12,13,14,15,16,17,18,19]
 
 def compare(name,file_list,name_list,legend_list,normalize=False, useOutfile=False,overlayKin=False,filename='',drawoption='',xmin=0,ymax=0,xmax=0):
-  c=TCanvas(name,'',600,600)
-  c.SetLeftMargin(0.15)#
-  c.SetRightMargin(0.05)#
-  c.SetTopMargin(0.05)#
-  c.SetBottomMargin(0.10)
+  c=TCanvas('','',0,45,800,600)
+  c.SetHighLightColor(2)
+  c.Range(0,0,1,1)
+  c.SetFillColor(0)
+  c.SetBorderMode(0)
+  c.SetBorderSize(2)
+  c.SetTickx(1)
+  c.SetTicky(1)
+  c.SetFrameBorderMode(0);
+  # c.SetLeftMargin(0.15)#
+  # c.SetRightMargin(0.05)#
+  # c.SetTopMargin(0.05)#
+  # c.SetBottomMargin(0.10)
+  gStyle.SetOptStat(0)
+  pad0 = TPad("pad0", "",0,0,1,1)
+  pad0.Draw()
+  pad0.cd()
+  pad0.Range(74.99999,-4.2801,1325,3.305596)
+  if 'HT' in name:
+    pad0.Range(-25.00002,-3.595907,2225,2.960984)
+  pad0.SetFillColor(0)
+  pad0.SetFillStyle(4000)
+  pad0.SetBorderMode(0)
+  pad0.SetBorderSize(2)
+  pad0.SetLogy()
+  pad0.SetTickx(1)
+  pad0.SetFrameBorderMode(0)
+  pad0.SetFrameBorderMode(0)
+  
+  if overlayKin and not 'nevts' in name:
+      ttfile=TFile(filename,'READ')
+      overlay=ttfile.Get('PFHT800'+touse+'/'+name.split('_')[-1].split('TH')[0]+"Denom")
+      if 'Pt2' in name:
+        overlay=ttfile.Get('PFHT800'+touse+'/'+name.split('_')[-1].split('TH')[0]+"Denom").Rebin(12,'aaa',array('d',[200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 900, 1200]))
+      if 'HT' in name:
+        overlay=ttfile.Get('PFHT800'+touse+'/'+name.split('_')[-1].split('TH')[0]+"Denom").Rebin(18,'aaa',array('d',[200, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000, 1100, 1200, 1400, 1600, 2000]))
+
+      #overlay.Scale(2.0/(overlay.Integral()+0.00000001))
+      
+      #Int_t ci;      // for color index setting
+      #TColor *color; // for color definition with alpha
+      
+      
+      
+      ci = TColor.GetColor("#000099")
+      overlay.SetTitle("")
+      overlay.SetLineColor(ci)
+      overlay.SetLineWidth(2)
+      overlay.GetXaxis().SetTitle("p_{T}(2nd AK8 jet) [GeV]")
+      if 'HT' in name:
+        overlay.GetXaxis().SetTitle("H_{T} (AK8 jets) [GeV]")
+      overlay.GetXaxis().SetLabelFont(42)
+      overlay.GetXaxis().SetLabelSize(0.035)
+      overlay.GetXaxis().SetTitleSize(0.035)
+      overlay.GetXaxis().SetTitleFont(42)
+      overlay.GetYaxis().SetTitle("A.U.")
+      overlay.GetYaxis().SetLabelFont(42)
+      overlay.GetYaxis().SetLabelSize(0.035)
+      overlay.GetYaxis().SetTitleSize(0.035)
+      overlay.GetYaxis().SetTitleFont(42)
+      overlay.GetZaxis().SetLabelFont(42)
+      overlay.GetZaxis().SetLabelSize(0.035)
+      overlay.GetZaxis().SetTitleSize(0.035)
+      overlay.GetZaxis().SetTitleFont(42)
+      if 'HT' in name:
+        overlay.SetMaximum(overlay.GetMaximum()*100)
+      else:
+        overlay.SetMaximum(overlay.GetMaximum()*1000)
+      
+      overlay.Draw("histo")
+      pad0.Modified()
+
+  xAxis2=array('d',[200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 900, 1200])
+  xAxis1=array('d',[200, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000, 1100, 1200, 1400, 1600, 2000])
+
+  pad1 = TPad("pad1", "",0,0,1,1)
+  pad1.Draw()
+  pad1.cd()
+  pad1.Range(75,-0.275,1325,1.975)
+  if 'HT' in name:
+    pad1.Range(-25,-0.275,2225,1.975)
+  pad1.SetFillColor(0)
+  pad1.SetFillStyle(4000)
+  pad1.SetBorderMode(0)
+  pad1.SetBorderSize(2)
+  pad1.SetFrameBorderMode(0)
+
   if not useOutfile:
     legend=TLegend(0.7,0.7,0.95,0.95)
   else:
@@ -106,8 +188,9 @@ def compare(name,file_list,name_list,legend_list,normalize=False, useOutfile=Fal
       histo_list[-1].Scale(1.0/(histo_list[-1].Integral()+0.00000001))
     if not useOutfile:
       histo_list[-1].SetStats(0)
-    histo_list[-1].SetLineWidth(3)
-    histo_list[-1].SetLineColor(colors[i+1])
+    histo_list[-1].SetLineWidth(2)
+    histo_list[-1].SetTitle('')
+    histo_list[-1].SetLineColor(colors[i])
     #if i>8:
     #  histo_list[-1].SetLineColor(i+2)
     histo_list[-1].SetTitle('')
@@ -139,30 +222,127 @@ def compare(name,file_list,name_list,legend_list,normalize=False, useOutfile=Fal
     else:
       drawoption2= drawoption.replace("a", "")
       histo_list[i].Draw('SAME'+drawoption2)
-    if overlayKin and not 'nevts' in name:
-      ttfile=TFile(filename,'READ')
-      overlay=ttfile.Get('PFHT800'+touse+'/'+name.split('_')[-1].split('TH')[0]+"Denom")
-      overlay.Scale(5.0/(overlay.Integral()+0.00000001))
-      overlay.SetFillStyle(3004)
-      overlay.SetFillColorAlpha(kBlue, 0.35)
-      overlay.Draw('SAMEHIST')
-  legend.Draw()
+    
+      #pad0.Draw()
+      #pad0.Modified()
+      #c.cd()
+
+      #overlay.SetFillStyle(3004)
+      #overlay.SetFillColorAlpha(kBlue, 0.35)
+
+
+
+      #overlay.Draw('SAMEHIST')
+  #legend.Draw()
+  #gaxis=0
+  if 'HT' in name:
+    gaxis = TGaxis(2000,-0.05,2000,1.75,-0.05,1.75,50510,"+L")
+  else:
+    gaxis = TGaxis(1200,-0.05,1200,1.75,-0.05,1.75,50510,"+L")
+  gaxis.SetLabelOffset(0.005)
+  gaxis.SetLabelSize(0.035)
+  gaxis.SetTickSize(0.03)
+  gaxis.SetGridLength(0)
+  gaxis.SetTitleOffset(1.2)
+  gaxis.SetTitleSize(0.035)
+  gaxis.SetTitleColor(1)
+  gaxis.SetTitleFont(42)
+  gaxis.SetTitle("Efficiency")
+  gaxis.SetLabelFont(42)
+  gaxis.Draw()
+
+
+  leg = TLegend(0.12,0.6,0.52,0.89,'',"brNDC")
+  leg.SetBorderSize(0)
+  leg.SetTextFont(62)
+  leg.SetTextSize(0.025)
+  leg.SetLineColor(1)
+  leg.SetLineStyle(1)
+  leg.SetLineWidth(1)
+  leg.SetFillColor(0)
+  leg.SetFillStyle(1001)
+  entry=0
+  if 'tW' in name:
+    entry=leg.AddEntry("ptak82nd","pp #rightarrow B(tW)bj, M(B) = 700 GeV","l")
+  else:
+    entry=leg.AddEntry("ptak82nd","pp #rightarrow T(bW)bj, M(T) = 700 GeV","l")
+
+  ci = TColor.GetColor("#000099")
+  entry.SetLineColor(ci)
+  entry.SetLineStyle(1)
+  entry.SetLineWidth(2)
+  entry.SetMarkerColor(1)
+  entry.SetMarkerStyle(21)
+  entry.SetMarkerSize(1)
+  entry.SetTextFont(62)
+  entry=leg.AddEntry("HLT_PFHT800","Eff. (AK4 H_{T} > 800 GeV)","lp")
+  entry.SetLineColor(colors[0])
+  entry.SetLineStyle(1)
+  entry.SetLineWidth(2)
+  entry.SetMarkerColor(1)
+  entry.SetMarkerStyle(1)
+  entry.SetMarkerSize(1)
+  entry.SetTextFont(62)
+  entry=leg.AddEntry("HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV0p45","Eff. (AK8 H_{T} > 600 GeV, trimmed AK8 jet mass > 50 GeV, #geq1 loose b-tag )","lp")
+  entry.SetLineColor(colors[1])
+  entry.SetLineStyle(1)
+  entry.SetLineWidth(2)
+  entry.SetMarkerColor(1)
+  entry.SetMarkerStyle(1)
+  entry.SetMarkerSize(1)
+  entry.SetTextFont(62)
+  entry=leg.AddEntry("HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV0p45","Eff. (Trimmed AK8 jet mass > 30 GeV, p_{T}^{jet1} > 250 GeV, p_{T}^{jet2} > 200 GeV, #geq1 loose b-tag )","lp")
+  entry.SetLineColor(colors[2])
+  entry.SetLineStyle(1)
+  entry.SetLineWidth(2)
+  entry.SetMarkerColor(1)
+  entry.SetMarkerStyle(1)
+  entry.SetMarkerSize(1)
+  entry.SetTextFont(62)
+  leg.Draw()
+
+  tex = TLatex(0.9,0.92," 13 TeV")
+  tex.SetNDC()
+  tex.SetTextAlign(31)
+  tex.SetTextFont(42)
+  tex.SetTextSize(0.03)
+  tex.SetLineWidth(2)
+  tex.Draw()
+  tex2 = TLatex(0.864,0.872,"CMS")
+  tex2.SetNDC()
+  tex2.SetTextAlign(33)
+  tex2.SetTextFont(61)
+  tex2.SetTextSize(0.045)
+  tex2.SetLineWidth(2)
+  tex2.Draw()
+  tex3 = TLatex(0.864,0.818,"Simulation Preliminary")
+  tex3.SetNDC()
+  tex3.SetTextAlign(33)
+  tex3.SetTextFont(52)
+  tex3.SetTextSize(0.0342)
+  tex3.SetLineWidth(2)
+  tex3.Draw()
+
   outfile.cd()
   c.Write(name)
   c.SaveAs(folder+name+'.pdf')
+  #c.SaveAs(folder+name+'.C')
   #c.SaveAs(folder+name+'.png')
 
 def doeff(filename, histoname, triggername, rebin=1):
   tmp_file=TFile(filename,'READ')
   numerator=tmp_file.Get(triggername+'/'+histoname+'Passing')
   denominator=tmp_file.Get(triggername+'/'+histoname+'Denom')
-  if 'Pt' in histoname:
-    numerator=numerator.Rebin(21,triggername+'_'+histoname+'Passing',array('d',[0, 25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400, 450, 500, 600, 700, 800]))
-    denominator=denominator.Rebin(21,triggername+'_'+histoname+'Denom',array('d',[0, 25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400, 450, 500, 600, 700, 800]))
+  #if 'Pt' in histoname:
+  #  numerator=numerator.Rebin(21,triggername+'_'+histoname+'Passing',array('d',[0, 25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400, 450, 500, 600, 700, 800]))
+  #  denominator=denominator.Rebin(21,triggername+'_'+histoname+'Denom',array('d',[0, 25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400, 450, 500, 600, 700, 800]))
   if 'HT' in histoname:
-    numerator=numerator.Rebin(28,triggername+'_'+histoname+'Passing',array('d',[0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000, 1100, 1200, 1300, 1400, 1600, 1650, 1800, 2000]))
-    denominator=denominator.Rebin(28,triggername+'_'+histoname+'Denom',array('d',[0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000, 1100, 1200, 1300, 1400, 1600, 1650, 1800, 2000]))
-    
+    numerator=numerator.Rebin(18,triggername+'_'+histoname+'Passing',array('d',[200, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000, 1100, 1200, 1400, 1600, 2000]))
+    denominator=denominator.Rebin(18,triggername+'_'+histoname+'Denom',array('d',[200, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000, 1100, 1200, 1400, 1600, 2000]))
+  if 'Pt2' in histoname:
+    numerator=numerator.Rebin(12,triggername+'_'+histoname+'Passing',array('d',[200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 900, 1200]))
+    denominator=denominator.Rebin(12,triggername+'_'+histoname+'Denom',array('d',[200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 900, 1200]))
+
   n_num=numerator.Integral()
   n_den=denominator.Integral()
   numerator.Rebin(rebin)
@@ -233,7 +413,7 @@ for filename in filename_list:
     touse='_ak8trim'
   elif 'tW'in filename:
     touse='_ak8trim'
-  for histoname in ['nevts','nevtsTH','HT','HTTH','jetPt','jetPtTH']:
+  for histoname in ['nevts','nevtsTH','HT','HTTH','jetPt','jetPtTH',"jetPt2","jetPt2TH"]:
     xmassimo=1
     if 'Pt' in histoname:
         xmassimo=800
@@ -352,37 +532,41 @@ for filename in filename_list:
     'AK8DiPFJet280_200_TrimMass30_BTagCSV0p45',
     ]
     compare("compCurrent_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",triglist,leglist,False, True, True,filename,xmax=xmassimo)
-
+    print touse
     #final plots
     triglist=[
     'PFHT800'+touse,
-    'AK8PFJet360_TrimMass30'+touse,
-    'AK8PFHT500_TrimR0p1PT0p03Mass50650'+touse,
+    #'AK8PFJet360_TrimMass30'+touse,
+    #'AK8PFHT500_TrimR0p1PT0p03Mass50650'+touse,
     'AK8PFHT500_TrimR0p1PT0p03Mass50_BTagCSV0p45600'+touse,
     'AK8DiPFJet200_200_TrimMass30_BTagCSV0p45250'+touse,
     ]
     leglist=[
     'PFHT800',
-    'AK8PFJet360_TrimMass30',
-    'AK8PFHT650_TrimR0p1PT0p03Mass50',
+    #'AK8PFJet360_TrimMass30',
+    #'AK8PFHT650_TrimR0p1PT0p03Mass50',
     'AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV0p45',
-    'AK8DiPFJet280_200_TrimMass30_BTagCSV0p45',
+    'AK8DiPFJet250_200_TrimMass30_BTagCSV0p45',
     ]
     # xminimo=0
     # if 'HT' in histoname:
     #   xminimo=300
     xmassimo=1
-    if 'Pt' in histoname:
-        xmassimo=700
+    #if 'Pt' in histoname:
+    #    xmassimo=700
     if 'HT' in histoname:
-        xmassimo=1600
+        xmassimo=2000
+    if 'Pt2' in histoname:
+        xmassimo=1200
     xminimo=1
-    if 'Pt' in histoname:
-        xminimo=200
+    #if 'Pt' in histoname:
+    #    xminimo=200
     if 'HT' in histoname:
-        xminimo=350
+        xminimo=200
+    if 'Pt2' in histoname:
+        xminimo=200
     compare("compFinal_"+filename.split('.')[0]+'_'+histoname,filename.split('.')[0]+"_"+histoname+"_",triglist,leglist,False, True, True,
-      filename,xmax=xmassimo,xmin=xminimo,drawoption='ap')
+      filename,xmax=xmassimo,xmin=xminimo,drawoption='p')
 
 # for filename in filename_list:
 #   for histoname in efficiency_names:
