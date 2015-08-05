@@ -71,6 +71,8 @@ if not exists(folder):
   mkdir(folder)
 
 colors=[kOrange+7,kGreen+2,kViolet-5,1,2,3,4,kOrange+1,kViolet-6,8,9,5,6,7,11,12,13,14,15,16,17,18,19]
+markertypes=[22,21,20,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+
 
 def compare(name,file_list,name_list,legend_list,normalize=False, useOutfile=False,overlayKin=False,filename='',drawoption='',xmin=0,ymax=0,xmax=0):
   c=TCanvas('','',0,45,800,600)
@@ -143,6 +145,7 @@ def compare(name,file_list,name_list,legend_list,normalize=False, useOutfile=Fal
       overlay.GetZaxis().SetLabelSize(0.035)
       overlay.GetZaxis().SetTitleSize(0.035)
       overlay.GetZaxis().SetTitleFont(42)
+      overlay.SetMinimum(2)
       if 'HT' in name:
         overlay.SetMaximum(overlay.GetMaximum()*100)
       else:
@@ -197,6 +200,8 @@ def compare(name,file_list,name_list,legend_list,normalize=False, useOutfile=Fal
     histo_list[-1].SetLineWidth(2)
     histo_list[-1].SetTitle('')
     histo_list[-1].SetLineColor(colors[i])
+    histo_list[-1].SetMarkerColor(colors[i])
+    histo_list[-1].SetMarkerStyle(markertypes[i])
     if 'nevts' in name:
     	print name_list[i]
     	xx=Double(0)
@@ -296,33 +301,33 @@ def compare(name,file_list,name_list,legend_list,normalize=False, useOutfile=Fal
   entry.SetLineColor(colors[0])
   entry.SetLineStyle(1)
   entry.SetLineWidth(2)
-  entry.SetMarkerColor(1)
-  entry.SetMarkerStyle(1)
+  entry.SetMarkerColor(colors[0])
+  entry.SetMarkerStyle(22)
   entry.SetMarkerSize(1)
   entry.SetTextFont(62)
   entry=leg.AddEntry("HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV0p45","Eff. (AK8 H_{T} > 600 GeV, trimmed AK8 jet mass > 50 GeV, #geq1 loose b-tag )","lp")
   entry.SetLineColor(colors[1])
   entry.SetLineStyle(1)
   entry.SetLineWidth(2)
-  entry.SetMarkerColor(1)
-  entry.SetMarkerStyle(1)
+  entry.SetMarkerColor(colors[1])
+  entry.SetMarkerStyle(21)
   entry.SetMarkerSize(1)
   entry.SetTextFont(62)
   entry=leg.AddEntry("HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV0p45","Eff. (Trimmed AK8 jet mass > 30 GeV, p_{T}^{jet1} > 250 GeV, p_{T}^{jet2} > 200 GeV, #geq1 loose b-tag )","lp")
   entry.SetLineColor(colors[2])
   entry.SetLineStyle(1)
   entry.SetLineWidth(2)
-  entry.SetMarkerColor(1)
-  entry.SetMarkerStyle(1)
+  entry.SetMarkerColor(colors[2])
+  entry.SetMarkerStyle(20)
   entry.SetMarkerSize(1)
   entry.SetTextFont(62)
   leg.Draw()
 
-  tex = TLatex(0.9,0.92," 13 TeV")
+  tex = TLatex(0.9,0.92," 2015, 13 TeV")
   tex.SetNDC()
   tex.SetTextAlign(31)
   tex.SetTextFont(42)
-  tex.SetTextSize(0.03)
+  tex.SetTextSize(0.0342)
   tex.SetLineWidth(2)
   tex.Draw()
   tex2 = TLatex(0.864,0.872,"CMS")
@@ -332,7 +337,7 @@ def compare(name,file_list,name_list,legend_list,normalize=False, useOutfile=Fal
   tex2.SetTextSize(0.045)
   tex2.SetLineWidth(2)
   tex2.Draw()
-  tex3 = TLatex(0.864,0.818,"Simulation Preliminary")
+  tex3 = TLatex(0.864,0.818,"Simulation")
   tex3.SetNDC()
   tex3.SetTextAlign(33)
   tex3.SetTextFont(52)
@@ -342,7 +347,9 @@ def compare(name,file_list,name_list,legend_list,normalize=False, useOutfile=Fal
 
   outfile.cd()
   c.Write(name)
-  c.SaveAs(folder+name+'.pdf')
+  if not 'nevts' in name:
+    c.SaveAs(folder+name+'.pdf')
+    c.SaveAs(folder+name+'.png')
   #c.SaveAs(folder+name+'.C')
   #c.SaveAs(folder+name+'.png')
 
@@ -430,7 +437,7 @@ for filename in filename_list:
     touse='_ak8trim'
   elif 'tW'in filename:
     touse='_ak8trim'
-  for histoname in ['nevts','HTTH',"jetPt2TH"]:#['nevts','nevtsTH','HT','HTTH','jetPt','jetPtTH',"jetPt2","jetPt2TH"]:
+  for histoname in ['nevtsTH','HTTH',"jetPt2TH"]:#['nevts','nevtsTH','HT','HTTH','jetPt','jetPtTH',"jetPt2","jetPt2TH"]:
     # xmassimo=1
     # if 'Pt' in histoname:
     #     xmassimo=800

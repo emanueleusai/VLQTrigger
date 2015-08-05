@@ -259,6 +259,13 @@ float maxCSV=0;
      pfJetsCollection.push_back( TLorentzVector( ijet->px(), ijet->py(), ijet->pz(), ijet->energy() ) );
    }
 
+   double HT8=0;
+
+    for(edm::View<reco::Jet>::const_iterator ijet=pfjets8->begin(); ijet!=pfjets8->end();ijet++){
+     if ( ijet->pt() < 200.0 || fabs( ijet->eta() ) > 2.5 ) continue;
+     HT8 += ijet->pt();
+   }
+
    for(edm::View<reco::Jet>::const_iterator ijet=pfjets8->begin(); ijet!=pfjets8->end();ijet++){
      if ( ijet->pt() < 100.0 || fabs( ijet->eta() ) > 2.5 ) continue;
      pfJets8Collection.push_back( TLorentzVector( ijet->px(), ijet->py(), ijet->pz(), ijet->energy() ) );
@@ -306,13 +313,13 @@ float maxCSV=0;
    
    
    //bW
-   // bool tH_AK8_pT_cut = /*(AK8SubleadingPt > 200.0)*/ (AK8LeadingPt > 200.0);
-   // //at least one btag
-   // bool tH_AK4_btag_cut = (nbtags > 0);
-   // //W mass requirement
-   // bool tH_AK8_mass_cut = (AK8LeadingMass > 60.0) || (AK8SubleadingMass > 60.0);
-   // //final combined cut
-   // bool tH_selection = tH_AK8_pT_cut && tH_AK4_btag_cut && tH_AK8_mass_cut;// && base_dijet_trigger_cut;
+   bool tH_AK8_pT_cut = /*(AK8SubleadingPt > 200.0)*/ (AK8LeadingPt > 200.0);
+   //at least one btag
+   bool tH_AK4_btag_cut = (nbtags > 0);
+   //W mass requirement
+   bool tH_AK8_mass_cut = (AK8LeadingMass > 60.0) || (AK8SubleadingMass > 60.0);
+   //final combined cut
+   bool tH_selection = tH_AK8_pT_cut && tH_AK4_btag_cut && tH_AK8_mass_cut;// && base_dijet_trigger_cut;
    
    // //Zp15
    // bool tH_AK8_pT_cut = (AK8SubleadingPt > 200.0);
@@ -332,14 +339,14 @@ float maxCSV=0;
    // //final combined cut
    // bool tH_selection = tH_AK8_pT_cut && tH_AK4_btag_cut && tH_AK8_mass_cut;// && base_dijet_trigger_cut;
 
-   //tW
-   bool tH_AK8_pT_cut = (AK8SubleadingPt > 200.0);
-   //at least one btag
-   bool tH_AK4_btag_cut = (nbtags > 0);
-   //W mass requirement
-   bool tH_AK8_mass_cut = (((AK8LeadingMass > 50.0) && (AK8SubleadingMass > 100.0) ) || ( (AK8LeadingMass > 100.0) && (AK8SubleadingMass > 50.0) ) );
-   //final combined cut
-   bool tH_selection = tH_AK8_pT_cut && tH_AK4_btag_cut && tH_AK8_mass_cut;// && base_dijet_trigger_cut;
+   // //tW
+   // bool tH_AK8_pT_cut = (AK8SubleadingPt > 200.0);
+   // //at least one btag
+   // bool tH_AK4_btag_cut = (nbtags > 0);
+   // //W mass requirement
+   // bool tH_AK8_mass_cut = (((AK8LeadingMass > 50.0) && (AK8SubleadingMass > 100.0) ) || ( (AK8LeadingMass > 100.0) && (AK8SubleadingMass > 50.0) ) );
+   // //final combined cut
+   // bool tH_selection = tH_AK8_pT_cut && tH_AK4_btag_cut && tH_AK8_mass_cut;// && base_dijet_trigger_cut;
 
 
    //15 selection
@@ -353,7 +360,7 @@ float maxCSV=0;
    histos1D_[ "maxCSV2" ]->Fill( maxCSV2 );
    histos1D_[ "nJet" ]->Fill( pfJets8Collection.size() );
    histos1D_[ "nJet4" ]->Fill( pfJetsCollection.size() );
-   histos1D_[ "HT" ]->Fill( HT );
+   histos1D_[ "HT" ]->Fill( HT8 );
    histos1D_[ "jetMass" ]->Fill( AK8LeadingMass );
    histos1D_[ "jetPt" ]->Fill( AK8LeadingPt );
    histos1D_[ "jetMass2" ]->Fill( AK8SubleadingMass );
@@ -369,7 +376,7 @@ float maxCSV=0;
      histos1D_[ "nevtsDenom" ]->Fill( 0.5 );
      histos1D_[ "maxCSVDenom" ]->Fill( maxCSV );
      histos1D_[ "maxCSV2Denom" ]->Fill( maxCSV2 );
-     histos1D_[ "HTDenom" ]->Fill( HT );
+     histos1D_[ "HTDenom" ]->Fill( HT8 );
      histos1D_[ "jetMassDenom" ]->Fill( AK8LeadingMass );
      histos1D_[ "jetPtDenom" ]->Fill( AK8LeadingPt );
      histos1D_[ "jetMass2Denom" ]->Fill( AK8SubleadingMass );
@@ -381,7 +388,7 @@ float maxCSV=0;
        histos1D_[ "nevtsPassing" ]->Fill( 0.5 );
        histos1D_[ "maxCSVPassing" ]->Fill( maxCSV );
        histos1D_[ "maxCSV2Passing" ]->Fill( maxCSV2 );
-       histos1D_[ "HTPassing" ]->Fill( HT );
+       histos1D_[ "HTPassing" ]->Fill( HT8 );
        histos1D_[ "jetMassPassing" ]->Fill( AK8LeadingMass );
        histos1D_[ "jetPtPassing" ]->Fill( AK8LeadingPt );
        histos1D_[ "jetMass2Passing" ]->Fill( AK8SubleadingMass );
@@ -394,7 +401,7 @@ float maxCSV=0;
      histos1D_[ "nevtsTHDenom" ]->Fill( 0.5 );
      histos1D_[ "maxCSVTHDenom" ]->Fill( maxCSV );
      histos1D_[ "maxCSV2THDenom" ]->Fill( maxCSV2 );
-     histos1D_[ "HTTHDenom" ]->Fill( HT );
+     histos1D_[ "HTTHDenom" ]->Fill( HT8 );
      histos1D_[ "jetMassTHDenom" ]->Fill( AK8LeadingMass );
      histos1D_[ "jetPtTHDenom" ]->Fill( AK8LeadingPt );
      histos1D_[ "jetMass2THDenom" ]->Fill( AK8SubleadingMass );
@@ -409,7 +416,7 @@ float maxCSV=0;
        histos1D_[ "nevtsTHPassing" ]->Fill( 0.5 );
        histos1D_[ "maxCSVTHPassing" ]->Fill( maxCSV );
        histos1D_[ "maxCSV2THPassing" ]->Fill( maxCSV2 );
-       histos1D_[ "HTTHPassing" ]->Fill( HT );
+       histos1D_[ "HTTHPassing" ]->Fill( HT8 );
        histos1D_[ "jetMassTHPassing" ]->Fill( AK8LeadingMass );
        histos1D_[ "jetPtTHPassing" ]->Fill( AK8LeadingPt );
        histos1D_[ "jetMass2THPassing" ]->Fill( AK8SubleadingMass );
